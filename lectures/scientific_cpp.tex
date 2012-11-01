@@ -1,0 +1,131 @@
+
+\documentclass{beamer}
+%\documentclass[handout]{beamer}
+
+% THEME SETTINGS %%%%%%%%%%%%
+\usetheme[secheader]{Boadilla}
+\usecolortheme{default}
+\useinnertheme{circles}
+\setbeamertemplate{blocks}[default]
+
+% Get rid of bottom navigation bars
+\setbeamertemplate{footline}[page number]{}
+
+% Gets rid of navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+% PACKAGES %%%%%%%%%%%%%%%%%%%
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{verbatim}
+\usepackage{pbox}
+
+% LISTINGS STYLE %%%%%%%%%%%%%
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+\definecolor{listingsbg}{HTML}{EFEFFF}
+
+\lstset{language=C++,
+  showspaces=false,            % show spaces adding particular underscores
+  showtabs=false,              % show tabs within strings adding particular underscores
+  breaklines=true,             % sets automatic line breaking
+  showstringspaces=false,      % underline spaces within strings
+  breakatwhitespace=true,      % sets if automatic breaks should only happen at whitespace
+  captionpos=b,                % sets the caption-position to bottom
+  escapeinside={(*@}{@*)},
+  commentstyle=\color{greencomments},
+  keywordstyle=\color{bluekeywords}\bfseries,
+  stringstyle=\color{redstrings},
+  basicstyle=\ttfamily\fontsize{9}{10}\selectfont,
+  backgroundcolor=\color{listingsbg},
+}
+
+% MACROS %%%%%%%%%%%%%%%%%%%%%
+\newcommand{\lstsrctitle}[0]{%
+ {\scriptsize\lstname}
+}
+
+\newcommand{\kw}[1]{\texttt{\textcolor{bluekeywords}{\ttfamily\fontsize{9}{10}\selectfont #1}}}
+
+\newenvironment{varblock}[3]{%
+  \setbeamercolor{block body}{#2}
+  \setbeamercolor{block title}{#3}
+  \begin{block}{#1}}{\end{block}}
+
+% Colours taken from http://twitter.github.com/bootstrap/components.html#alerts
+% Do block %%%%%%%%%%%%%%%%%%%%%%
+\definecolor{doblocktext}{HTML}{468847}
+\definecolor{doblockbg}{HTML}{DFF0D8}
+\newenvironment{doblocke}[1]{% begin
+  \begin{varblock}{\textbf{Do}}%
+  {bg=doblockbg,fg=doblocktext}{bg=doblocktext,fg=white}%
+  \lstset{backgroundcolor=}% The background should be the same as that of the block
+  #1}%
+  {\end{varblock}} %end
+\newcommand{\doblock}[1]{%
+ \begin{doblocke}#1\end{doblocke} 
+}
+
+% Don't block %%%%%%%%%%%%%%%%%%%
+\definecolor{dontblocktext}{HTML}{B94A48}
+\definecolor{dontblockbg}{HTML}{F2DEDE}  
+\newenvironment{dontblocke}[1]{% begin
+  \begin{varblock}{\textbf{Don't}}%
+  {bg=dontblockbg,fg=dontblocktext}{bg=dontblocktext,fg=white}
+  \lstset{backgroundcolor=}% The background should be the same as that of the block
+  #1}%
+  {\end{varblock}} %end
+
+\newcommand{\dontblock}[1]{%
+ \begin{varblock}{\textbf{Don't}}{bg=dontblockbg,fg=dontblocktext}{bg=dontblockbg,fg=dontblocktext}
+ #1
+ \end{varblock} 
+}
+
+\definecolor{defiblocktext}{HTML}{3A87AD}
+\definecolor{defiblockbg}{HTML}{D9EDF7}
+\newcommand{\defiblock}[2]{%
+ \begin{varblock}{\textbf{Definition}}%
+ {bg=defiblockbg,fg=defiblocktext}{bg=defiblocktext,fg=white}
+  \begin{tabular}{ll}\textit{#1} & #2\end{tabular}
+ \end{varblock} 
+}
+
+\definecolor{warnblocktext}{HTML}{C09853}
+\definecolor{warnblockbg}{HTML}{D9EDF7}
+\newcommand{\warnblock}[1]{%
+ \begin{varblock}{\textbf{Warning!}}{bg=warnblockbg,fg=warnblocktext}{bg=warnblockbg,fg=warnblocktext}
+  #1
+ \end{varblock} 
+}
+
+\newcommand{\cout}[1]{%
+ Output: \pbox[t]{\textwidth}{\ttfamily\fontsize{9}{10}\selectfont{}#1}
+}
+
+\title{Scientific C++}
+\subtitle{An introduction}
+\author{Martin Uhrin}
+\institute{UCL}
+\date{November 7-9th 2012}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+
+\include{0_basics}
+\include{1_control_structure}
+\include{2_more_data_types}
+\include{3_io}
+\include{4_oop}
+
+
+\end{document}

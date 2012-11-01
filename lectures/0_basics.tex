@@ -1,0 +1,429 @@
+
+
+
+\section{C++ basics}
+
+\subsection{Introduction to language}
+
+\frame {
+	\frametitle{Introduction to language}
+}
+
+
+\subsection{Program structure}
+
+%Perhaps the best way to learn a programming language is to dive in and see what it's all about with a simple example.
+
+%Here's out first program:
+
+\begin{frame}[fragile]
+  \frametitle{Hello World!}
+  \framesubtitle{Where it all begins.}
+	\lstinputlisting[language=C++,title=\lstsrctitle]{code/0_basics/hello_world.cpp}
+	\cout{Hello world!}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Hello World dissection}
+  \begin{semiverbatim}
+  \uncover<1->{// My first C++ program
+  }
+  \uncover<2->{#include <iostream>
+  }
+  \uncover<3->{int main()}
+  \uncover<4->{\{}
+  \uncover<6->{  std::}\uncover<5->{cout << "Hello World!";}
+  \uncover<7->{  return 0;}
+  \uncover<4->{\}}
+  \end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Whitespace}
+  \defiblock{whitespace}{spaces, tabs, and (sometimes) new lines.}
+  \pause
+  
+  Completely equivalent as far as compiler is concerned:
+  \begin{lstlisting}
+#include <iostream>
+int main(){std::cout<<"Hello world!";return 0;}
+  \end{lstlisting}
+  \begin{lstlisting}
+#include <iostream>
+int main()
+{
+std::cout
+<<
+"Hello world!"
+;
+return
+0
+;
+}  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Case sensitivity}
+  C++ is case sensitive!  This means that:
+  \begin{lstlisting}
+int main()
+  \end{lstlisting}
+  is different from
+  \begin{lstlisting}
+INT MAIN ()
+  \end{lstlisting}
+  which is different from
+  \begin{lstlisting}
+int Main()
+  \end{lstlisting}
+  and only the first version is correct.
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Comments}
+  Two types of comment can be used:
+  \begin{lstlisting}
+// This is a line comment.
+// It ends at the end of the line.
+  \end{lstlisting}
+  \begin{lstlisting}
+/* This is a C-style comment.
+   It ends when the closing star-slash is reached. */
+  \end{lstlisting}
+    Use comments liberally - they are enourmously useful!
+    \doblock{Avoid stating the obvious.  A good comment will not say \textit{what} is happening but rather \textit{why}.}
+\end{frame}
+
+\subsection{Variables, constants and data types}
+
+\begin{frame}[fragile]
+\frametitle{Defining a variable}
+  \defiblock{variable}{A named portion of memory used to store a determined value.}
+  Let's define some variables:
+  \begin{lstlisting}
+int anInteger;
+double aDouble;
+unsigned short i;
+float x, y, z;
+  \end{lstlisting}
+Format: \texttt{\textcolor{bluekeywords}{variable\_type} variable\_name;}\newline
+\pause
+Variable names can be any sequence of letters, digits, or underscore characters but they must \emph{not}:
+\begin{itemize}
+\item start with a digit,
+\item be one of the reserved keywords\footnote{\href{http://en.cppreference.com/w/cpp/keyword}{\url{http://en.cppreference.com/w/cpp/keyword}}}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Variable names}
+  \begin{doblocke}
+		Give variables meaningful names, even if this means more typing!
+		
+		There's nothing wose than a piece of code like this
+		\begin{lstlisting}
+  TODO: THINK OF SOMETHING
+		\end{lstlisting}
+	\end{doblocke}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Scope}
+  
+  TODO: Talk about variable scope
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Variable types}
+  Fundamental data types:
+
+\begin{tabular}{lll}
+\hline
+Type & Size & Values \\
+\hline
+\kw{bool} & 1 byte & true or false \\
+\kw{char} & 1 byte & 256 character values \\
+\kw{unsigned short int} & 2 bytes & 0 to 65,353 \\
+\kw{short int} & 2 bytes & -32,768 to 32,767 \\
+\kw{unsigned int} & 4 bytes & 0 to 4,294,967,295 \\
+\kw{int} & 4 bytes & -2,147,483,648 to 2,147,483,647 \\
+\kw{unsigned long int} & 8 bytes & 0 to 18,446,744,073,709,551,615 \\
+\kw{long int} & 8 bytes & -9,223,372,036,854,775,807 to \\
+ & & 9,223,372,036,854,775,807 \\
+\kw{float} & 4 bytes & 1.2e-38 to 3.4e38 \\
+\kw{double} & 8 bytes & 2.2e-308 to 1.8e308
+\end{tabular}
+\end{frame}
+
+
+\begin{frame}[fragile]
+ \frametitle{Using variables}
+ \lstinputlisting[language=C++,title=\lstsrctitle]{code/0_basics/force_calc.cpp}
+ Pretty easy, right?
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Constants}
+Spot the difference:
+ \lstinputlisting[language=C++,basicstyle=\ttfamily\fontsize{6}{7}\selectfont,title=\lstsrctitle]{code/0_basics/force_calc_const.cpp}
+ \pause
+ \doblock{Make everything \kw{const} unless it absolutely has to vary.  This has benefits for both the speed and correctness of your code.}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{String variables}
+  \framesubtitle{All strung out}
+  TODO: Introduce strings
+\end{frame}
+
+\subsection{Operators}
+
+\begin{frame}[fragile]
+ \frametitle{Simple operators}
+ \begin{block}{Assignment: \texttt{=}}
+    \begin{lstlisting}
+  a = 5; a = b; a = b = c; 
+   \end{lstlisting}
+  \end{block}
+  \pause
+  \begin{block}{Arithmetic operators: \texttt{+, -, *, /, \%}}
+   All obvious with the exception of the \textit{modulo} operator (\texttt{\%}).  This gives the remainder after division e.g.
+  \begin{lstlisting}
+  a = 22 % 7;
+  \end{lstlisting}
+  will set \texttt{a} to \text{1} as $\frac{22}{7} = 3 \times 7 \text{ remainder } 1$.
+ \end{block}
+ \pause
+ \begin{block}{Compound assignment: \texttt{+=, -=, *=, /=, \%=}}
+  Perform the operation on the current value of the variable and then set it the new value, e.g.:
+  \begin{lstlisting}
+  a += 5; a *= b;
+  \end{lstlisting}
+ \end{block} %end item
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{block}{Unary operators: \texttt{++, --}}
+    \begin{lstlisting}
+  a++;
+   \end{lstlisting}
+   This is equivalent to:
+   \begin{lstlisting}
+  a += 1;
+   \end{lstlisting}
+  \end{block}
+  \pause
+  \begin{block}{Relational and equality operators: \texttt{==, !=, >, <, >=, <=}}
+  Evaluates to a boolean (true or false) value e.g.:
+    \begin{lstlisting}
+  bool areNotEqual = (a != b);
+   \end{lstlisting}
+ \end{block}
+ \pause
+ \begin{dontblocke}%
+ Mix up \texttt{=} and \texttt{==} this will cause endless headaches!  Consider:
+ \begin{lstlisting}
+  a = 5; b = 6; areEqual = (a = b);
+ \end{lstlisting}
+ This is a problem because C++ considers any number other than 0 be true!
+ \end{dontblocke}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{block}{Logical operators: \texttt{!, \&\&, ||}}
+    These act on boolean values in the following ways:
+    \begin{columns}[t]
+      \begin{column}[T]{0.2\linewidth}
+        NOT
+        \begin{tabular}{c|c}
+          a & !a \\
+          \hline
+          \kw{true} & \kw{false} \\
+          \kw{false} & \kw{true}
+        \end{tabular}
+		  \end{column}
+		  \begin{column}[T]{0.3\linewidth}
+		    AND
+		    \begin{tabular}{c|c|c}
+		    a & b & a \texttt{\&\&} b \\
+		    \hline
+		    \kw{true} & \kw{true} & \kw{true} \\
+		    \kw{true} & \kw{false} & \kw{false} \\
+		    \kw{false} & \kw{true} & \kw{false} \\
+		    \kw{false} & \kw{false} & \kw{false}
+		    \end{tabular}
+      \end{column}
+		  \begin{column}[T]{0.3\linewidth}
+		    OR
+		    \begin{tabular}{c|c|c}		
+		    a & b & a \texttt{||} b \\
+		    \hline
+		    \kw{true} & \kw{true} & \kw{true} \\
+		    \kw{true} & \kw{false} & \kw{true} \\
+		    \kw{false} & \kw{true} & \kw{true} \\
+		    \kw{false} & \kw{false} & \kw{false}
+		    \end{tabular}
+      \end{column}
+    \end{columns}
+  \end{block}
+  \pause
+  \begin{doblocke}
+  Keep it simple: don't try and do too much in a single line.  While this:
+  \begin{lstlisting}
+    result = (i < 10) && (++i < n);
+  \end{lstlisting}
+  is a valid expression, decyphering what it does is a lot of work.  Instead use:%
+  \begin{lstlisting}
+    result = i < 10;
+    ++i;
+    result = result && i < n;
+  \end{lstlisting}
+%TODO: Check above is true
+  \end{doblocke}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Operator precedence}
+  \framesubtitle{No, you got first...}
+  \begin{columns}[t]
+	  \begin{column}[T]{0.44\textwidth}
+		  \begin{tabular}{c|l|m{1.2cm}}
+			  Precedence & Op. & Associa-
+			  tivity \\
+			  \hline
+			  \multirow{2}{*}{1} & \texttt{++ --} & \multirow{2}{*}{Right}\\
+			    & \texttt{!} \\
+			  \hline
+			  2 & \texttt{* / \%} & \multirow{6}{*}{Left} \\
+			  \cline{1-2}
+			  3 & \texttt{+ -} & \\
+			  \cline{1-2}
+			  \multirow{2}{*}{4} & \texttt{< <=} \\
+			    & \texttt{> >=} \\
+			  \cline{1-2}
+			  5 & \texttt{== !=} \\
+			  \cline{1-2}
+			  6 & \texttt{\&\&} \\
+			  \cline{1-2}
+			  7 & \texttt{||} \\
+			  \hline
+			  8 & \texttt{=} & Right
+		  \end{tabular}
+	 	\end{column}
+  	\begin{column}[T]{0.518\textwidth}
+	  Operator precedence tells you the order that an expression will be evaluated in.  Some are obvious but consider:
+	  \begin{lstlisting}
+  a = 21 + 7 % 2;
+	  \end{lstlisting}
+    which could be interpreted as
+	  \begin{lstlisting}
+  a = 21 + (7 % 2); // this
+  a = (21 + 7) % 2; // or this.
+	  \end{lstlisting}
+	  In fact the first version is correct.
+	  \pause
+	  \doblock{Use parentheses to make an expressions more clear even if they are not necessary.}
+  	\end{column}
+ 	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Operator precedence}
+  \framesubtitle{No, you got first...}
+  \begin{columns}[t]
+	  \begin{column}[T]{0.44\textwidth}
+		  \begin{tabular}{c|l|m{1.2cm}}
+			  Precedence & Op. & Associa-
+			  tivity \\
+			  \hline
+			  \multirow{2}{*}{1} & \texttt{++ --} & \multirow{2}{*}{Right}\\
+			    & \texttt{!} \\
+			  \hline
+			  2 & \texttt{* / \%} & \multirow{6}{*}{Left} \\
+			  \cline{1-2}
+			  3 & \texttt{+ -} & \\
+			  \cline{1-2}
+			  \multirow{2}{*}{4} & \texttt{< <=} \\
+			    & \texttt{> >=} \\
+			  \cline{1-2}
+			  5 & \texttt{== !=} \\
+			  \cline{1-2}
+			  6 & \texttt{\&\&} \\
+			  \cline{1-2}
+			  7 & \texttt{||} \\
+			  \hline
+			  8 & \texttt{=} & Right
+		  \end{tabular}
+	 	\end{column}
+	  \begin{column}[T]{0.518\textwidth}
+	    Operators that have the same precedence are evaluated according to their \textit{associativity} e.g.:
+	    \begin{lstlisting}
+	a = b = c;   // evaluates as
+	a = (b = c);
+	    \end{lstlisting}
+			because \texttt{=} is right associative.\pause  While:
+	    \begin{lstlisting}
+	a * b / c;   // evaluates as
+	(a * b) / c;
+	    \end{lstlisting}
+	because \texttt{*} and \texttt{/} are left associative. 
+	    
+	  	See\footnotemark{} for a full list of operators and their precedence.
+	  \end{column}
+	\end{columns}
+  \footnotetext{\href{http://en.cppreference.com/w/cpp/language/operator\_precedence}{\url{http://en.cppreference.com/w/cpp/language/operator\_precedence}}}
+\end{frame}
+
+
+\subsection{Basic input/output}
+
+\begin{frame}[fragile]
+  \frametitle{Standard output (\texttt{cout})}
+  
+  You've already met \texttt{cout}, it uses the \textit{indirection operator} (\texttt{<<}) to print to the screen e.g.:
+  \begin{lstlisting}
+std::cout << "Have some pi: ";
+std::cout << 3.1415926;
+std::cout << a;
+  \end{lstlisting}
+  We can use \texttt{<<} more than once in the same statement:
+  \begin{lstlisting}
+double t0 = 1.5, t1 = 2.5;
+cout << "t0: " << t0 << ", t1: " << t1
+     << ", delta: " << t1 - t0;
+  \end{lstlisting}
+	\cout{t0: 1.5, t1: 2.5, delta: 1}
+	
+  If you want a new line you have to use \texttt{\char`\\ n}:
+  \begin{lstlisting}
+double t0 = 1.5, t1 = 2.5;
+cout << "t0: " << t0 << "\nt1: " << t1 << "\n";
+  \end{lstlisting}
+  \cout{t0: 1.5 \newline t1: 2.5}
+% TODO: Change output so it looks alright!
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Standard input (\texttt{cin})}
+  \framesubtitle{Extracting information out of the user}
+  To get input from the user, use the extraction operator (\texttt{>>}) of the \texttt{cin} (pronounced \textit{see-in}) object e.g.:
+  \begin{lstlisting}
+  double radius;
+  std::cin >> radius;
+  \end{lstlisting}
+  at this point the program will stop and wait for the user to enter a number and push RETURN.
+  \pause
+  As with output we can use \texttt{>>} more than once in a statement e.g.:
+  \begin{lstlisting}
+  std::cin >> width >> height;
+  \end{lstlisting}
+  in this case the program will wait for two sets of numbers to be entered.  They can be separated by a space, tab or a newline.
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Complete example}
+  \framesubtitle{Putting it all together}
+  \lstinputlisting[language=C++,title=\lstsrctitle]{code/0_basics/complete_example.cpp}
+\end{frame}

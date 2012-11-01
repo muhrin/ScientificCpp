@@ -1,0 +1,14 @@
+build
+lectures/*.aux
+lectures/*.bbl
+lectures/*.nav
+lectures/*.ps
+lectures/*.log
+lectures/*.toc
+lectures/*.dvi
+lectures/*.out
+lectures/*.blg
+lectures/*.tcp
+lectures/*.vrb
+lectures/*.tps
+lectures/*.snm

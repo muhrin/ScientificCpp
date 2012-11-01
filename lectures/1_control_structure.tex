@@ -1,0 +1,201 @@
+
+
+
+\section{Control structure}
+
+\subsection{Conditionals}
+
+\begin{frame}[fragile]
+	\frametitle{if, else}
+	So far our programs have been linear: one start, one end, one path in between.  Let's branch out:
+	\begin{lstlisting}
+if(speed == 88)
+  std::cout << "Great Scott!";
+	\end{lstlisting}
+	the statment after the \texttt{if} condition will only be executed if the condition is true.\pause  To execute more than one statement specify a block using \texttt{\{ \}}:
+	\begin{lstlisting}
+if(power >= 1.21)
+{
+  std::cout << "1.21 gigawatts!";
+  std::cout << "1.21 gigawatts. Great Scott!\n";
+}
+	\end{lstlisting} 
+	\pause
+	We can also specify what to do if the condition is not fulfilled:
+	\begin{lstlisting}
+bool haveEnoughPower;
+if(power >= 1.21)
+  haveEnoughPower = true;
+else
+  haveEnoughPower = false;	
+	\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{if, else}
+  Lastly we can string together a series of conditionals, like so:
+	\begin{lstlisting}
+int width, height;
+std::cin >> width >> height;
+	
+if(width > height)
+  std::cout << "Fat rectangle\n";
+else if(height > width)
+  std::cout << "Tall rectangle\n";
+else if(width == height)
+  std::cout << "Square\n";
+else
+  std::cout << "IMPOSSIBLE!!";
+	\end{lstlisting}
+	These are evaluated one after another until one is found to be true, otherwise the final \kw{else} statement is executed.
+	\pause
+	\doblock{Keep conditionals simple, break them up if you have to.  A huge proportion of programming errors come from conditional statements.}
+\end{frame}
+
+
+\subsection{Loops}
+
+
+\begin{frame}[fragile]
+  \frametitle{Loops}
+  The purpose of a loop is to execute a set of statements until a condition is fulfilled.
+  \begin{block}{while loop}
+    \begin{lstlisting}
+while(expression) statement
+    \end{lstlisting}
+    Example:
+  \begin{lstlisting}
+  int t = 10;
+  while(t != 0)
+  {
+    std::cout << t << ", ";
+    --t;  
+  }
+  std::cout << "Blastoff!";
+  \end{lstlisting}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Loops}
+  \framesubtitle{Go on, go on, go on, go on, go on...}
+  
+  \begin{block}{do-while loop}
+    \begin{lstlisting}
+do statement while(expression);
+    \end{lstlisting}
+    \lstinputlisting[language=C++,title=\lstsrctitle]{code/1_control_structure/tea_father.cpp}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Loops}
+  
+  \begin{block}{for loop}
+    \begin{lstlisting}
+  for(initialisation; condition; increment) statement;
+    \end{lstlisting}
+    This works as follows:
+    \begin{enumerate}
+      \item<2->{\texttt{initialisation} is executed.  Usually used to initialise a counter.  This happens once.}
+      \item<3->{\texttt{condition} is checked, if true the loop continues, otherwise the loop ends and is skipped.}
+      \item<4->{\texttt{statement} is executed.}
+      \item<5->{\texttt{increment} is executed and we go back to step 2.}
+    \end{enumerate}
+    \pause[6]
+    Here's our blastoff example with a for loop:
+    \begin{lstlisting}
+  for(int t = 0; t != 0; --t)
+  {
+    std::cout << t << ", ";
+  }
+  std::cout << "Blastoff!";
+    \end{lstlisting}
+    
+  \end{block}
+\end{frame}
+  
+\subsection{Functions}
+
+\begin{frame}[fragile]
+  \frametitle{Functions}
+  \framesubtitle{How would we function without them?}
+  Functions provide a way of structuring a program in a mode modular way, by grouping sets of statement so they can be easily reused.\newline
+  \pause
+  Consider: what if we want to calculate gravitational force between multiple bodies?
+  \begin{lstlisting}
+forceEarthSun = G * massEarth * massSun /
+  (rEarthSun * rEarthSun);
+forceEarthMoon = G * massEarth * massMoon /
+  (rEarthMoon * rEarthMoon);
+forceEarthMars = G * massEarth * massMars /
+  (rEarthMars * rEarthMars);
+  \end{lstlisting}
+  \pause
+  wouldn't it be better to be able to write:
+  \begin{lstlisting}
+forceEarthSun = force(massEarth,  massSun, rEarthSun);
+forceEarthMoon = force(massEarth, massMoon, rEarthMoon);
+forceEarthMars = force(massEarth, massMars, rEarthMars);
+  \end{lstlisting}
+  Through the magic of functions, we can!
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Functions}
+
+  Format of a function:
+  \begin{lstlisting}
+type name(parameter1, parameter2, ...) { statements }  
+  \end{lstlisting}
+  where:
+  \begin{itemize}
+    \item<2->{\texttt{type} is the data type that is returned to you by the function.}
+    \item<3->{\texttt{name} is the unique name of the function.}
+    \item<4->{\texttt{parameter}, each of these is just like a variable definition (e.g. \texttt{\kw{double} mass}).}
+    \item<5->{\texttt{statements} is the function's \textit{body}.  These statements will execute when the function is called.}
+  \end{itemize}
+  \pause[6]
+  Let's try:
+  \begin{lstlisting}
+double force(const double mass1, const double mass2,
+  const double r)
+{
+  return G * mass1 * mass2 / (r * r);
+}
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Functions}
+
+  Let's try a full example:
+  \lstinputlisting[language=C++,basicstyle=\ttfamily\fontsize{7}{8}\selectfont,title=\lstsrctitle]{code/1_control_structure/grav_force.cpp}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Functions with no type}
+  
+  What if we want to have a function that doesn't return anything?\newline
+  \pause
+  Use \textit{void}:
+  \begin{lstlisting}
+void printForce(const std::string object1,
+  const std::string object2,
+  const double force)
+{
+  std::cout << object1 << " " << object2 << ":" << force << "\n";
+}
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Built in functions}
+  TODO: Talk about sqrt, pow, random, abs, etc.
+  
+  \end{lstlisting}
+\end{frame}
+
+
