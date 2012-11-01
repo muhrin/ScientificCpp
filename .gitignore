@@ -12,3 +12,4 @@ lectures/*.tcp
 lectures/*.vrb
 lectures/*.tps
 lectures/*.snm
+lectures/build

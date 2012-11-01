@@ -1,4 +1,18 @@
+\documentclass{beamer}
 
+% Input all common stuff
+\input{common_predoc}
+
+\subtitle{Session 1: Basics}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
 
 
 \section{C++ basics}
@@ -19,7 +33,7 @@
 \begin{frame}[fragile]
   \frametitle{Hello World!}
   \framesubtitle{Where it all begins.}
-	\lstinputlisting[language=C++,title=\lstsrctitle]{code/0_basics/hello_world.cpp}
+	\lstinputlisting[language=C++,title=\lstsrctitle]{../code/0_basics/lectures/hello_world.cpp}
 	\cout{Hello world!}
 \end{frame}
 
@@ -159,14 +173,14 @@ Type & Size & Values \\
 
 \begin{frame}[fragile]
  \frametitle{Using variables}
- \lstinputlisting[language=C++,title=\lstsrctitle]{code/0_basics/force_calc.cpp}
+ \lstinputlisting[language=C++,title=\lstsrctitle]{../code/0_basics/lectures/force_calc.cpp}
  Pretty easy, right?
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Constants}
 Spot the difference:
- \lstinputlisting[language=C++,basicstyle=\ttfamily\fontsize{6}{7}\selectfont,title=\lstsrctitle]{code/0_basics/force_calc_const.cpp}
+ \lstinputlisting[language=C++,basicstyle=\ttfamily\fontsize{6}{7}\selectfont,title=\lstsrctitle]{../code/0_basics/lectures/force_calc_const.cpp}
  \pause
  \doblock{Make everything \kw{const} unless it absolutely has to vary.  This has benefits for both the speed and correctness of your code.}
 \end{frame}
@@ -425,5 +439,8 @@ cout << "t0: " << t0 << "\nt1: " << t1 << "\n";
 \begin{frame}[fragile]
   \frametitle{Complete example}
   \framesubtitle{Putting it all together}
-  \lstinputlisting[language=C++,title=\lstsrctitle]{code/0_basics/complete_example.cpp}
+  \lstinputlisting[language=C++,title=\lstsrctitle]{../code/0_basics/lectures/complete_example.cpp}
 \end{frame}
+
+
+\end{document}

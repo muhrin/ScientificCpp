@@ -1,5 +1,18 @@
+\documentclass{beamer}
 
+% Input all common stuff
+\input{common_predoc}
 
+\subtitle{Session 2: Control structure}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
 
 \section{Control structure}
 
@@ -30,6 +43,8 @@ else
   haveEnoughPower = false;	
 	\end{lstlisting}
 \end{frame}
+
+
 
 \begin{frame}[fragile]
   \frametitle{if, else}
@@ -76,6 +91,7 @@ while(expression) statement
   \end{block}
 \end{frame}
 
+
 \begin{frame}[fragile]
   \frametitle{Loops}
   \framesubtitle{Go on, go on, go on, go on, go on...}
@@ -84,7 +100,7 @@ while(expression) statement
     \begin{lstlisting}
 do statement while(expression);
     \end{lstlisting}
-    \lstinputlisting[language=C++,title=\lstsrctitle]{code/1_control_structure/tea_father.cpp}
+    \lstinputlisting[language=C++,title=\lstsrctitle]{../code/1_control_structure/lectures/tea_father.cpp}
   \end{block}
 \end{frame}
 
@@ -114,7 +130,8 @@ do statement while(expression);
     
   \end{block}
 \end{frame}
-  
+
+
 \subsection{Functions}
 
 \begin{frame}[fragile]
@@ -167,12 +184,14 @@ double force(const double mass1, const double mass2,
   \end{lstlisting}
 \end{frame}
 
+
 \begin{frame}[fragile]
   \frametitle{Functions}
 
   Let's try a full example:
-  \lstinputlisting[language=C++,basicstyle=\ttfamily\fontsize{7}{8}\selectfont,title=\lstsrctitle]{code/1_control_structure/grav_force.cpp}
+  \lstinputlisting[language=C++,basicstyle=\ttfamily\fontsize{7}{8}\selectfont,title=\lstsrctitle]{../code/1_control_structure/lectures/grav_force.cpp}
 \end{frame}
+
 
 
 \begin{frame}[fragile]
@@ -195,7 +214,6 @@ void printForce(const std::string object1,
   \frametitle{Built in functions}
   TODO: Talk about sqrt, pow, random, abs, etc.
   
-  \end{lstlisting}
 \end{frame}
 
-
+\end{document}
