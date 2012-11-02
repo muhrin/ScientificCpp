@@ -15,23 +15,94 @@
 \end{frame}
 
 
-\section{More data types}
+\section{Arrays}
 
-\subsection{Arrays}
+\subsection{Declaring arrays}
 
-\frame {
+\begin{frame}[fragile]
 	\frametitle{Arrays}
-}
+	
+	\defiblock{array}{a series of elements of the same type occupying a contiguous block of memory.}
+	
+	Format for declaring an array is:
+	\begin{lstlisting}
+	type name[num_elements];
+	\end{lstlisting}
+	Where \texttt{type} is any valid data type and \texttt{num\_elements} is a constant positive integer.
+	\pause
+	Some examples:
+	\begin{lstlisting}
+	unsigned int lotteryNumbers[7];
+	
+	double planetMasses[8];
+	
+	const unsigned int numParticles = 128;
+	double xPositions[numParticles];
+	double yPositions[numParticles];
+	\end{lstlisting}
+	Last example shows how we can use constant variable as array size.
+	
+\end{frame}
 
+\subsection{Using arrays}
 
-\subsection{Char sequences and strings}
+\begin{frame}[fragile]
+  \frametitle{Initialising arrays}
+  When declaring an array it can be initialised as follows:
+  \begin{lstlisting}
+unsigned int lotteryNumbers[7] = {16, 3, 28, 9, 24, 10, 8}
+  \end{lstlisting}
+  the size can be left out, in which case the number of values given is used:
+  \begin{lstlisting}
+unsigned int lotteryNumbers[] = {16, 3, 28, 9, 24, 10, 8}
+  \end{lstlisting}  
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Accessing elements}
+  
+  To access an element of an array the format is:
+  \begin{lstlisting}
+  name[index]
+  \end{lstlisting}
+  \warnblock{In C++ array numbering starts at 0!  This is a huge source of confusion especially if you're used to a programming language like Fortran where arrays start at 1.}
+  \pause
+  For example, to read the 3$^{rd}$ lottery number use:
+  \begin{lstlisting}
+  unsigned int third = lotteryNumbers[2];
+  \end{lstlisting}
+  \pause
+  To write the 3$^{rd}$ lottery number use:
+  \begin{lstlisting}
+  lotteryNumber[2] = 23;
+  \end{lstlisting}
+  \pause
+  You can also access the elements using a variable:
+  \begin{lstlisting}
+  for(int i = 0; i < 7; ++i)
+     std::cout << lotteryNumbers[i] << " ";
+  \end{lstlisting}
+\end{frame}
+
+\subsection{Multidimensional arrays}
+
+\begin{frame}[fragile]
+  \frametitle{Multidimensional arrays}
+  \framesubtitle{Because with only two friends 1D is sooo boring}
+  Think of multidimensional arrays as beging "arrays of arrays".  An example:
+  \lstinputlisting[language=C++,title=\lstsrctitle,linerange={10-14,21-32}]{../code/2_more_data_types/lectures/centre_of_mass.cpp}  
+  
+
+\end{frame}
+
+\section{Char sequences and strings}
 
 
 \frame {
   \frametitle{Char, string}
 }
 
-\subsection{Pointers and references}
+\section{Pointers and references}
 
 \frame {
   \frametitle{Pointers and references}

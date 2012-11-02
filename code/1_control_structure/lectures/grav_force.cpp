@@ -1,22 +1,22 @@
+#include <iostream>
+
 double force(const double mass1, const double mass2, const double r)
 {
-  const double G = 6.6738e-11;
+  const double G = 4.302e-3;
   return G * mass1 * mass2 / (r * r);
 }
 
 int main()
 {
-  const double massEarth = 5.9722e24;
-  const double massSun = 1.9891e30;
-  const double massMars = 6.4185e23;
+  const double massSun = 1.0, massEarth = 3.003e-6, massMars = 0.323e-6;
 
-  const double forceEarthSun = force(massEarth,  massSun, rEarthSun);
-  const double forceEarthMoon = force(massEarth, massOfMoon, rEarthMoon);
-  const double forceEarthMars = force(massEarth, massMars, rEarthMars);
+  const double rSunEarth = 1.0, rSunMars = 1.523;
+
+  const double forceSunEarth = force(massSun, massEarth, rSunEarth);
+  const double forceSunMars = force(massSun, massMars, rSunMars);
 
   std::cout << "Forces:\n";
-  std::cout << "Earth-Sun:  " << forceEarthSun << "\n";
-  std::cout << "Earth-Moon: " << forceEarthMoon << "\n";
-  std::cout << "Earth-Mars: " << forceEarthMars << "\n";
+  std::cout << "Sun-Earth:  " << forceSunEarth << "\n";
+  std::cout << "Sun-Mars: " << forceSunMars << "\n";
 }
 

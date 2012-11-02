@@ -14,17 +14,14 @@
 \tableofcontents
 \end{frame}
 
-
-\section{C++ basics}
-
-\subsection{Introduction to language}
+\section{Introduction to language}
 
 \frame {
 	\frametitle{Introduction to language}
 }
 
 
-\subsection{Program structure}
+\section{Program structure}
 
 %Perhaps the best way to learn a programming language is to dive in and see what it's all about with a simple example.
 
@@ -32,7 +29,7 @@
 
 \begin{frame}[fragile]
   \frametitle{Hello World!}
-  \framesubtitle{Where it all begins.}
+  \framesubtitle{Where it all begins}
 	\lstinputlisting[language=C++,title=\lstsrctitle]{../code/0_basics/lectures/hello_world.cpp}
 	\cout{Hello world!}
 \end{frame}
@@ -109,7 +106,9 @@ int Main()
     \doblock{Avoid stating the obvious.  A good comment will not say \textit{what} is happening but rather \textit{why}.}
 \end{frame}
 
-\subsection{Variables, constants and data types}
+\section{Variables, constants and data types}
+
+\subsection{Defining variables}
 
 \begin{frame}[fragile]
 \frametitle{Defining a variable}
@@ -121,31 +120,48 @@ double aDouble;
 unsigned short i;
 float x, y, z;
   \end{lstlisting}
-Format: \texttt{\textcolor{bluekeywords}{variable\_type} variable\_name;}\newline
-\pause
-Variable names can be any sequence of letters, digits, or underscore characters but they must \emph{not}:
-\begin{itemize}
-\item start with a digit,
-\item be one of the reserved keywords\footnote{\href{http://en.cppreference.com/w/cpp/keyword}{\url{http://en.cppreference.com/w/cpp/keyword}}}.
-\end{itemize}
+Format: \texttt{\textcolor{bluekeywords}{variable\_type} variable\_name;}
+
 \end{frame}
 
-\begin{frame}[fragile]
-  \frametitle{Variable names}
-  \begin{doblocke}
-		Give variables meaningful names, even if this means more typing!
-		
-		There's nothing wose than a piece of code like this
-		\begin{lstlisting}
-  TODO: THINK OF SOMETHING
-		\end{lstlisting}
-	\end{doblocke}
-\end{frame}
+\subsection{Naming variables}
 
-\begin{frame}[fragile]
-  \frametitle{Scope}
+\begin{frame}
+  \frametitle{Naming variables}
   
-  TODO: Talk about variable scope
+  A variable name is an example of an identifier.
+  \defiblock{identifier}{An identifier is a sequence of characters used to denote the name of a variable, function\footnote{We'll see what these are shortly.}, class\footnotemark[\value{footnote}] or any entity you need to refer to in your code.}
+  Identifiers can be any sequence of letters, digits, or underscore characters but they must \emph{not}:
+	\begin{itemize}
+  	\item start with a digit,
+	  \item be one of the reserved keywords\footnote{\href{http://en.cppreference.com/w/cpp/keyword}{\url{http://en.cppreference.com/w/cpp/keyword}}}.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Naming variables}
+  \framesubtitle{Much like naming children}
+  \begin{doblocke}
+    \begin{doitemize}
+      \item{
+			Give variables meaningful names, even if this means more typing!
+			
+			There's nothing wose than a piece of code like this
+			\begin{lstlisting}
+	  TODO: THINK OF SOMETHING
+			\end{lstlisting}
+			}
+		  \item{Use variable names, much like comment, to convey intent, e.g.:
+		  \begin{lstlisting}
+		  double rootMeanSquare; // .. go on to calculate rms
+		  \end{lstlisting}}
+		  This will make it obvious to the user that the code after this variable should calculate the rms and store it in this variable.
+		\end{doitemize}
+	\end{doblocke}
+	\pause
+	\begin{dontblocke}
+	  Use abbreviations unless they're VERY common.
+	\end{dontblocke}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -177,6 +193,8 @@ Type & Size & Values \\
  Pretty easy, right?
 \end{frame}
 
+\subsection{Constants}
+
 \begin{frame}[fragile]
 \frametitle{Constants}
 Spot the difference:
@@ -192,7 +210,16 @@ Spot the difference:
   TODO: Introduce strings
 \end{frame}
 
-\subsection{Operators}
+\subsection{Scope}
+
+\begin{frame}[fragile]
+  \frametitle{Scope}
+  \framesubtitle{Scope this out}
+  
+  TODO: Talk about variable scope
+\end{frame}
+
+\section{Operators}
 
 \begin{frame}[fragile]
  \frametitle{Simple operators}
@@ -216,6 +243,14 @@ Spot the difference:
   a += 5; a *= b;
   \end{lstlisting}
  \end{block} %end item
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Integer arithmetic}
+  
+  TODO: Give warning that integer will round down!
+
 \end{frame}
 
 \begin{frame}[fragile]
@@ -391,7 +426,7 @@ Spot the difference:
 \end{frame}
 
 
-\subsection{Basic input/output}
+\section{Basic input/output}
 
 \begin{frame}[fragile]
   \frametitle{Standard output (\texttt{cout})}
@@ -402,6 +437,7 @@ std::cout << "Have some pi: ";
 std::cout << 3.1415926;
 std::cout << a;
   \end{lstlisting}
+  \pause
   We can use \texttt{<<} more than once in the same statement:
   \begin{lstlisting}
 double t0 = 1.5, t1 = 2.5;
@@ -409,7 +445,7 @@ cout << "t0: " << t0 << ", t1: " << t1
      << ", delta: " << t1 - t0;
   \end{lstlisting}
 	\cout{t0: 1.5, t1: 2.5, delta: 1}
-	
+	\pause
   If you want a new line you have to use \texttt{\char`\\ n}:
   \begin{lstlisting}
 double t0 = 1.5, t1 = 2.5;

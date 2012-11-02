@@ -19,6 +19,7 @@
 \usepackage{array}
 \usepackage{verbatim}
 \usepackage{pbox}
+\usepackage{tabularx}
 
 % LISTINGS STYLE %%%%%%%%%%%%%
 \definecolor{bluekeywords}{rgb}{0.13,0.13,1}
@@ -57,11 +58,12 @@
 % Do block %%%%%%%%%%%%%%%%%%%%%%
 \definecolor{doblocktext}{HTML}{468847}
 \definecolor{doblockbg}{HTML}{DFF0D8}
-\newenvironment{doblocke}[1]{% begin
+\newenvironment{doblocke}[0]{% begin
   \begin{varblock}{\textbf{Do}}%
   {bg=doblockbg,fg=doblocktext}{bg=doblocktext,fg=white}%
+  \setbeamercolor{itemize item}{fg=doblocktext}
   \lstset{backgroundcolor=}% The background should be the same as that of the block
-  #1}%
+  } % begin
   {\end{varblock}} %end
 \newcommand{\doblock}[1]{%
  \begin{doblocke}#1\end{doblocke} 
@@ -70,11 +72,11 @@
 % Don't block %%%%%%%%%%%%%%%%%%%
 \definecolor{dontblocktext}{HTML}{B94A48}
 \definecolor{dontblockbg}{HTML}{F2DEDE}  
-\newenvironment{dontblocke}[1]{% begin
+\newenvironment{dontblocke}[0]{% begin
   \begin{varblock}{\textbf{Don't}}%
   {bg=dontblockbg,fg=dontblocktext}{bg=dontblocktext,fg=white}
   \lstset{backgroundcolor=}% The background should be the same as that of the block
-  #1}%
+  }%
   {\end{varblock}} %end
 
 \newcommand{\dontblock}[1]{%
@@ -85,17 +87,24 @@
 
 \definecolor{defiblocktext}{HTML}{3A87AD}
 \definecolor{defiblockbg}{HTML}{D9EDF7}
+\newenvironment{defiblocke}[1]{% begin
+  \begin{varblock}{\textbf{Definition}}%
+  {bg=defiblockbg,fg=defiblocktext}{bg=defiblocktext,fg=white}
+  \lstset{backgroundcolor=}% The background should be the same as that of the block
+  \textit{#1} }
+  {\end{varblock}} %end
+
 \newcommand{\defiblock}[2]{%
  \begin{varblock}{\textbf{Definition}}%
- {bg=defiblockbg,fg=defiblocktext}{bg=defiblocktext,fg=white}
-  \begin{tabular}{ll}\textit{#1} & #2\end{tabular}
+ {bg=defiblockbg,fg=defiblocktext}{bg=defiblocktext,fg=white}%
+  \begin{tabularx}{\linewidth}{lX}\textit{#1} & #2\end{tabularx}
  \end{varblock} 
 }
 
 \definecolor{warnblocktext}{HTML}{C09853}
-\definecolor{warnblockbg}{HTML}{D9EDF7}
+\definecolor{warnblockbg}{HTML}{FCF8E3}
 \newcommand{\warnblock}[1]{%
- \begin{varblock}{\textbf{Warning!}}{bg=warnblockbg,fg=warnblocktext}{bg=warnblockbg,fg=warnblocktext}
+ \begin{varblock}{\textbf{Warning!}}{bg=warnblockbg,fg=warnblocktext}{bg=warnblocktext,fg=white}
   #1
  \end{varblock} 
 }
@@ -104,11 +113,16 @@
  Output: \pbox[t]{\textwidth}{\ttfamily\fontsize{9}{10}\selectfont{}#1}
 }
 
+\newenvironment{doitemize}[0]{%
+  \begin{itemize}}%
+  {\end{itemize}} %end
+
+
 % CONSTANTS %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 % Common title slide stuff
-\title{Introduction to Programming with Scientific C++}
+\title{Introduction to Scientific Programming with C++}
 \author{Martin Uhrin}
 \institute{UCL}
 \date{November 7-9th 2012}
