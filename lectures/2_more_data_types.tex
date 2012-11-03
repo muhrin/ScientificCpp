@@ -95,18 +95,173 @@ unsigned int lotteryNumbers[] = {16, 3, 28, 9, 24, 10, 8}
 
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{Multidimensional arrays}
+  \framesubtitle{Why stop at two}
+  In theory you can have as many array dimensions as you want.  For example a 3D array of ising spins could be represented as:
+  \begin{lstlisting}
+  bool isingSpins[nX][nY][nZ];
+  \end{lstlisting}
+  In practice you have to worry about how much memory your array needs!\pause{}  If you want to find out use:
+  \begin{lstlisting}
+  std::cout << "Need: " << sizeof(bool) * nX * nY * nZ <<
+    " bytes";
+  \end{lstlisting}
+
+\end{frame}
+
 \section{Char sequences and strings}
 
 
-\frame {
-  \frametitle{Char, string}
-}
+\begin{frame}[fragile]
+  \frametitle{Char sequences and string}
+  \framesubtitle{Pronounced "car", or as in "\textit{char}coal"}
+  We can have arrays of characters like so:
+  \begin{lstlisting}
+char message[] = { 'P', 'h', 'y', 's', 'i', 'c', 's', ' ',
+    'r', 'o', 'c', 'k', 's', '!', '\0'}; // see footnote 1
+  \end{lstlisting}
+  \footnotetext[1]{The \texttt{\textbackslash{}0} character tells the compiler where the end of the character sequence is.}
+  and while the statement is self evident, writing it like this is a pain, so C++ also allows us to initialise it like this:
+  \begin{lstlisting}
+char message[] = "Physics rocks!"
+  \end{lstlisting}
+  The result is the same.
+  \pause
+  Char arrays can be cumbersome, so usually we use a string type instead:
+  \begin{lstlisting}
+std::string message = "Physics rocks!";
+  \end{lstlisting}
+  strings used char arrays internally but are much more user friendly.
+  To use strings make sure to use the following include:
+  \begin{lstlisting}
+#include <string>  // At the top of your file
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{String variables}
+  \framesubtitle{All strung out}
+  So what can we do with strings?
+	
+  \begin{block}{Initialise}
+      \begin{lstlisting}
+std::string firstName = "Bjarne";
+std::string lastName("Stroustrup"); // Almost same as above
+      \end{lstlisting}
+  \end{block}
+  \pause
+  \begin{block}{Concatenate (add two or more together)}
+      \begin{lstlisting}
+std::string fullName = firstName + " " + lastName;
+      \end{lstlisting}
+			Notice ability to mix string variables and literals (i.e. things in quotes).      
+  \end{block}
+  \pause
+  \begin{block}{Read from user}
+    \begin{lstlisting}
+std::cout << "Enter first name: "
+std::cin >> firstName;
+    \end{lstlisting}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Strings variables continued}
+  \framesubtitle{How long is a piece of string? myString.size()}
+  
+  TODO: Save this slide for oop section.
+
+\end{frame}
 
 \section{Pointers and references}
 
-\frame {
-  \frametitle{Pointers and references}
-}
+\subsection{Pointers}
+
+\begin{frame}[fragile]
+  \frametitle{Pointers}
+  Every variable lives at a memory address.  A pointer is a special data type that stores such an addresses.  The format for declaring a pointer is:
+  \begin{lstlisting}
+  type * name;
+  \end{lstlisting}
+  This tells the compiler that that \texttt{name} is a pointer that points to the address of a variable of type \texttt{type}.  Got it?
+  \pause
+  Some examples:
+  \begin{lstlisting}
+  int * pointerToInt;
+  std::string * pointerToString;
+  \end{lstlisting}
+  \pause
+  \begin{block}{Setting pointers}
+	  To set pointers we can use the reference operator: \texttt{\&} (read "address of").
+	\lstinputlisting[language=C++,firstline=5,lastline=6]{../code/2_more_data_types/lectures/pointers_example.cpp}  line 2 tells the compiler to:
+	  \begin{enumerate}
+	    \item{Create a pointer named \texttt{numParticlesPointer} that points to an \kw{int}.}
+	    \pause
+	    \item{Set it to address of numParticles.}
+	  \end{enumerate}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Using pointers}
+  
+  \begin{block}{So what's in a pointer?}
+	  \begin{columns}[t]
+	    \begin{column}[T]{0.5\textwidth}
+			  \lstinputlisting[language=C++,firstline=8,lastline=10,aboveskip=0pt,belowskip=0pt]{../code/2_more_data_types/lectures/pointers_example.cpp}
+			\end{column}\pause
+			\begin{column}[T]{0.5\textwidth}
+			  \cout{Address is: 0x00CBF748}\newline
+			  This is how C++ prints memory addresses.
+	    \end{column}
+	  \end{columns}
+  \end{block}
+  \pause
+  \begin{block}{Reading the value}
+  	To access, use the the dereference operator: \texttt{*} (read "value pointed by").
+  	\begin{columns}[t]
+  	  \begin{column}[T]{0.5\textwidth}
+ \lstinputlisting[language=C++,firstline=12,lastline=13,aboveskip=0pt,belowskip=0pt]{../code/2_more_data_types/lectures/pointers_example.cpp}
+  	  \end{column}\pause
+  	  \begin{column}[T]{0.5\textwidth}
+  	    \cout{Value is: 10}
+  	  \end{column}
+  	\end{columns}
+  \end{block}
+  \pause
+  \begin{block}{Setting the value}
+    To set the value pointed to by a pointer also use dereference operator:
+  	\begin{columns}[t]
+  	  \begin{column}[T]{0.5\textwidth}
+\lstinputlisting[language=C++,firstline=16,lastline=18,aboveskip=0pt,belowskip=0pt]{../code/2_more_data_types/lectures/pointers_example.cpp}  	  \end{column}\pause
+  	  \begin{column}[T]{0.5\textwidth}
+  	    \cout{New upSpins: 20}
+  	  \end{column}
+  	\end{columns}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Pointers}
+  \framesubtitle{More dangerous than a shark in a swimming pool}
+  \begin{warnblocke}
+    Like laser pointers, C++ pointers can be dangerous!  Consider:
+    \begin{lstlisting}
+  int * upSpinsPointer;
+  std::cout << *upSpinsPointer;
+    \end{lstlisting}
+    I've asked for the value pointed by \texttt{upSpinsPointer}.  But what's it pointing to?  It could be a valid address or garbage.
+  \end{warnblocke}
+  \begin{doblocke}
+    Set pointers to \texttt{0} upon declaration:
+    \begin{lstlisting}
+  int * upSpinsPointer = 0;
+    \end{lstlisting}
+    This way the program will crash immediately if you try to dereference it and you will find out straight away what went wrong.
+  \end{doblocke}
+
+\end{frame}
 
 
 \end{document}

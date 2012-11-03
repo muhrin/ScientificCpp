@@ -39,7 +39,7 @@
   keywordstyle=\color{bluekeywords}\bfseries,
   stringstyle=\color{redstrings},
   basicstyle=\ttfamily\fontsize{9}{10}\selectfont,
-  backgroundcolor=\color{listingsbg},
+  backgroundcolor=\color{listingsbg}
 }
 
 % MACROS %%%%%%%%%%%%%%%%%%%%%
@@ -65,6 +65,7 @@
   \lstset{backgroundcolor=}% The background should be the same as that of the block
   } % begin
   {\end{varblock}} %end
+  
 \newcommand{\doblock}[1]{%
  \begin{doblocke}#1\end{doblocke} 
 }
@@ -103,11 +104,16 @@
 
 \definecolor{warnblocktext}{HTML}{C09853}
 \definecolor{warnblockbg}{HTML}{FCF8E3}
+\newenvironment{warnblocke}[0]{% begin
+  \begin{varblock}{\textbf{Warning!}}%
+  {bg=warnblockbg,fg=warnblocktext}{bg=warnblocktext,fg=white}
+  \lstset{backgroundcolor=}% The background should be the same as that of the block
+  } % begin
+  {\end{varblock}} % end
+
 \newcommand{\warnblock}[1]{%
- \begin{varblock}{\textbf{Warning!}}{bg=warnblockbg,fg=warnblocktext}{bg=warnblocktext,fg=white}
-  #1
- \end{varblock} 
-}
+  \begin{warnblocke}#1\end{warnblocke}
+} % newcommand
 
 \newcommand{\cout}[1]{%
  Output: \pbox[t]{\textwidth}{\ttfamily\fontsize{9}{10}\selectfont{}#1}

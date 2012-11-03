@@ -1,6 +1,6 @@
 #include <iostream>
-
-unsigned long factorial(const unsigned long n)
+// Notice we're using double here as unsigned int could be too small
+double factorial(const unsigned int n)
 {
   if(n > 1)
     return (n * factorial(n - 1));
