@@ -1,4 +1,5 @@
 \documentclass{beamer}
+%\documentclass[handout]{beamer}
 
 % Input all common stuff
 \input{common_predoc}
@@ -166,50 +167,46 @@ std::cin >> firstName;
   \end{block}
 \end{frame}
 
-\begin{frame}[fragile]
-  \frametitle{Strings variables continued}
-  \framesubtitle{How long is a piece of string? myString.size()}
-  
-  TODO: Save this slide for oop section.
-
-\end{frame}
-
 \section{Pointers and references}
 
 \subsection{Pointers}
 
 \begin{frame}[fragile]
   \frametitle{Pointers}
-  Every variable lives at a memory address.  A pointer is a special data type that stores such an addresses.  The format for declaring a pointer is:
-  \begin{lstlisting}
+  Every variable lives at a memory address.  A pointer is a special data type that stores such an addresses.
+  \begin{block}{Pointer declaration}
+  To declare a pointer the format is:
+	  \begin{lstlisting}
   type * name;
-  \end{lstlisting}
-  This tells the compiler that that \texttt{name} is a pointer that points to the address of a variable of type \texttt{type}.  Got it?
-  \pause
-  Some examples:
-  \begin{lstlisting}
+	  \end{lstlisting}
+	  This tells the compiler that \texttt{name} is a pointer that points to the address of a variable of type \texttt{type}.  Got it?
+	  \newline
+	  Some examples:
+	  \begin{lstlisting}[belowskip=0pt]
   int * pointerToInt;
   std::string * pointerToString;
-  \end{lstlisting}
-  \pause
-  \begin{block}{Setting pointers}
+	  \end{lstlisting}
+  \end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Using pointers}
+  \begin{block}{Pointer initialisation}
 	  To set pointers we can use the reference operator: \texttt{\&} (read "address of").
-	\lstinputlisting[language=C++,firstline=5,lastline=6]{../code/2_more_data_types/lectures/pointers_example.cpp}  line 2 tells the compiler to:
+	\lstinputlisting[language=C++,linerange={5-5,7-7}]{../code/2_more_data_types/lectures/pointers_example.cpp}  line 2 tells the compiler to:
 	  \begin{enumerate}
+	    \pause
 	    \item{Create a pointer named \texttt{numParticlesPointer} that points to an \kw{int}.}
 	    \pause
 	    \item{Set it to address of numParticles.}
 	  \end{enumerate}
   \end{block}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Using pointers}
-  
+  \pause
   \begin{block}{So what's in a pointer?}
 	  \begin{columns}[t]
 	    \begin{column}[T]{0.5\textwidth}
-			  \lstinputlisting[language=C++,firstline=8,lastline=10,aboveskip=0pt,belowskip=0pt]{../code/2_more_data_types/lectures/pointers_example.cpp}
+			  \lstinputlisting[language=C++,firstline=9,lastline=11,aboveskip=0pt,belowskip=0pt]{../code/2_more_data_types/lectures/pointers_example.cpp}
 			\end{column}\pause
 			\begin{column}[T]{0.5\textwidth}
 			  \cout{Address is: 0x00CBF748}\newline
@@ -217,12 +214,16 @@ std::cin >> firstName;
 	    \end{column}
 	  \end{columns}
   \end{block}
-  \pause
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Using pointers}
+  
   \begin{block}{Reading the value}
   	To access, use the the dereference operator: \texttt{*} (read "value pointed by").
   	\begin{columns}[t]
   	  \begin{column}[T]{0.5\textwidth}
- \lstinputlisting[language=C++,firstline=12,lastline=13,aboveskip=0pt,belowskip=0pt]{../code/2_more_data_types/lectures/pointers_example.cpp}
+ \lstinputlisting[language=C++,firstline=13,lastline=14,aboveskip=0pt,belowskip=0pt]{../code/2_more_data_types/lectures/pointers_example.cpp}
   	  \end{column}\pause
   	  \begin{column}[T]{0.5\textwidth}
   	    \cout{Value is: 10}
@@ -234,9 +235,21 @@ std::cin >> firstName;
     To set the value pointed to by a pointer also use dereference operator:
   	\begin{columns}[t]
   	  \begin{column}[T]{0.5\textwidth}
-\lstinputlisting[language=C++,firstline=16,lastline=18,aboveskip=0pt,belowskip=0pt]{../code/2_more_data_types/lectures/pointers_example.cpp}  	  \end{column}\pause
+\lstinputlisting[language=C++,firstline=17,lastline=19,aboveskip=0pt,belowskip=0pt]{../code/2_more_data_types/lectures/pointers_example.cpp}  	  \end{column}\pause
   	  \begin{column}[T]{0.5\textwidth}
   	    \cout{New upSpins: 20}
+  	  \end{column}
+  	\end{columns}
+  \end{block}
+  \pause
+  \begin{block}{Assigning pointers}
+  Later on we may want to assign the pointer to point to a different value:
+  	\begin{columns}[t]
+  	  \begin{column}[T]{0.5\textwidth}
+\lstinputlisting[language=C++,linerange={6-6,22-24},aboveskip=0pt,belowskip=0pt]{../code/2_more_data_types/lectures/pointers_example.cpp}
+  		\end{column}\pause
+  	  \begin{column}[T]{0.5\textwidth}
+  	    \cout{Down spins: 7}
   	  \end{column}
   	\end{columns}
   \end{block}
@@ -244,22 +257,236 @@ std::cin >> firstName;
 
 \begin{frame}[fragile]
   \frametitle{Pointers}
-  \framesubtitle{More dangerous than a shark in a swimming pool}
+  \framesubtitle{More dangerous than a global warming and nuclear weapons combined}
   \begin{warnblocke}
-    Like laser pointers, C++ pointers can be dangerous!  Consider:
+    C++ pointers can be dangerous!  Consider:
     \begin{lstlisting}
   int * upSpinsPointer;
   std::cout << *upSpinsPointer;
     \end{lstlisting}
     I've asked for the value pointed by \texttt{upSpinsPointer}.  But what's it pointing to?  It could be a valid address or garbage.
   \end{warnblocke}
+  \pause
   \begin{doblocke}
-    Set pointers to \texttt{0} upon declaration:
+    Set pointers to the special value \texttt{0} upon declaration which indicates that it is not pointing to a valid memory address:
     \begin{lstlisting}
   int * upSpinsPointer = 0;
     \end{lstlisting}
-    This way the program will crash immediately if you try to dereference it and you will find out straight away what went wrong.
+    This is called a null pointer.  The program will crash immediately if you try to dereference it and you will find out straight away what went wrong.
   \end{doblocke}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Dynamic memory}
+  So far our prgrams have used a fixed amount of memory equal to the total of all declared variables.  Sometimes we don't know how much memory we will need before the program starts.
+  \pause
+  Consider:
+  \begin{lstlisting}
+unsigned int spinChainLength;
+std::cout << "Enter spin chain length: ";
+std::cin >> spinChainLength;
+bool spinChain[spinChainLength]; // ERROR!
+  \end{lstlisting}
+  But we can only create arrays of known, \textit{constant}, size!
+  \newline\pause
+  Solution: dynamic memory.
+  \begin{block}{\kw{new} and \texttt{\kw{new}[]} operators}
+	  To allocate dynamic memory the format is:
+	  \begin{lstlisting}
+  pointer = new type;               // single variable
+  pointer = new type[num_elements]; // array
+	  \end{lstlisting}
+  \end{block}
+  \pause
+  Let's try again:
+  \begin{lstlisting}
+bool * spinChain = new bool[spinChainLength]; // Good
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Dynamic memory}
+  \framesubtitle{Don't forget to clean up}
+  
+  \begin{block}{\kw{delete} and \texttt{\kw{delete}[]} operators}
+    To free dynamic memory the format is:
+    \begin{lstlisting}
+  delete pointer;   // single variable
+  delete[] pointer; // array
+    \end{lstlisting}
+    Make sure you use the correct version, otherwise bad things \textit{will} happen.
+  \end{block}
+  \pause
+  \dontblock{Forget the free your memory once you're done with it.  Otherwise it will leak and you won't get it back until your program ends!}
+  \pause
+  \begin{doblocke}
+  Set the pointer to \texttt{0} after the memory has been freed:
+  \begin{lstlisting}[belowskip=0pt]
+  delete[] spinChain;
+  spinChain = 0;
+  \end{lstlisting}
+  \end{doblocke}
+\end{frame}
+
+\begin{frame}[frame]
+  \frametitle{Why use pointers?}
+  \framesubtitle{\begin{quote}I do consider assignment statements and pointer variables to be among computer science's most valuable treasures.\end{quote} -Donald Knuth (``father'' of the analysis of algorithms).}
+  TODO: Decide whether to use this.
+\end{frame}
+
+\subsection{References}
+
+\begin{frame}[fragile]
+  \frametitle{References}
+  \framesubtitle{More safe than keeping your money in a Swiss bank account}
+  
+  A reference is similar to a pointer only more limited, and more safe.
+  \begin{block}{Reference declaration and initialisation}
+	  To declare a reference and initialise it the format is:
+		  \begin{lstlisting}
+  type & name = variable_name;
+		  \end{lstlisting}
+	  This tells the compiler that name is a reference to an existing variable called \texttt{variable\_name} which is of type \text{type}.  References \textit{cannot} be uninitialised!\newline
+		Example:
+    \lstinputlisting[language=C++,linerange={5-5,7-7},aboveskip=0pt,belowskip=0pt]%
+      {../code/2_more_data_types/lectures/references_example.cpp}
+  \end{block}
+  \pause
+  \begin{block}{Using references}
+  	Once a reference is declared it can be used almost exactly as if it were an ordinary variable.
+  \end{block}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Pointers vs. references}
+  \framesubtitle{Practical comparison}
+  
+  	\begin{columns}[t]
+  	  \begin{column}[T]{0.5\textwidth}
+\lstinputlisting[language=C++,aboveskip=0pt,belowskip=0pt,basicstyle=\ttfamily\fontsize{7}{8}\selectfont]{../code/2_more_data_types/lectures/pointers_example.cpp}
+			\end{column}
+  	  \begin{column}[T]{0.5\textwidth}
+  	    \lstinputlisting[language=C++,aboveskip=0pt,belowskip=0pt,basicstyle=\ttfamily\fontsize{7}{8}\selectfont]{../code/2_more_data_types/lectures/references_example.cpp}
+  	  \end{column}
+  	\end{columns}
+  
+\end{frame}
+
+\section{Functions revisited}
+
+\subsection{Reference and pointer parameters}
+
+
+\begin{frame}[fragile]
+  \frametitle{Changing variable value in a function}
+  Consider:
+  \begin{columns}[t]
+    \begin{column}[T]{0.6\textwidth}
+	    \begin{lstlisting}[aboveskip=0pt]
+void runningSum(int sum, int value)
+{
+  sum += value;
+}
+int main()
+{
+  int sum = 0;
+  for(int i = 1; i < 100; ++i)
+    runningSum(sum, i);
+    
+  std::cout << "Sum is: "
+    << sum << "\n";
+}
+      \end{lstlisting}
+    \end{column}
+    \begin{column}[T]{0.4\textwidth}
+      \cout{Sum is: 0}
+    \end{column}
+  \end{columns}
+  But wait.  What's happened? \texttt{sum} is still 0\footnote{Although our program fails to calculate this sum, legend has it that Gauss produced the correct answer within seconds when asked during a primary school lesson.}.
+  \newline\pause
+  Problem is that \texttt{runningSum} got a \textit{copy} of the value in \texttt{sum} at the time it was called.
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Passing using pointers}
+  
+  Let's try again but this time using a pointer:
+  \begin{columns}[t]
+    \begin{column}[T]{0.6\textwidth}
+	    \begin{lstlisting}[aboveskip=0pt]
+void runningSum(int * sum, int value)
+{
+  *sum += value;
+}
+int main()
+{
+  int sum = 0;
+  for(int i = 1; i <= 100; ++i)
+    runningSum(&sum, i);
+    
+  std::cout << "Sum is: "
+    << sum << "\n";
+}
+      \end{lstlisting}
+    \end{column}
+    \begin{column}[T]{0.4\textwidth}
+      \cout{Sum is: 5050}
+    \end{column}
+  \end{columns}
+  
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Passing using references}
+  
+  Let's try again but this time using a references:
+  \begin{columns}[t]
+    \begin{column}[T]{0.6\textwidth}
+	    \begin{lstlisting}[aboveskip=0pt]
+void runningSum(int & sum, int value)
+{
+  sum += value;
+}
+int main()
+{
+  int sum = 0;
+  for(int i = 1; i <= 100; ++i)
+    runningSum(sum, i);
+    
+  std::cout << "Sum is: "
+    << sum << "\n";
+}
+      \end{lstlisting}
+    \end{column}
+    \begin{column}[T]{0.4\textwidth}
+      \cout{Sum is: 5050}
+    \end{column}
+  \end{columns}
+  
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Passing by value, pointer and reference}
+  \framesubtitle{What's the difference?}
+  
+  So we have three ways to pass parameters:
+  \begin{lstlisting}
+/*1.*/ void runningSum(int sum, int value);  // by value
+/*2.*/ void runningSum(int * sum, int value);// by pointer
+/*3.*/ void runningSum(int & sum, int value);// by reference
+  \end{lstlisting}
+  Imagine you're the function and I'm passing you an Edward Hopper\footnote{Nighthawks to be exact (\href{http://en.wikipedia.org/wiki/Nighthawks}{\url{http://en.wikipedia.org/wiki/Nighthawks}})} painting I keep on my living room wall:
+  \begin{enumerate}
+  	\pause
+    \item{I make an exact duplicate and give it to you.  Any changes you make to yours don't affect mine.}
+    \pause
+    \item{I give you my address and you can view and change the painting by visiting (dereferencing) my address.}
+    \pause
+  	\item{I create a second painting that is quantum entangled with mine.  Any changes you make to yours affect mine instantly.}
+  \end{enumerate}
 
 \end{frame}
 

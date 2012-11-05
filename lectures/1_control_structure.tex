@@ -99,7 +99,8 @@ while(expression) statement
     \begin{lstlisting}
 do statement while(expression);
     \end{lstlisting}
-    \lstinputlisting[language=C++,title=\lstsrctitle]{../code/1_control_structure/lectures/tea_father.cpp}
+    \lstinputlisting[language=C++,title=\lstsrctitle,belowskip=0pt]%
+    {../code/1_control_structure/lectures/tea_father.cpp}
   \end{block}
 \end{frame}
 
@@ -121,7 +122,7 @@ do statement while(expression);
     \end{enumerate}
     \pause[6]
     Here's our blastoff example with a for loop:
-    \begin{lstlisting}
+    \begin{lstlisting}[belowskip=0pt]
   for(int t = 0; t != 0; --t)
   {
     std::cout << t << ", ";
@@ -340,7 +341,7 @@ dotInt(fromX, fromY, toX, toY);
   Have to look up which dot function to call based on my number type. Ideally I'd like to call \texttt{dot} and let the compiler choose the right one.
   \newline\pause
   No problem, use:
-  \begin{lstlisting}
+  \begin{lstlisting}[belowskip=0pt]
 int dot(int x0, int y0, int x1, int y1)
 { return x0 * x1 + y0 * y1; }
 double dot(double x0, double y0, double x1, double y1)
@@ -401,7 +402,7 @@ double add(double n1, double n2);
 
 \begin{frame}[fragile]
   \frametitle{Recursivity}
-  \defiblock{recursive function}{A function that calls itself.}
+  \defiblock{recursive function}{a function that calls itself.}
   This is similar to a recurrence relation in mathematics e.g.:
   \begin{equation*}
   b_n = n b_{(n - 1)}, b_0 = 1

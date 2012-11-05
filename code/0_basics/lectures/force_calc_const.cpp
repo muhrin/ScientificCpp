@@ -12,8 +12,8 @@ int main()
   
   std::cout << "Force between Earth and Moon is: " << force << "\n";
             
-  G = 7e-11; // WON'T COMPILE. WHAT KIND OF A UNIVERSE WOULD WE BE LIVING IN
-             // IF G COULD VARY??
+  //G = 7e-11; // WON'T COMPILE. WHAT KIND OF A UNIVERSE WOULD WE BE LIVING IN
+               // IF G COULD VARY??
 
   return 0;
 }

@@ -3,20 +3,25 @@
 int main()
 {
   int upSpins = 10;
-  int * upSpinsPointer = &upSpins;
+  int downSpins = 7;
+  int * spinsPointer = &upSpins;
 
   std::cout << "Address is: "
-    << upSpinsPointer
+    << spinsPointer
     << "\n";
 
   std::cout << "Value is: "
-    << *upSpinsPointer
+    << *spinsPointer
     << "\n";
 
-  *upSpinsPointer = 20;
+  *spinsPointer = 20;
   std::cout << "New upSpins: "
     << upSpins
     << "\n";
+
+  spinsPointer = &downSpins;
+  std::cout << "Down spins : "
+    << *spinsPointer;
 
   return 0;
 }

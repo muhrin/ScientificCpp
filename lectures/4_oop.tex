@@ -3,7 +3,9 @@
 % Input all common stuff
 \input{common_predoc}
 
-\subtitle{Session 1: Basics}
+\usepackage{textcomp}
+
+\subtitle{Session 4: Object oriented programming}
 
 \begin{document}
 
@@ -15,18 +17,465 @@
 \end{frame}
 
 
-\section{Object oriented programming}
+\section{Classes}
 
-\subsection{Objects}
+\subsection{Introduction to classes}
 
-\frame {
-	\frametitle{Object}
-}
-
-\subsection{Classes}
-
-\frame {
+\begin{frame}[fragile]
 	\frametitle{Classes}
+	\framesubtitle{Hold on to your hats}
+	
+	\defiblock{class}{a user defined compound data type that can hold both data and functions.}
+	Classes are a powerful way of grouping data and functions to create custom data types that have certain \textit{responsibilities}.\newline
+	\pause
+	Let's start with an example:
+	\begin{lstlisting}
+	class Vector2
+	{
+	public:
+	  double x, y;
+	};
+	\end{lstlisting}
+	This defines a class called \texttt{Vector2} that has two member variables, \texttt{x} and \texttt{y}, of type \kw{double} which are publicly accessible.
+	
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Classes}
+  
+  Let's play with \texttt{Vector2}:
+  \begin{lstlisting}
+int main()
+{
+  Vector2 r;
+  r.x = 3.0;
+  r.y = 10.0;
+  std::cout << "x: " << r.x << " y: " << r.y;
 }
+  \end{lstlisting}
+  Here we have created an \textit{object} of type \texttt{Vector2} and used the dot operator (\texttt{.}) to access members of our vector, \texttt{r}.
+  \pause
+  \begin{defiblockbaree}{Definitions}
+    \begin{tabularx}{\linewidth}{lX}
+	    \textit{object} & an instance of a class.  A class is to an object as blueprints are to a house. \\
+	    \textit{instantiation} & creating an instance of a class. \\
+	    \textit{member variable} & a variable that is contained within a class.
+    \end{tabularx}
+  \end{defiblockbaree}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Class methods}
+  \framesubtitle{What's all the fuss about?}
+  
+  As well as member variables, classes can have member functions.
+  \defiblock{member function}{(or \textit{method}) a function that is contained within a class.}
+  \pause
+  For example:
+  \begin{columns}[t]
+    \begin{column}[T]{0.5\textwidth}
+  		\begin{lstlisting}[basicstyle=\ttfamily\fontsize{8}{9}\selectfont{},aboveskip=0pt,belowskip=0pt]
+class Vector2
+{
+public:
+  double length()
+  { return sqrt(x * x + y * y); }
+  
+  double x, y;
+};
+int main()
+{
+  Vector2 r;
+  r.x = 3;  r.y = 4;
+  std::cout << "|r| = "
+    << r.length() << "\n";
+}
+	  	\end{lstlisting}
+	  \end{column}
+	  \begin{column}[T]{0.5\textwidth}
+	  	\cout{|r| = 5}
+	  \end{column}
+  \end{columns}
+  
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Classes}
+  \framesubtitle{Fuller example}
+  
+  \begin{columns}[t]
+    \begin{column}[T]{0.5\linewidth}
+      \lstinputlisting[language=C++,%
+        basicstyle=\ttfamily\fontsize{7}{8}\selectfont{},%
+        linerange={4-23},%
+        aboveskip=0pt,belowskip=0pt]%
+      {../code/4_oop/lectures/simple_vector2.cpp}
+    \end{column}
+    \pause
+    \begin{column}[T]{0.5\linewidth}
+			\lstinputlisting[language=C++,title=\lstsrctitle,%
+        basicstyle=\ttfamily\fontsize{7}{8}\selectfont{},%
+        firstline=25,%
+        aboveskip=0pt,belowskip=0pt]%
+      {../code/4_oop/lectures/simple_vector2.cpp}
+    \end{column}
+  \end{columns}
+  \cout{r1: 2 1\newline
+  r2: 4 10\newline
+  Performing r2.sub(r1)\newline
+  r2: 2 9}
+
+
+\end{frame}
+
+\subsection{Access specifiers}
+
+\begin{frame}[fragile]
+  \frametitle{Accessibility}
+  
+  So what's this \kw{public:} statement all about? \kw{public} is known as an access specifier.
+  \defiblock{access specifier}{tells the compiler who (i.e. which parts of the code) have access to the members below it in the class.}
+  The three access specifiers have the following meanings:
+  \pause
+  \begin{tabularx}{\linewidth}{r X}
+    \uncover<2->{\kw{public} & Any part of the code where the object is visible can access these. \\}
+    \uncover<3->{\kw{private} & Only members of this class or members of friends\footnote{We'll see what these are later.} can access these. \\}
+    \uncover<4->{\kw{protected} & Same as private but also allows members of classes derived from this one \footnotemark[\value{footnote}] to access these.}
+  \end{tabularx}
+  \uncover<5->{By default classes have \kw{private} access to all members.}
+\end{frame}
+
+\subsection{Encapsulation}
+
+\begin{frame}[fragile]
+  \frametitle{Encapsulation}
+  
+  The aim of a good object oriented design is to break the problem up into chunks that have well defined responsibilities which can be implemented as classes.  This way details (like data members) can be hidden in each class and we interact with classes via their member functions.  This is called \textit{encapsulation}.
+  \newline\pause
+  An example:
+  \begin{columns}[t]
+    \begin{column}[T]{0.5\linewidth}
+      \begin{lstlisting}[aboveskip=0pt]
+class Vector2
+{
+public:
+  double getX()
+  { return x; }
+  double getY()
+  { return y; }
+private:
+  double x, y;
+};
+  		\end{lstlisting}
+  	\end{column}
+  	\pause
+    \begin{column}[T]{0.5\linewidth}
+      \begin{lstlisting}[aboveskip=0pt]
+class Vector2
+{
+public:
+  double getX()
+  { return coords[0]; }
+  double getY()
+  { return coords[1]; }
+private:
+  double coords[2];
+};
+  		\end{lstlisting}
+  	\end{column}
+  \end{columns}
+  Same interface (public members), different implementation details.
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Encapsulation}
+  
+  Encapsulation separates implementation details from the way the class is used, this is sevral advantages:
+  \pause
+  \begin{itemize}
+    \item{Gives you more flexibility for making improvements in the future as other parts of the code can remain unchanged.}
+    \pause
+    \item{Makes code more maintainable: a bug will likely be localised to one class.}
+    \pause
+    \item{Developing complex code can be easier as a common set of iterfaces can be defined and then implemented separately in due time.  So long as each class fulfills its responsibilities the whole will work.}
+  \end{itemize}
+  \pause
+  \doblock{Make all member variables \kw{private}.  Provide a clear set of methods to interact with the class such that its responsibilities can be fulfilled.}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Accessor methods}
+  
+  \begin{defiblockbaree}{Definitions}
+    \begin{tabularx}{\linewidth}{lX}
+	    \textit{getter} & a method that gets the value of an internal variable. \\
+	    \textit{setter} & a method that sets the value of an internal variable. \\
+    \end{tabularx}
+  \end{defiblockbaree}
+  \pause
+  You've seen getters, we can now add setters:
+  \begin{lstlisting}
+void setX(const double newX)
+{ x = newX; }
+void setY(const double newY)
+{ y = newY; }
+  \end{lstlisting}
+  \pause
+  But wait, doesn't this undermine encapsulation?  Yes!  So use it only for small classes with simple members variables.
+\end{frame}
+
+\subsection{Constructors and destructors}
+
+\subsubsection{Constructors}
+
+\begin{frame}[fragile]
+  \frametitle{Constructors}
+  
+  A class may want to initialise variables or dynamic memory when it is instantiated, this is done in the constructor.
+  \defiblock{constructor}{A special member function that has the same name as the class and no return type.}
+  \pause
+  For example:
+  \begin{columns}[t]
+    \begin{column}[T]{0.5\linewidth}
+      \begin{lstlisting}[aboveskip=0pt,belowskip=0pt]
+class Vector2
+{
+public:
+  Vector2(const double x0,
+    const double y0)
+  {
+    x = x0; y = y0;
+  }
+  /*..and the rest..*/
+private:
+  double x, y;
+};
+      \end{lstlisting}
+    \end{column}
+    \begin{column}[T]{0.5\linewidth}
+      \begin{lstlisting}[aboveskip=0pt,belowskip=0pt]
+int main()
+{
+  Vector2 r1(3, 14);
+  r1.printCoords();
+  return 0;
+}
+      \end{lstlisting}
+      \cout{3 10}
+    \end{column}
+  \end{columns}  
+	
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Default constructors}
+  
+  \defiblock{default constructor}{A zero argument constructor provided automatically by the compiler if, and only if, no custom constructors are supplied.}
+  As soon as you write one constructor the default is no longer provided!\newline
+  \pause
+  Let's try using our last version of \texttt{Vector2}:
+  \begin{lstlisting}
+int main()
+{
+  Vector2 r1; // error 'Vector2': no appropriate
+  return 0;	  // default constructor available
+}
+  \end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Constructor overloading}
+  
+  You can have more than one constructor, this is called \textit{constructor overloading}.  For example:
+  \begin{columns}[t]
+    \begin{column}[T]{0.5\linewidth}
+      \begin{lstlisting}[aboveskip=0pt,belowskip=0pt]
+class Vector2
+{
+public:
+  Vector2()
+  {
+    x = 0.0; y = 0.0;
+  }
+  Vector2(const double x0,
+    const double y0)
+  {
+    x = x0;  y = y0;
+  }
+private:
+  double x, y;
+};  
+  \end{lstlisting}
+    \end{column}
+    \begin{column}[T]{0.5\linewidth}
+      \begin{lstlisting}[aboveskip=0pt,belowskip=0pt]
+int main()
+{
+  Vector2 r1(3, 14);
+  Vector2 r2; // No brackets!
+  std::cout << "r1: "
+  r1.printCoords();
+  std::cout << "r2: "
+  r2.printCoords();
+  return 0;
+}
+      \end{lstlisting}
+      \cout{r1: 3 10\newline
+      r2: 0 0}
+    \end{column}
+  \end{columns}  
+
+\end{frame}
+
+
+\subsubsection{Descturctors}
+
+\begin{frame}[fragile]
+  \frametitle{Destructors}
+  
+	A class may want release resources like dynamic memory when it is destructed, this is done in the destructor.
+  \defiblock{destructor}{A special member function that has the same name as the class but prefixed with a \string~{}(tilde), takes no parameters and has no return type.}
+  \pause
+  An example:
+  \begin{lstlisting}[basicstyle=\ttfamily\fontsize{8}{9}\selectfont{},belowskip=0pt]
+class ClassicalSpinString {
+public:
+  ClassicalSpinString(const int length)
+  {
+    vectors = new Vector2[length];
+  }
+  ~ClassicalSpinString()
+  {
+    delete[] vectors; // Have to delete to avoid leak!
+  }
+private:
+  Vector2 * vectors;
+};  
+  \end{lstlisting}
+  
+  
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Destructors}
+  \framesubtitle{We've constructed ourselves, why not destruct ourselves?}
+  When does a destructor get called?  As soon as the end of the the scope the object was declared in.
+  \newline\pause
+  For example:
+  \begin{lstlisting}
+int main()
+{
+  bool calcSpinStringProperties = true;
+  // do stuff...
+  if(calcSpinStringProperties)
+  {
+    SpinString spins;
+    // do stuff with spins...
+    // ...report results.
+  } // <- Here spins is destructed
+  return 0;
+}
+  \end{lstlisting}
+  \pause
+  \doblock{Practice safe programming: use destructors to clean up after yourself.}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Pointers to classes}
+  
+  Pointers to classes work as expected:
+  \begin{lstlisting}
+int main()
+{
+  Vector2 * r1 = new Vector2;
+  (*r1).printCoords();
+  
+  delete r1; // Clean up
+}
+  \end{lstlisting}
+  \pause
+  But using \texttt{(*name).member} can get a bit annoying.  Kindly, C++ provides us with an alternative: the indirection operator (\texttt{->}).\pause{}  One more:
+  \begin{lstlisting}
+int main()
+{
+  Vector2 * r1 = new Vector2;
+  r1->printCoords();
+  
+  delete r1; // Clean up
+}  
+  \end{lstlisting}
+
+\end{frame}
+
+\subsection{Operator overloading}
+
+\begin{frame}[fragile]
+  \frametitle{Operator overloading}
+  \framesubtitle{We've overloaded functions, why stop there...}
+  
+  C++ provides certain operators for built in types e.g.:
+  \begin{lstlisting}
+  int a = 5, b = 10;
+  int c = a + b;
+  
+  bool haveMyCake = true, eatIt = true;
+  bool haveMyCakeAndEatIt = haveMyCake && eatIt;
+  \end{lstlisting}
+  But wouldn't it be cool to be able to do:
+  \begin{lstlisting}
+  Vector2 r1(3, 14), r2(23, 1);
+  Vector2 r12 = r2 - r1;
+  \end{lstlisting}
+  With operator overloading we can!
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Operator overloading}
+  \framesubtitle{Also a medical condition suffered by overworked elevator operators}
+  
+  What should a \texttt{Vector2} minus method look like?  Probably:
+  \begin{itemize}
+    \item{Take a \texttt{Vector2} as a parameter to subtract.}
+    \pause
+    \item{Return a \texttt{Vector2} that is the result.}
+  \end{itemize}
+  \pause
+  Let's try:
+  \begin{lstlisting}
+class Vector2
+{
+public:
+  Vector2 operator -(Vector2 toSub)
+  {
+    return Vector2(x - toSub.getX(), y - toSub.getY());
+  } 
+/* ..other stuff */
+};
+  \end{lstlisting}
+  Hey, that's not bad!
+  
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Operator overloading}
+  
+  So how does this work?  We haven't called a method!  Let's breakdown the statement: \texttt{Vector r12 = r2 - r1;}\pause
+  \begin{enumerate}
+    \item{The compiler sees you've used the - operator on an object that has a \texttt{operator -} method and interprets this as if you had written the, also valid, statement:
+    \begin{lstlisting}
+  r2.operator -(r1);
+    \end{lstlisting}}
+    \pause
+    \item{Now it's more obvious: \texttt{r2}'s \texttt{operator -} method is invoked with \texttt{r1} as a paramter.}
+    \pause
+    \item{Finally the returned \texttt{Vector2} is copied into our \texttt{r12}.}
+  \end{enumerate}
+
+\end{frame}
 
 \end{document}

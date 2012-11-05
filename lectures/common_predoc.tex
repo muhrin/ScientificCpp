@@ -76,16 +76,16 @@
 \newenvironment{dontblocke}[0]{% begin
   \begin{varblock}{\textbf{Don't}}%
   {bg=dontblockbg,fg=dontblocktext}{bg=dontblocktext,fg=white}
+  \setbeamercolor{itemize item}{fg=dontblocktext}
   \lstset{backgroundcolor=}% The background should be the same as that of the block
   }%
   {\end{varblock}} %end
 
 \newcommand{\dontblock}[1]{%
- \begin{varblock}{\textbf{Don't}}{bg=dontblockbg,fg=dontblocktext}{bg=dontblockbg,fg=dontblocktext}
- #1
- \end{varblock} 
+ \begin{dontblocke}#1\end{dontblocke} 
 }
 
+% Defi block %%%%%%%%%%%%%%%%%%%%
 \definecolor{defiblocktext}{HTML}{3A87AD}
 \definecolor{defiblockbg}{HTML}{D9EDF7}
 \newenvironment{defiblocke}[1]{% begin
@@ -101,6 +101,12 @@
   \begin{tabularx}{\linewidth}{lX}\textit{#1} & #2\end{tabularx}
  \end{varblock} 
 }
+
+\newenvironment{defiblockbaree}[1]{ %begin
+  \begin{varblock}{\textbf{#1}}%
+  {bg=defiblockbg,fg=defiblocktext}{bg=defiblocktext,fg=white}
+  \lstset{backgroundcolor=}} %begin
+  {\end{varblock}} %end
 
 \definecolor{warnblocktext}{HTML}{C09853}
 \definecolor{warnblockbg}{HTML}{FCF8E3}
