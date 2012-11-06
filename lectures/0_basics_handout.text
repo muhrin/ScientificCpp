@@ -1,0 +1,8 @@
+\documentclass[a4paper]{article}
+\usepackage{pdfpages}
+
+\begin{document}
+\includepdf[pages=1-last,nup=2x2,landscape=false,frame=false,
+            %noautoscale=true
+            ]{0_basics.pdf}
+\end{document}

@@ -6,3 +6,7 @@ add_executable(electrostatic_force
 add_executable(binary_string
   binary_string.cpp
 )
+
+add_executable(data_analysis
+  data_analysis.cpp
+)

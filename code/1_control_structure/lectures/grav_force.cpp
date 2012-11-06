@@ -1,15 +1,13 @@
 #include <iostream>
 
-//TODO: Finish this
-
 double force(const double mass1, const double mass2, const double r)
 {
-  const double G = 4.302e-3;
+  const double G = 0.001720298;
   return G * mass1 * mass2 / (r * r);
 }
 
-int main()
-{
+int main() {
+  // Astronomical units
   const double massSun = 1.0, massEarth = 3.003e-6, massMars = 0.323e-6;
 
   const double rSunEarth = 1.0, rSunMars = 1.523;

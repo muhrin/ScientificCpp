@@ -15,6 +15,11 @@ add_executable(pi
   pi.cpp
 )
 
+add_executable(pong
+  pong.h
+  pong.cpp
+)
+
 ## Copy over files needed by solutions
 file(COPY
   fractal_forest.plt

@@ -3,7 +3,7 @@
 % Input all common stuff
 \input{common_predoc}
 
-\subtitle{Session 2: Control structure}
+\subtitle{Session 1: Control structure}
 
 \begin{document}
 
@@ -73,6 +73,7 @@ else
 \begin{frame}[fragile]
   \frametitle{Loops}
   The purpose of a loop is to execute a set of statements until a condition is fulfilled.
+  \pause
   \begin{block}{while loop}
     \begin{lstlisting}
 while(expression) statement
@@ -124,7 +125,7 @@ do statement while(expression);
     \pause[6]
     Here's our blastoff example with a for loop:
     \begin{lstlisting}[belowskip=0pt]
-  for(int t = 0; t != 0; --t)
+  for(int t = 10; t != 0; --t)
   {
     std::cout << t << ", ";
   }
@@ -271,7 +272,6 @@ void setMicrowaveDoor(const bool newState) { /*as before*/ }
 
 \begin{frame}[fragile]
   \frametitle{Declaring functions}
-  TODO: Fix definition environment
   \begin{defiblocke}{function prototype}%
 The header of a function without any of the body used in function declarations, e.g.:
     \begin{lstlisting}
