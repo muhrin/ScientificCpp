@@ -3,11 +3,11 @@
 int main()
 {
   unsigned int width, height;
-  std::cout << "Please enter a width and height";
+  std::cout << "Please enter a width and height: ";
   std::cin >> width >> height;
   std::cout << "Area is: " << width * height << "\n";
 
-  const double ratio = height / width;
+  const double ratio = (double)height / (double)width;
   std::cout << "Ratio is: 1:" << ratio
             << " (width:height)" << "\n";
 

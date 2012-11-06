@@ -19,11 +19,12 @@
 \begin{frame}[fragile]
 	\frametitle{if, else}
 	So far our programs have been linear: one start, one end, one path in between.  Let's branch out:
+	\pause
 	\begin{lstlisting}
 if(speed == 88)
   std::cout << "Great Scott!";
 	\end{lstlisting}
-	the statment after the \texttt{if} condition will only be executed if the condition is true.\pause  To execute more than one statement specify a block using \texttt{\{ \}}:
+	the statement after the \texttt{if} condition will only be executed if the condition is true.\pause  To execute more than one statement specify a block using \texttt{\{ \}}:
 	\begin{lstlisting}
 if(power >= 1.21)
 {
@@ -372,7 +373,7 @@ double add(double n1, double n2);
 
 \end{frame}
 
-\subtitle{Inbuild math functions}
+\subtitle{Inbuilt math functions}
 
 \begin{frame}[fragile]
   \frametitle{Math functions}
@@ -388,7 +389,7 @@ double add(double n1, double n2);
 		  \texttt{pow(\kw{double} base, \kw{double} exp)} & raise \texttt{based} to power \texttt{exp} 
 	  \end{tabularx}
   \newline
-  See \footnote{\href{http://www.cplusplus.com/reference/clibrary/cmath/}{\url{http://www.cplusplus.com/reference/clibrary/cmath/}}} for a full list.
+  See \footnote{\url{http://www.cplusplus.com/reference/clibrary/cmath/}} for a full list.
   \newline
 	\pause
   To use the math functions include the cmath header by writing:

@@ -31,12 +31,13 @@ void printVector(
 }
 
 void branch(
-  const double x0,
-  const double y0,
-  const double len,
-  const double angle,
-  const double maxDepth,
-  const unsigned int depth = 0)
+  const double x0,              // Starting x
+  const double y0,              // Starting y
+  const double len,             // The length of this branch
+  const double angle,           // The angle of this branch
+  const double maxDepth,        // The maximum depth of the tree
+  const unsigned int depth = 0  // The current depth
+  )
 {
 
   unsigned int color = 0; // branch color
@@ -57,10 +58,10 @@ void branch(
 
   printVector(x0, y0, x1, y1, color); // draw branch
  
-  if(depth < maxDepth) // check that the tree isn't too long
+  if(depth <= maxDepth) // check that the tree isn't too long
   {
     const double childlength = CHILD_LEN_FRAC * len; //len * getRandom(0.0, 10.0);
-    const double childangle = /*CHILD_ANGLE_FRAC * PI; */ getRandom(0.0, CHILD_ANGLE_FRAC);
+    const double childangle = getRandom(0.0, CHILD_ANGLE_FRAC);
 
     // Branch right
     branch(x1, y1, childlength, angle - childangle, maxDepth, depth + 1); 

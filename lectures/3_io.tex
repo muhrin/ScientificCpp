@@ -3,7 +3,8 @@
 % Input all common stuff
 \input{common_predoc}
 
-\subtitle{Session 4: Input/Output}
+\subtitle{Session 4: Input, output and text manipulation}
+
 
 \begin{document}
 
@@ -14,26 +15,273 @@
 \tableofcontents
 \end{frame}
 
+\section{Output}
 
-\section{Input and output}
+\begin{frame}[fragile]
+  \frametitle{Writing to a file}
+  
+  Let's say we wanted to gift someone with an ASCII caterpillar, here's how:
+  \pause
+  \lstinputlisting[language=C++,%
+  	aboveskip=0pt,belowskip=0pt,
+  	title=\lstsrctitle]%
+  	{../code/3_io/lectures/simple_output.cpp}
 
-\subsection{Input}
+  Doesn't look like much does it?  That's because I've had to use escape characters to print some of the symbols:
+  	\texttt{\textbackslash} is \texttt{\textbackslash\textbackslash} and
+  	\texttt{"}  is \texttt{\textbackslash"} \footnote{For full list see \url{http://en.cppreference.com/w/cpp/language/escape}}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Introduction to  \texttt{ofstream}}
+  
+  All of the action happens with the \texttt{ofstream} object.  Let's have a closer look.
+  \pause
+  \begin{block}{Constructing \texttt{ofstream}}
+    \begin{lstlisting}[aboveskip=0pt]
+  ofstream();
+  ofstream(const char * filename, ios_base::openmode mode = ios_base::out);
+    \end{lstlisting}
+  Two ways to construct an ofstream.  Second is equivalent to:
+    \begin{lstlisting}
+  std::ofstream myFile;
+  myFile.open(filename, std::ios_base::out);
+    \end{lstlisting}
+    The \texttt{openmode} tells \texttt{ofstream} how you want to open the file\footnote{See \url{http://en.cppreference.com/w/cpp/io/ios_base/openmode} for a full list.}.
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Introduction to \texttt{ofstream}}
+  \begin{block}{Opening a file stream}
+  	\begin{lstlisting}[aboveskip=0pt]
+  void open(const char * filename, ios_base::openmode mode = ios_base::out);
+  	\end{lstlisting}
+		Does what it says on the tin: opens a file called \texttt{filename} with mode \texttt{mode}.
+  
+  \end{block}
+  \pause
+  \begin{block}{Writing to a file: the insertion operator}
+  \begin{lstlisting}[aboveskip=0pt]
+  ostream & operator <<(/*..stuff..*);
+  \end{lstlisting}
+  Use this to operator to insert text, numbers, strings and other things\footnote{See \url{http://en.cppreference.com/w/cpp/io/basic_ostream/operator_ltlt} for full list.} into a file.
+  \end{block}
+  
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Introduction to \texttt{ofstream}}
+  
+  \begin{block}{Closing a file}
+  \begin{lstlisting}[aboveskip=0pt]
+  void close();
+  \end{lstlisting}
+  Tells the operating system to close the file because we no longer need it.
+  \end{block}
+  \pause
+  \begin{doblocke}
+    \begin{itemize}
+      \item{Close files as soon as you're done with them!  If you open a file in a class, make sure the destructor closes it.}
+      \pause
+      \item{Check if the file is open before trying to close it:
+      \begin{lstlisting}
+  if(myFile.is_open())
+    myFile.close();
+      \end{lstlisting}
+      Calling close on a file that is not open is an error.}
+    \end{itemize}
+  \end{doblocke}
+  
+\end{frame}
+
+\section{Input}
+
+\begin{frame}[fragile]
+	\frametitle{Reading from a file}
+	
+	Reading from a text file is relatively easy.  Let's dive in:
+	\begin{columns}[t]
+	  \begin{column}[T]{0.5\textwidth}
+  		\lstinputlisting[language=C++,%
+    		basicstyle=\ttfamily\fontsize{7}{8}\selectfont{},%
+    		title=\lstsrctitle,%
+    		aboveskip=0pt,belowskip=0pt]%
+    		{../code/3_io/lectures/simple_input.cpp}
+		\end{column}
+		\pause
+		\begin{column}[T]{0.5\textwidth}
+		  Output:
+			\begin{verbatim}Here, have a caterpillar:
+						
+   \
+    '-.__.-'
+    /oo |--.--,--,--.
+    \_.-'._i__i__i_.'
+          """""""""
+		\end{verbatim}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Introduction to \texttt{ifstream}}
+  
+  The \texttt{ifstream} (input file stream) class is where most of the magic happened.  Let's take a closer look:
+  \pause
+  \begin{block}{Constructing ifstream}
+  	\begin{lstlisting}[aboveskip=0pt]
+  ifstream();
+  ifstream(const char * filename, ios_base::openmode mode = ios_base::in);
+		\end{lstlisting}
+		To create one we give it a file name.  Second argument tells \texttt{ifstream} how to open the file.
+  		\lstinputlisting[language=C++,%
+    		belowskip=0pt, linerange={8-8}]%
+    		{../code/3_io/lectures/simple_input.cpp}
+  \end{block}
+  \pause
+  \begin{block}{Checking if the file is ready to be read from}
+  	\begin{lstlisting}[aboveskip=0pt]
+  bool good() const;
+  	\end{lstlisting}
+  	If there has been an error or the end of file has been reached, this will be false, otherwise true.
+  	\begin{lstlisting}[belowskip=0pt]
+  while(myFile.good())
+  	\end{lstlisting}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Introduction to \texttt{ifstream}}
+
+
+	\begin{block}{Reading a line from the file}
+  	\begin{lstlisting}[aboveskip=0pt]
+ifstream & getline(istream & is, string & str, char delim);
+ifstream & getline(istream & is, string & str);
+  	\end{lstlisting}
+  	This function reads characters from an input stream (\texttt{is}) until a delimiter (\texttt{delim}) is found.  The result is placed in the string \texttt{str}.  If you call it again it will continue from where it left off.
+  	\newline\pause
+  	The overloaded version with no third parameters assumes the delimiter to be \texttt{\textbackslash{}n} (i.e. the new line character).
+  	\newline\pause
+  	This is \textit{not} part of \texttt{ifstream}, it's actually in \texttt{<string>}.
+  	\begin{lstlisting}[belowskip=0pt]
+  std::getline(myFile, line);
+  	\end{lstlisting}
+  \end{block}
+  
+  These are just some of the many things \texttt{ifstream} can do, see \footnote{\url{http://www.cplusplus.com/reference/iostream/ifstream/}} for a complete look at the class.
+
+\end{frame}
 
 \begin{frame}[fragile]
 	\frametitle{Input}
+	\framesubtitle{Reading from a file}
 	
-	
+	Let's have another look:
+	\begin{columns}[t]
+	  \begin{column}[T]{0.5\textwidth}
+  		\lstinputlisting[language=C++,%
+    		basicstyle=\ttfamily\fontsize{7}{8}\selectfont{},%
+    		aboveskip=0pt,belowskip=0pt]%
+    		{../code/3_io/lectures/simple_input.cpp}
+		\end{column}
+		\begin{column}[T]{0.5\textwidth}
+		  Output:
+			\begin{verbatim}Here, have a caterpillar:
+						
+   \
+    '-.__.-'
+    /oo |--.--,--,--.
+    \_.-'._i__i__i_.'
+          """""""""
+		\end{verbatim}
+		\end{column}
+	\end{columns}
 \end{frame}
-
-\subsection{Output}
 
 \section{Strings revisited}
 
 \begin{frame}[fragile]
   \frametitle{Strings revisited}
-  \framesubtitle{How long is a piece of string? myString.size()}
+  \framesubtitle{How long is a piece of string? myString.length()}
   
-  \texttt{string}s that we saw earlier are actually classes.
+  \texttt{string}s that we saw earlier are actually classes.  There are many useful things we can do with strings.  Here are a couple:
+  \pause  
+  \begin{block}{Get the length}
+    \begin{lstlisting}[aboveskip=0pt]
+  size_t size();
+  size_t length();
+    \end{lstlisting}
+    Get the number of characters in a string.  \texttt{size\_t} is a special type that roughly corresponds to an unsigned integer.
+  \end{block}
+  \pause
+  \begin{block}{Find content in the string}
+    \begin{lstlisting}[aboveskip=0pt]
+  size_t find(const string & str, size_t pos = 0) const;
+    \end{lstlisting}
+    Search for \texttt{str} within the current string, optionally starting after position \texttt{pos}, returning the position of the first occurence in the string.  If \texttt{str} is not found \texttt{string::npos} is returned.
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Splitting up a strings}
+  \framesubtitle{Step 1}
+  
+  Say we have a string made up of a series of numbers:
+	\lstinputlisting[language=C++,%
+  	linerange={7-7}]%
+  	{../code/3_io/lectures/parse_numbers.cpp}
+
+  How do we get the numbers out so we can deal with them as \kw{double}s and, say, calculate their sum?\newline\pause
+  By using the ever handy \texttt{stringstream} class:
+
+  \begin{block}{Step 1: Split the string up using space as a delimiter}
+		\lstinputlisting[language=C++,%
+  		aboveskip=0pt,belowskip=0pt,
+  		linerange={7-13}]%
+  		{../code/3_io/lectures/parse_numbers.cpp}
+	\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Splitting up a strings}
+  \framesubtitle{Step 2}
+  
+  \begin{block}{Step 2: Convert each number string to a double}
+		\lstinputlisting[language=C++,%
+  		aboveskip=0pt,belowskip=0pt,
+  		linerange={13-19}]%
+  		{../code/3_io/lectures/parse_numbers.cpp}
+    Here we're using the extraction operator (\texttt{>>}) to extrat a \kw{double} type from the string.\pause{} \newline
+    We can check if it failed by using the not operator (\texttt{!}).  Rememeber because this is a class operator we could write:
+    \begin{lstlisting}
+  numStream.operator >>(num);
+    \end{lstlisting}
+	\end{block}
+	To use the \texttt{stringstream} class make just include the \texttt{<sstream>} header.
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Splitting up a string}
+  \framesubtitle{The whole shebang}
+  \begin{columns}
+    \begin{column}[T]{0.75\linewidth}
+			\lstinputlisting[language=C++,%
+			  aboveskip=0pt,belowskip=0pt,%
+				basicstyle=\ttfamily\fontsize{8}{9}\selectfont{},%
+  			title=\lstsrctitle]%
+  			{../code/3_io/lectures/parse_numbers.cpp}
+  	\end{column}
+  	\begin{column}[T]{0.25\linewidth}
+  	  \cout{Sum is: 18.5}
+  	\end{column}
+  \end{columns}  
 
 \end{frame}
 

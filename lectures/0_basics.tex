@@ -3,7 +3,9 @@
 % Input all common stuff
 \input{common_predoc}
 
-\subtitle{Session 1: Basics}
+\subtitle{Session 0: Basics}
+
+\usepackage{graphicx}
 
 \begin{document}
 
@@ -16,9 +18,20 @@
 
 \section{Introduction to language}
 
-\frame {
-	\frametitle{Introduction to language}
-}
+\begin{frame}
+	\frametitle{Introduction to C++}
+	\framesubtitle{A little history}
+	\begin{itemize}
+	  \item<1->{Created in 1979 as an extension of C by this guy:\pause
+		\begin{figure}
+			\includegraphics[height=30mm]{./figs/BjarneStroustrup.eps}
+			\caption{Bjarne Stroustrup, creator of C++.}
+		\end{figure}}
+	  \item<3->{Build to be fast \textit{and} scalable and so has a mix of high and low-level constructs.}
+	  \item<4->{Improved steadily over the years, last set of improvements ratified in Sep. 2011 (known as C++11).}
+	\end{itemize}
+	
+\end{frame}
 
 
 \section{Program structure}
@@ -108,7 +121,7 @@ int Main()
 /* This is a C-style comment.
    It ends when the closing star-slash is reached. */
   \end{lstlisting}
-    Use comments liberally - they are enourmously useful!
+    Use comments liberally - they are enormously useful!
     \doblock{Avoid stating the obvious.  A good comment will not say \textit{what} is happening but rather \textit{why}.}
 \end{frame}
 
@@ -136,12 +149,14 @@ Format: \texttt{\textcolor{bluekeywords}{variable\_type} variable\_name;}
   \frametitle{Naming variables}
   
   A variable name is an example of an identifier.
-  \defiblock{identifier}{An identifier is a sequence of characters used to denote the name of a variable, function\footnote{We'll see what these are shortly.}, class\footnotemark[\value{footnote}] or any entity you need to refer to in your code.}
+  \defiblock{identifier}{an identifier is a sequence of characters used to denote the name of a variable, function\footnote{We'll see what these are shortly.}, class\footnotemark[\value{footnote}] or any entity you need to refer to in your code.}
+  \pause
   Identifiers can be any sequence of letters, digits, or underscore characters but they must \emph{not}:
 	\begin{itemize}
   	\item start with a digit,
-	  \item be one of the reserved keywords\footnote{\href{http://en.cppreference.com/w/cpp/keyword}{\url{http://en.cppreference.com/w/cpp/keyword}}}.
+	  \item be one of the reserved keywords\footnote{See \url{http://en.cppreference.com/w/cpp/keyword} for full list.}.
 	\end{itemize}
+	\pause
 	\defiblock{keyword}{a word that has a special meaning in the C++ language.}
 \end{frame}
 
@@ -151,13 +166,12 @@ Format: \texttt{\textcolor{bluekeywords}{variable\_type} variable\_name;}
   \begin{doblocke}
     \begin{doitemize}
       \item{
-			Give variables meaningful names, even if this means more typing!
-			
-			There's nothing wose than a piece of code like this
-			\begin{lstlisting}
-	  TODO: THINK OF SOMETHING
-			\end{lstlisting}
+			Give variables meaningful names, even if this means more typing!\newline
+			Bad: \texttt{data, dRange, a, ccn, value, one}\newline
+			Good: \texttt{daysOfWeek, sumSq, isEnabled, unitCell}\newline
+			Would the variable name make sense in that context when looking at the code a year later?
 			}
+			\pause
 		  \item{Use variable names, much like comment, to convey intent, e.g.:
 		  \begin{lstlisting}
 		  double rootMeanSquare; // .. go on to calculate rms
@@ -216,7 +230,29 @@ Spot the difference:
   \frametitle{Scope}
   \framesubtitle{Scope this out}
   
-  TODO: Talk about variable scope
+  \begin{columns}[t]
+    \begin{column}[T]{0.52\textwidth}
+  		\defiblock{scope}{the region of a program that a variable can be used in.  This determines the ``lifetime'' of a variable.}
+  		The scope of a variable is defined by the block, formed by braces \texttt{\{\}}, within which it is declared.
+    \end{column}
+    \pause
+    \begin{column}[T]{0.42\textwidth}    
+			\vspace*{-0.3cm} % I give up, aligning this properly is an arse!
+			\begin{figure}[!ht]
+			  \setlength{\textfloatsep}{0pt}
+			  \setlength{\floatsep}{0pt}
+				\setlength{\abovecaptionskip}{0pt}
+			  \setlength{\belowcaptionskip}{0pt}
+				\includegraphics[height=40mm]{./figs/variable_scope.eps}
+				\caption{Variable scope\footnotemark.}
+			\end{figure}
+	  \end{column}
+	\end{columns}
+	\footnotetext{Source: \url{http://www.cplusplus.com/doc/tutorial/variables/}.}
+	\pause
+  \dontblock{Declare variables in global scope.  Limit the scope as much as possible to reduce chance of side-effects.  Global constants, however, are fine.}
+	
+
 \end{frame}
 
 \section{Operators}
@@ -238,7 +274,7 @@ Spot the difference:
  \end{block}
  \pause
  \begin{block}{Compound assignment: \texttt{+=, -=, *=, /=, \%=}}
-  Perform the operation on the current value of the variable and then set it the new value, e.g.:
+  Perform the operation on the current value of the variable and then set it to the new value, e.g.:
   \begin{lstlisting}
   a += 5; a *= b;
   \end{lstlisting}
@@ -249,7 +285,34 @@ Spot the difference:
 \begin{frame}[fragile]
   \frametitle{Integer arithmetic}
   
-  TODO: Give warning that integer will round down!
+  \begin{warnblocke}
+  	In C++ integer arithmetic truncates (effectively rounds down):
+  	\begin{lstlisting}
+  int dividend = 20, divisor = 7;
+  int someInteger = dividend / divisor; // = 2
+  	\end{lstlisting}
+  	Storing the result in a double doesn't help as the arithmetic has already been done:
+  	\begin{lstlisting}
+  double someDouble = dividend / divisor; // = 2
+  	\end{lstlisting}
+  	What gives?\pause{}  Well you have two options:
+  	\begin{enumerate}
+  	  \item{
+  	  	\begin{lstlisting}
+someDouble =
+  (double)dividend / (double)divisor; // = 2.85714
+  	  	\end{lstlisting}}
+  	  \pause
+  	  \item{
+				\begin{lstlisting}
+#include <cmath>
+/*..some code..*/  
+someInteger = (int)std::floor(
+  (double)dividend / (double)divisor + 0.5); // = 3
+				\end{lstlisting}
+  	  }
+  	\end{enumerate}
+  \end{warnblocke}
 
 \end{frame}
 
@@ -323,7 +386,7 @@ Spot the difference:
   \begin{lstlisting}
     result = (i < 10) && (++i < n);
   \end{lstlisting}
-  is a valid expression, decyphering what it does is a lot of work.  Instead use:%
+  is a valid expression, deciphering what it does is a lot of work.  Instead use:%
   \begin{lstlisting}
     result = i < 10;
     ++i;
@@ -426,7 +489,7 @@ Spot the difference:
 \end{frame}
 
 
-\section{Basic input/output}
+\section{Basic input and output}
 
 \begin{frame}[fragile]
   \frametitle{Standard output (\texttt{cout})}
@@ -445,7 +508,7 @@ cout << "t0: " << t0 << ", t1: " << t1
      << ", delta: " << t1 - t0;
   \end{lstlisting}
 	\cout{t0: 1.5, t1: 2.5, delta: 1}
-	\pause
+	\newline\pause
   If you want a new line you have to use \texttt{\char`\\ n}:
   \begin{lstlisting}
 double t0 = 1.5, t1 = 2.5;
@@ -458,7 +521,7 @@ cout << "t0: " << t0 << "\nt1: " << t1 << "\n";
 \begin{frame}[fragile]
   \frametitle{Standard input (\texttt{cin})}
   \framesubtitle{Extracting information out of the user}
-  To get input from the user, use the extraction operator (\texttt{>>}) of the \texttt{cin} (pronounced \textit{see-in}) object e.g.:
+  To get input from the user, use the extraction operator (\texttt{>>}) of the \texttt{cin} object (pronounced \textit{see-in}) e.g.:
   \begin{lstlisting}
   double radius;
   std::cin >> radius;
@@ -475,7 +538,7 @@ cout << "t0: " << t0 << "\nt1: " << t1 << "\n";
 \begin{frame}[fragile]
   \frametitle{Complete example}
   \framesubtitle{Putting it all together}
-  \lstinputlisting[language=C++,title=\lstsrctitle]{../code/0_basics/lectures/complete_example.cpp}
+  \lstinputlisting[language=C++,title=\lstsrctitle]{../code/0_basics/lectures/rect_info.cpp}
 \end{frame}
 
 

@@ -1,8 +1,8 @@
 
 
 
-add_executable(complete_example
-  complete_example.cpp
+add_executable(rect_info
+  rect_info.cpp
 )
 
 add_executable(force_calc

@@ -1,5 +1,7 @@
 #include <iostream>
 
+//TODO: Finish this
+
 double force(const double mass1, const double mass2, const double r)
 {
   const double G = 4.302e-3;
