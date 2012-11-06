@@ -18,5 +18,6 @@ add_executable(pi
 ## Copy over files needed by solutions
 file(COPY
   fractal_forest.plt
+  pi.plt
   DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/
 )
