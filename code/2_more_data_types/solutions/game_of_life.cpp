@@ -1,5 +1,6 @@
 #include <iostream>
 #include <time.h>
+#include <cstdlib>
 
 #ifdef WIN32
 #  include <windows.h>
@@ -15,7 +16,8 @@ const unsigned int WORLD_HEIGHT = 22;
 const unsigned int DEAD = 0;
 const unsigned int ALIVE = 1;
 const unsigned int NUM_STATES = 2;
-const wchar_t STATE_CHARS[NUM_STATES] = {' ',L'\x2588',};
+//const wchar_t STATE_CHARS[NUM_STATES] = {' ',L'\x2588'};
+const wchar_t STATE_CHARS[NUM_STATES] = {' ',0x2593};
 
 // NOTICE: I'm breaking my own rules here and
 // using a global vaiable!  Bad practice but the exercise
@@ -23,7 +25,7 @@ const wchar_t STATE_CHARS[NUM_STATES] = {' ',L'\x2588',};
 // avoid this.
 unsigned int world[WORLD_WIDTH][WORLD_HEIGHT];
 
-void sleep(const unsigned int mseconds);
+void getSomeSleep(const unsigned int mseconds);
 void clearScreen();
 
 void drawWorld()
@@ -217,7 +219,7 @@ int main()
   while(running)
   {
     drawWorld();
-    sleep(500);
+    getSomeSleep(500);
     applyRules();
   }
 
@@ -253,12 +255,12 @@ void clearScreen()
     setupterm( NULL, STDOUT_FILENO, &result );
     if (result <= 0) return;
   }
-  putp(tigetstr( "clear" ));
+  putp(tigetstr("clear"));
 #endif
 }
  
  
-void sleep(const unsigned int mseconds)
+void getSomeSleep(const unsigned int mseconds)
 {
   const clock_t goal = mseconds + clock();
   while (goal > clock());

@@ -11,7 +11,7 @@ const char BALL[] = "O";
 const int PADDLE_SIZE = 9;
 const int PADDLE_HALF_SIZE = PADDLE_SIZE / 2;
 const char PADDLE[PADDLE_SIZE] = "88888888";
-const double BALL_VEL = 0.4;
+const double BALL_VEL = 0.05;
 
 
 int main()

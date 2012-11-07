@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <cstdlib>
 
 double getRandom(const double x0, const double x1)
 {
@@ -20,7 +21,7 @@ int main()
   double x, y, len;
   do
   {
-    std::cout << "How many points do you want? ";
+    std::cout << "#How many points do you want? ";
     std::cin >> numPoints;
 
     for(unsigned int i = 0; i < numPoints; ++i)
@@ -36,5 +37,5 @@ int main()
   } while(numPoints != 0);
 
   const double pi = 4.0 * pointsInCircle / totalPoints;
-  std::cout << "Pi is: " << pi << "\n";
+  std::cout << "\n#Pi is: " << pi << "\n";
 }

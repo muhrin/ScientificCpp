@@ -63,7 +63,7 @@ bool isPlayerAWinner(
     }
 
     if(!numberMatches)
-      return false
+      return false;
   }
   // We have a winner!
   return true;

@@ -20,6 +20,10 @@ add_executable(pong
   pong.cpp
 )
 
+target_link_libraries(pong
+  ncurses
+)
+
 ## Copy over files needed by solutions
 file(COPY
   fractal_forest.plt
