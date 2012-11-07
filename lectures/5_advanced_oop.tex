@@ -1,0 +1,216 @@
+\documentclass{beamer}
+%\documentclass[handout]{beamer}
+
+% Input all common stuff
+\input{common_predoc}
+
+\subtitle{Session 5: Advanced object oriented programming}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+
+\section{Friendship}
+
+\subsection{Friend functions}
+
+\begin{frame}[fragile]
+  \frametitle{Friend functions}
+  \framesubtitle{I only give friends access to my privates}
+  
+  We've seen that only a class can access its \kw{private} members.  Sometimes we may want to make an exception for a particular external function.  We do this with the \kw{friend} keyword followed by the function prototype e.g.:
+  \pause
+  \lstinputlisting[language=C++,%
+    basicstyle=\ttfamily\fontsize{8}{9}\selectfont,%
+    title=\lstsrctitle,belowskip=0pt,
+    linerange={3-12,25-28}]%
+    {../code/5_advanced_oop/lectures/friend_function.cpp}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Friend functions}
+  \framesubtitle{Not for every day}
+  
+  \warnblock{The use of \kw{friend}s undermines encapsulation, after all you're giving away access to parts of your class that were designed to be kept internal.  Often this is a sign of bad design.
+  \newline\pause
+  Sometimes friendship can be used effectively to keep dependent code seaprated if there is a good design reason.  For example the code to draw a rectangle may be very complicated and may fit more naturally in the graphics handling portion of the codebase.
+  }
+
+\end{frame}
+
+\subsection{Friend classes}
+
+\begin{frame}[fragile]
+  \frametitle{Friend classes}
+  \framesubtitle{Not a taxonomy of friends}
+  
+  We can grant \kw{friend} status to an entire class:
+  \begin{lstlisting}
+  class SolarSystem {
+  private:
+    Vector2 planetPositions[NUM_PLANETS];
+    Planet planets[NUM_PLANETS];
+    friend class Planet;
+  };
+  
+  class Planet {
+  public:
+    Vector2 getPosition()
+    { return mySystem.planetPositions[myIndex]; }
+  private:
+    unsigned int myIndex;
+    SolarSystem & mySystem;
+  };
+  \end{lstlisting}
+  \pause
+  Friend classes can be useful in highly coupled parts of code like this: a \texttt{Planet} cannot exist without a \texttt{SolarSystem};
+  
+
+\end{frame}
+
+\section{Inheritance}
+
+\begin{frame}
+  \frametitle{Class inheritance}
+  \framesubtitle{Keeping the poor in their place}
+
+	Consider the following class:
+  \lstinputlisting[language=C++,%
+    basicstyle=\ttfamily\fontsize{8}{9}\selectfont,%
+    linerange={4-19}]%
+    {../code/5_advanced_oop/lectures/inheritance.cpp}
+    \pause
+  What if we want to create a dog class.  It can do everything a \texttt{Mammal} can.  It would be a shame to have to copy everything over.  With inheritance we don't have to!
+\end{frame}
+
+\begin{frame}
+  \frametitle{Class inheritance}
+
+  We can make a \texttt{Dog} inherit from \texttt{Mammal} like so:
+  \lstinputlisting[language=C++,%
+  	title=\lstsrctitle,belowskip=0pt,%
+    linerange={54-65}]%
+    {../code/5_advanced_oop/lectures/inheritance.cpp}
+  \pause
+  Now \texttt{Dog} has inherited members from \texttt{Mammal} so we don't have to rewrite them.  \texttt{Dog} is said to be \textit{derived} from \texttt{Mammal}. Makes sense, right?
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Class inheritance}
+  \framesubtitle{Sit, boo-boo, sit.  Good dog.}
+  
+  This is what happens when we use the \texttt{Dog} class:
+  \begin{columns}[t]
+    \begin{column}[T]{0.5\linewidth}
+  		\lstinputlisting[language=C++,%
+  			title=\lstsrctitle,aboveskip=0pt,belowskip=0pt,%
+    		linerange={86-102}]%
+    		{../code/5_advanced_oop/lectures/inheritance.cpp}
+    \end{column}
+    \pause
+  	\begin{column}[T]{0.48\linewidth}
+  	  \cout{Fido is : 2 years old\newline
+				and weighs 10 kg.\newline\newline
+				Grrr, mammal noise!\newline
+				\char`\\{}/\char`\\{}/\char`\\{}/ <- That's my tail wagging!\newline
+				Fetching frisbee...Here you go.}
+  	\end{column}
+  \end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Passing arguments to base constructors}
+  
+  \texttt{Mammal} has only one constructor:
+  \lstinputlisting[language=C++,%
+  	linerange={6-6}]%
+  	{../code/5_advanced_oop/lectures/inheritance.cpp}
+  So we need to give an age and a weight to build a \texttt{Mammal}.  Because \texttt{Dog} inherits from \texttt{Mammal} it too must provide these.\pause{} Here's how:
+  \lstinputlisting[language=C++,%
+  	linerange={67-73}]%
+  	{../code/5_advanced_oop/lectures/inheritance.cpp}  
+	The \texttt{Dog} class calls the \texttt{Mammal} constructor in the initialiser list as part of its constructor to initialise the \texttt{Mammal} part of itself.
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Initialiser lists}
+  
+	\defiblock{initialiser list}{a list used to initialise base classes, class constants, references and (optionally) member variables as part of a class's constructor.}
+	
+	The format is:
+	\begin{lstlisting}
+  constructor_name(paramters...):
+    initialise_item1,
+    initialise_item2,
+	  ...
+	  { /* constructor body */ }
+	\end{lstlisting}
+	So we could also initialise a \texttt{Dog}'s breed in this list:
+	\begin{lstlisting}
+	Dog(const unsigned int age,
+	  const unsigned int weight,
+	  const std::string & breed)
+	  myBreed(breed) {}
+	\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Overriding functions}
+  
+  You may have noticed that when \texttt{fido} spoke he said ``\texttt{Grrr, mammal noise!}'', not really what a Dog says.  That's because I didn't provide a custom \texttt{speak} method.  Let's try again:\pause
+  \begin{columns}[t]
+    \begin{column}[T]{0.55\linewidth}
+  		\lstinputlisting[language=C++,%
+  			title=\lstsrctitle,aboveskip=0pt,
+  			linerange={54-55,62-63,67-67,86-94}]%
+  			{../code/5_advanced_oop/lectures/inheritance2.cpp}  
+  	\end{column}
+  	\begin{column}[T]{0.4\linewidth}
+  	  \cout{Woof!}
+  	\end{column}
+  \end{columns}
+  \pause
+  The new \texttt{speak} method is said to \textit{override} the one in \texttt{Mammal}.
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Derived class member access}
+  
+  Finally we get to see what the \kw{protected} access specifier is all about.  Access types can be summarised as follows:
+  \begin{table}[h]
+    \centering
+	  \begin{tabularx}{0.75\linewidth}{l|c|c|c}
+	    Access & \kw{public} & \kw{protected} & \kw{private} \\
+	    \hline
+	    members of same class & yes & yes & yes \\
+	    members of derived class & yes & yes & no \\
+	    non members & yes & no &  no
+	  \end{tabularx}
+  \end{table}
+  
+  \doblock{Use the most restrictive access possible.  Member variables should rarely be anything but \kw{private}, even derived classes should use getters/setters to access these.  It's find to make methods protected though.}
+ 
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{What \textit{exactly} is inherited?}
+  
+  Pretty much everything is inherited by the derived class, except:
+  \begin{itemize}
+    \item{Constructors and destructors}
+    \item{\texttt{operator =()} members}
+    \item{friends}
+  \end{itemize}
+
+\end{frame}
+
+\end{document}
