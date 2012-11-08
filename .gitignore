@@ -14,3 +14,4 @@ lectures/*.tps
 lectures/*.snm
 lectures/build
 lectures/*.pdf
+*~

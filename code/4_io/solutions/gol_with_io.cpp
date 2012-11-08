@@ -2,21 +2,26 @@
 #include <time.h>
 #include <cstdlib>
 
+#define USE_NCURSES
+
 #ifdef WIN32
 #  include <windows.h>
 #  include <io.h>    // for _setmode()
 #  include <fcntl.h> // for _O_U16TEXT
-#else
-#  include <unistd.h>
-#  include <term.h>
 #endif
 
-const unsigned int WORLD_WIDTH = 80;
+#ifdef USE_NCURSES && WIN32
+#  include <ncurses.h>
+#else
+#  include <curses.h>
+#endif
+
+const unsigned int WORLD_WIDTH = 60;
 const unsigned int WORLD_HEIGHT = 22;
 const unsigned int NUM_STATES = 2;
 const unsigned int DEAD = 0;
 const unsigned int ALIVE = 1;
-const wchar_t STATE_CHARS[NUM_STATES] = {' ',0x2588};
+const char STATE_CHARS[NUM_STATES] = {' ','O'};
 
 // NOTICE: I'm breaking my own rules here and
 // using a global vaiable!  Bad practice but the exercise
@@ -24,8 +29,10 @@ const wchar_t STATE_CHARS[NUM_STATES] = {' ',0x2588};
 // avoid this.
 unsigned int world[WORLD_WIDTH][WORLD_HEIGHT];
 
-void getSomeSleep(const unsigned int mseconds);
+void getSomeSleep(const double mseconds);
 void clearScreen();
+void init();
+void cleanUp();
 
 void drawWorld()
 {
@@ -34,9 +41,20 @@ void drawWorld()
   for(unsigned int y = 0; y < WORLD_HEIGHT; ++y)
   {
     for(unsigned int x = 0; x < WORLD_WIDTH; ++x)
-    {  std::wcout << STATE_CHARS[world[x][y]]; }
-    std::wcout << std::endl;
+    {
+#ifdef WIN32
+      std::cout << STATE_CHARS[world[x][y]];
+#else
+      mvprintw(y, x, STATE_CHARS[world[x][y]]);
+#endif
+    }
+#ifdef WIN32
+    std::cout << std::endl;
+#endif
   }
+#ifndef WIN32
+  refresh();
+#endif
 }
 
 unsigned int getLeftState(
@@ -151,7 +169,7 @@ unsigned int getNumLivingNeighbours(
   return livingNeighbours;
 }
 
-void init()
+void initWorld()
 {
   // Seed the random number generator to make sure we have
   // a different one each time
@@ -217,17 +235,38 @@ void applyRules()
 
 int main()
 {
-  // Initialise our world!
   init();
+  // Initialise our world!
+  initWorld();
 
   bool running = true;
   while(running)
   {
     drawWorld();
-    getSomeSleep(500);
+    //getSomeSleep(30);
     applyRules();
   }
+  cleanUp();
+}
 
+void init()
+{
+#ifdef WIN32
+
+#else
+  // Start curses mode
+  initscr();
+
+  // Allow control-C
+  cbreak();
+#endif
+}
+
+void cleanUp()
+{
+  // End curses mode
+  endwin();
+  std::cout << "Thanks for playing!\n";
 }
 
 void clearScreen()
@@ -254,19 +293,14 @@ void clearScreen()
  // Put the cursor at its home coordinates
  SetConsoleCursorPosition(hConsoleOutput, topLeft);
 #else
-  if(!cur_term)
-  {
-    int result;
-    setupterm( NULL, STDOUT_FILENO, &result );
-    if (result <= 0) return;
-  }
-  putp(tigetstr("clear"));
+  clear();
 #endif
 }
  
  
-void getSomeSleep(const unsigned int mseconds)
+void getSomeSleep(const double mseconds)
 {
-  const clock_t goal = mseconds + clock();
+  const double tics = (double)CLOCKS_PER_SEC * mseconds / 1000.0;
+  const clock_t goal = (unsigned int)tics + clock();
   while (goal > clock());
 }

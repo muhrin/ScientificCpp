@@ -1,103 +1,36 @@
-#ifndef PONG_H
-#define PONG_H
 
-#include <iostream>
-#include <string>
-#include <sstream>
+#ifndef SNAKE_H
+#define SNAKE_H
 
-extern "C"
+#include "snake_game.h"
+
+class Snake
 {
-#  include <ncurses.h>
-#  include <unistd.h>  /* only for sleep() */
-}
+public:
 
-// CONSTANTS /////////////
-extern const int XMIN;
-extern const int XMAX;
-extern const int YMIN;
-extern const int YMAX;
-extern const char BALL[];
-extern const int PADDLE_SIZE;
-extern const int PADDLE_HALF_SIZE;
-extern const char PADDLE[];
-extern const double BALL_VEL;
+  virtual void tick(World & world, const double timestep, const int keypress);
 
-// HELPER FUNCTIONS //////
+  virtual void draw(const World & world);
 
-void init()
-{
-  // Start curses mode
-  initscr();
+private:
+  const unsigned int maxSegments = 10;
+  const unsigned int startingSegments = 3;
+  const char segmentChar = '*';
 
-  // Allow control-C
-  cbreak();
+  const Vector UP;
+  const Vector DOWN;
+  const Vector LEFT;
+  const Vector RIGHT;
 
-  // Don't echo while we do getch 
-  noecho();
-  
-  keypad(stdscr, TRUE);
-}
+  void move();
 
-int getKey()
-{
-  int ch = getch();
-  return ch;
-}
+  Vector myDirection;
+  float mySpeed;
+  unsigned int mySize;
+  Vector mySegments[MAX_SEGMENTS];
 
-void drawPaddle(const int xPos, const int yPos)
-{
-  const int x0 = xPos - PADDLE_HALF_SIZE;
-  mvprintw(yPos, x0, PADDLE);
-  refresh();
-}
+};
 
-void drawBall(const int xPos, const int yPos)
-{
-  mvprintw(yPos, xPos, BALL);
-  refresh();
-}
 
-void drawScore(
-  const unsigned int topPlayerScore,
-  const unsigned int bottomPlayerScore)
-{
-  std::stringstream ss;
-  ss << "Score: ";
-  ss << topPlayerScore << " - " << bottomPlayerScore;
-  std::string scoreString = ss.str();
-
-  // Print the score
-  mvprintw(YMAX + 1, XMAX / 2 - scoreString.length() / 2, scoreString.c_str());
-  refresh();
-}
-
-void preFrame()
-{
-  timeout(10);
-}
-
-void postFrame()
-{
-  // Clear the screen
-  clear();
-}
-
-void cleanUp()
-{
-  // End curses mode
-  endwin();
-  std::cout << "Thanks for playing!\n";
-}
-
-void reset(int & topPaddleX, int & bottomPaddleX, double & ballX, double & ballY)
-{
-  mvprintw(YMAX/2,XMAX/2,"RESETTING");
-  topPaddleX = XMAX / 2;
-  bottomPaddleX = XMAX / 2;
-
-  ballX = XMAX / 2;
-  ballY = YMAX / 2;
-  sleep(2);
-}
 
 #endif
