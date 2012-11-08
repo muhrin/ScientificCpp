@@ -1,6 +1,9 @@
 #include <iostream>
+#include <time.h>
 
 const double FLOOR_Y = 0;
+
+void getSomeSleep(const unsigned int);
 
 class Ball
 {
@@ -53,7 +56,7 @@ int main()
   while(true)
   {
     double xVel, squishiness;
-    std::cout << "#Enter initial x velocity and squishiness";
+    std::cout << "#Enter initial x velocity and squishiness: ";
     std::cin >> xVel >> squishiness;
 
     if(squishiness == 0.0)
@@ -68,7 +71,15 @@ int main()
       myBall.printPosition();
       myBall.advancePosition(timestep);
       time += timestep;
+      getSomeSleep(300);
     }
   }
   return 0;
+}
+
+// Some code to make sure the game doesn't run too fast!
+void getSomeSleep(const unsigned int mseconds)
+{
+  const clock_t goal = mseconds + clock();
+  while (goal > clock());
 }
