@@ -1,20 +1,16 @@
 #include <iostream>
 #include <time.h>
 #include <cstdlib>
+#include <string>
+#include <fstream>
 
-#define USE_NCURSES
 
 #ifdef WIN32
 #  include <windows.h>
 #  include <io.h>    // for _setmode()
 #  include <fcntl.h> // for _O_U16TEXT
-#else
-#  ifdef USE_NCURSES
-#    include <ncurses.h>
-#  else
-#    include <curses.h>
-#  endif
 #endif
+
 
 const unsigned int WORLD_WIDTH = 80;
 const unsigned int WORLD_HEIGHT = 22;
@@ -26,6 +22,8 @@ const wchar_t STATE_CHARS[NUM_STATES] = {' ', 0x2588};
 #else
 const char STATE_CHARS[NUM_STATES] = {' ','O'};
 #endif
+const bool ALLOW_MUTATE = false;
+const unsigned int MAX_TICS = 10;
 
 // NOTICE: I'm breaking my own rules here and
 // using a global vaiable!  Bad practice but the exercise
@@ -52,18 +50,50 @@ void drawWorld()
     std::wcout << std::endl;
   }
 #else
-
   // Loop over the world and print the dead or alive character
   for(unsigned int y = 0; y < WORLD_HEIGHT; ++y)
   {
     for(unsigned int x = 0; x < WORLD_WIDTH; ++x)
+    {  std::cout << STATE_CHARS[world[x][y]]; }
+    std::cout << std::endl;
+  }
+#endif
+}
+
+void saveWorld(const std::string & filename)
+{
+  std::ofstream file(filename.c_str());
+  if(file.good())
+  {
+    for(unsigned int y = 0; y < WORLD_HEIGHT; ++y)
     {
-      mvprintw(y, x, STATE_CHARS[world[x][y]]);
+      for(unsigned int x = 0; x < WORLD_WIDTH; ++x)
+      {  file << STATE_CHARS[world[x][y]]; }
+      file << std::endl;
     }
   }
+  if(file.is_open())
+    file.close();
+}
 
-  refresh();
-#endif
+void loadWorld(const std::string & filename)
+{
+  std::ifstream file(filename.c_str());
+  if(file.is_open())
+  {
+    std::string line;
+    int y = 0;
+    while(file.good())
+    {
+      getline(file, line);
+      for(int x = 0; x < WORLD_WIDTH && x < line.length(); ++x)
+      {
+        world[x][y] = line[x];
+      }      
+      ++y;
+    }    
+    file.close();
+  }
 }
 
 unsigned int getLeftState(
@@ -180,21 +210,31 @@ unsigned int getNumLivingNeighbours(
 
 void initWorld()
 {
-  // Seed the random number generator to make sure we have
-  // a different one each time
-  srand((unsigned int)time(0));
+  // Let's make life a bit easier
+  using std::cout;
+  using std::cin;
+  using std::string;
+  
+  string filename;
+  cout << "Please enter a file to load world from: ";
+  cin >> filename;
 
-  for(unsigned int x = 0; x < WORLD_WIDTH; ++x)
+  if(filename != "rand")
   {
-    for(unsigned int y = 0; y < WORLD_HEIGHT; ++y)
-      world[x][y] = rand() % NUM_STATES;
+    loadWorld(filename);
   }
+  else
+  {
+    // Seed the random number generator to make sure we have
+    // a different one each time
+    srand((unsigned int)time(0));
 
-#ifdef WIN32
-  _setmode(_fileno(stdout), _O_U16TEXT);
-#else
-
-#endif
+    for(unsigned int x = 0; x < WORLD_WIDTH; ++x)
+    {
+      for(unsigned int y = 0; y < WORLD_HEIGHT; ++y)
+        world[x][y] = rand() % NUM_STATES;
+    }
+  }
 }
 
 void applyRules()
@@ -227,10 +267,13 @@ void applyRules()
       }
 
       // Mutate step, every so often randomly mutate a dead to alive
-      if(rand() % 1000 > 997)
+      if(ALLOW_MUTATE)
       {
-        if(tempWorld[x][y] == DEAD)
-          tempWorld[x][y] = ALIVE;
+        if(rand() % 1000 > 997)
+        {
+          if(tempWorld[x][y] == DEAD)
+            tempWorld[x][y] = ALIVE;
+        }
       }
     }
   }
@@ -248,35 +291,31 @@ int main()
   // Initialise our world!
   initWorld();
 
-  bool running = true;
-  while(running)
+  unsigned int tics = 0;
+
+  while(tics < MAX_TICS)
   {
     drawWorld();
-    //getSomeSleep(30);
+    getSomeSleep(100);
     applyRules();
+    ++tics;
   }
+  saveWorld("world.out");
   cleanUp();
 }
 
 void init()
 {
 #ifdef WIN32
-
+  _setmode(_fileno(stdout), _O_U16TEXT);
 #else
-  // Start curses mode
-  initscr();
 
-  // Allow control-C
-  cbreak();
 #endif
 }
 
 void cleanUp()
 {
-  // End curses mode
-#ifndef WIN32
-  endwin();
-#endif
+
   std::cout << "Thanks for playing!\n";
 }
 
@@ -304,7 +343,7 @@ void clearScreen()
  // Put the cursor at its home coordinates
  SetConsoleCursorPosition(hConsoleOutput, topLeft);
 #else
-  clear();
+  system("clear");
 #endif
 }
  
