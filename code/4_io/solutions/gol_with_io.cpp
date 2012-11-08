@@ -8,20 +8,24 @@
 #  include <windows.h>
 #  include <io.h>    // for _setmode()
 #  include <fcntl.h> // for _O_U16TEXT
-#endif
-
-#ifdef USE_NCURSES && WIN32
-#  include <ncurses.h>
 #else
-#  include <curses.h>
+#  ifdef USE_NCURSES
+#    include <ncurses.h>
+#  else
+#    include <curses.h>
+#  endif
 #endif
 
-const unsigned int WORLD_WIDTH = 60;
+const unsigned int WORLD_WIDTH = 80;
 const unsigned int WORLD_HEIGHT = 22;
 const unsigned int NUM_STATES = 2;
 const unsigned int DEAD = 0;
 const unsigned int ALIVE = 1;
+#ifdef WIN32
+const wchar_t STATE_CHARS[NUM_STATES] = {' ', 0x2588};
+#else
 const char STATE_CHARS[NUM_STATES] = {' ','O'};
+#endif
 
 // NOTICE: I'm breaking my own rules here and
 // using a global vaiable!  Bad practice but the exercise
@@ -37,22 +41,27 @@ void cleanUp();
 void drawWorld()
 {
   clearScreen();
+
+#ifdef WIN32
+
+  // Loop over the world and print the dead or alive character
+  for(unsigned int y = 0; y < WORLD_HEIGHT; ++y)
+  {
+    for(unsigned int x = 0; x < WORLD_WIDTH; ++x)
+    {  std::wcout << STATE_CHARS[world[x][y]]; }
+    std::wcout << std::endl;
+  }
+#else
+
   // Loop over the world and print the dead or alive character
   for(unsigned int y = 0; y < WORLD_HEIGHT; ++y)
   {
     for(unsigned int x = 0; x < WORLD_WIDTH; ++x)
     {
-#ifdef WIN32
-      std::cout << STATE_CHARS[world[x][y]];
-#else
       mvprintw(y, x, STATE_CHARS[world[x][y]]);
-#endif
     }
-#ifdef WIN32
-    std::cout << std::endl;
-#endif
   }
-#ifndef WIN32
+
   refresh();
 #endif
 }
@@ -265,7 +274,9 @@ void init()
 void cleanUp()
 {
   // End curses mode
+#ifndef WIN32
   endwin();
+#endif
   std::cout << "Thanks for playing!\n";
 }
 
