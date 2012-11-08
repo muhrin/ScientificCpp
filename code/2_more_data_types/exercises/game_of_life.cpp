@@ -16,6 +16,14 @@ const unsigned int WORLD_HEIGHT = 22;
 const unsigned int NUM_STATES = 2;
 const unsigned int DEAD = 0;
 const unsigned int ALIVE = 1;
+// TODO: Feel free to play with different characters.  Here
+// as you can see DEAD is a blank and ALIVE is a strange square
+// character.  But it could be an asterix, a letter, whatever you want.
+// In fact, if your terminal can handle it you can use any unicode character:
+// http://en.wikipedia.org/wiki/Unicode_characters
+// or perhaps some of the box drawing characters:
+// http://en.wikipedia.org/wiki/Box_drawing_characters
+// In these formats U+2228 = 0x2228 for us
 const wchar_t STATE_CHARS[NUM_STATES] = {' ',0x2588};
 
 // NOTICE: I'm breaking my own rules here and
@@ -39,6 +47,12 @@ void drawWorld()
   }
 }
 
+
+// TODO: After you've done the exercise once and have the game of life working
+// Try making the world periodic.  You can see below that each of the get<Direction>State
+// functions give back a dead if the value is out of bounds.  Why not wrap it around
+// the screen e.g.: if x goes greater than WORLD_WIDTH give the state of the cell at x = 0
+// Do this for all the get<Direction>State functions.  The corners are tricky!
 unsigned int getLeftState(
   const unsigned int x,
   const unsigned int y)
@@ -180,39 +194,26 @@ void applyRules()
     for(unsigned int y = 0; y < WORLD_HEIGHT; ++y)
     {
       numNeighbours = getNumLivingNeighbours(x, y);
-      if(world[x][y] == ALIVE)
-      {
-        //1. Any live cell with fewer than two live neighbors dies, as if caused by underpopulation.
-        //2. Any live cell with more than three live neighbors dies, as if by overcrowding.
-        if(numNeighbours < 2 || numNeighbours > 3)
-          tempWorld[x][y] = DEAD;
-        else
-          tempWorld[x][y] = ALIVE;
-        //3. Any live cell with two or three live neighbors lives on to the next generation.
-      }
-      else
-      {
-        //4. Any dead cell with exactly three live neighbors becomes a live cell.
-        if(numNeighbours == 3)
-          tempWorld[x][y] = ALIVE;
-        else
-          tempWorld[x][y] = DEAD;
-      }
+// TODO: Code up the following rules for what happens to cells
+// 1. Any live cell with fewer than two live neighbors dies, as if caused by underpopulation.
+// 2. Any live cell with more than three live neighbors dies, as if by overcrowding.
+// 3. Any live cell with two or three live neighbors lives on to the next generation.
+// 4. Any dead cell with exactly three live neighbors becomes a live cell.
+//
+// Place the new states in tempWorld[x][y] which will then be copied over to the real world
+// at the end 
 
-      // Mutate step, every so often randomly mutate a dead to alive
-      if(rand() % 1000 > 997)
-      {
-        if(tempWorld[x][y] == DEAD)
-          tempWorld[x][y] = ALIVE;
-      }
+// TODO: Once you've applied the rules above and tried the program.
+// Put in a mutate step here:
+// Randomly, with some probability, mutate this cell
+// in tempWorld by bringing it back to life if it is dead.  Keep the probability
+// low (say 1 in 300) or your world will look crazy!
+
     }
   }
-  // Copy over the temporary world to the real world!:
-  for(unsigned int x = 0; x < WORLD_WIDTH; ++x)
-  {
-    for(unsigned int y = 0; y < WORLD_HEIGHT; ++y)
-      world[x][y] = tempWorld[x][y];
-  }
+// TODO: Copy over the temporary world to the real world!:
+// Here you should loop over all values of x and y like above and copy over
+// the state from the tempWorld to the world array.
 }
 
 int main()
@@ -230,6 +231,7 @@ int main()
 
 }
 
+// Some code for clearing the screen
 void clearScreen()
 {
 #ifdef WIN32
@@ -264,7 +266,7 @@ void clearScreen()
 #endif
 }
  
- 
+// Some code to make sure the game doesn't run too fast!
 void getSomeSleep(const unsigned int mseconds)
 {
   const clock_t goal = mseconds + clock();
