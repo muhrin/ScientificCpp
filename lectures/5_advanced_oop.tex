@@ -1,8 +1,10 @@
-\documentclass{beamer}
-%\documentclass[handout]{beamer}
+%\documentclass{beamer}
+\documentclass[handout]{beamer}
 
 % Input all common stuff
 \input{common_predoc}
+
+\usepackage{pifont}
 
 \subtitle{Session 5: Advanced object oriented programming}
 
@@ -15,70 +17,56 @@
 \tableofcontents
 \end{frame}
 
-\section{Friendship}
-
-\subsection{Friend functions}
+\section{Class method definition}
 
 \begin{frame}[fragile]
-  \frametitle{Friend functions}
-  \framesubtitle{I only give friends access to my privates}
-  
-  We've seen that only a class can access its \kw{private} members.  Sometimes we may want to make an exception for a particular external function.  We do this with the \kw{friend} keyword followed by the function prototype e.g.:
-  \pause
-  \lstinputlisting[language=C++,%
-    basicstyle=\ttfamily\fontsize{8}{9}\selectfont,%
-    title=\lstsrctitle,belowskip=0pt,
-    linerange={3-12,25-28}]%
-    {../code/5_advanced_oop/lectures/friend_function.cpp}
-
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Friend functions}
-  \framesubtitle{Not for every day}
-  
-  \warnblock{The use of \kw{friend}s undermines encapsulation, after all you're giving away access to parts of your class that were designed to be kept internal.  Often this is a sign of bad design.
-  \newline\pause
-  Sometimes friendship can be used effectively to keep dependent code seaprated if there is a good design reason.  For example the code to draw a rectangle may be very complicated and may fit more naturally in the graphics handling portion of the codebase.
+  \frametitle{Separating class definition and declaration}
+ 
+  \begin{columns}[t]
+    \begin{column}[T]{0.5\linewidth}
+  		Often it's a pain to write the body of a function within the class, consider:
+  		\begin{lstlisting}
+class GameObject {
+public:
+  void draw()  {
+  // many hundreds of lines
+  // of graphics code here
   }
+};
+  		\end{lstlisting}
+  		the class interface gets lost in all the graphics code.
+  	\end{column}
+  	\pause
+  	\begin{column}[T]{0.5\linewidth}
+  		To help with this we can write:
+		  \begin{lstlisting}
+class GameObject {
+public:
+  void draw();
+};
 
-\end{frame}
+// many lines or a
+// different file later
 
-\subsection{Friend classes}
-
-\begin{frame}[fragile]
-  \frametitle{Friend classes}
-  \framesubtitle{Not a taxonomy of friends}
-  
-  We can grant \kw{friend} status to an entire class:
-  \begin{lstlisting}
-  class SolarSystem {
-  private:
-    Vector2 planetPositions[NUM_PLANETS];
-    Planet planets[NUM_PLANETS];
-    friend class Planet;
-  };
-  
-  class Planet {
-  public:
-    Vector2 getPosition()
-    { return mySystem.planetPositions[myIndex]; }
-  private:
-    unsigned int myIndex;
-    SolarSystem & mySystem;
-  };
-  \end{lstlisting}
+GameObject::draw() {
+  // many hundreds of lines
+  // of graphics code here
+}
+  		\end{lstlisting}
+  	\end{column}
+  \end{columns}
   \pause
-  Friend classes can be useful in highly coupled parts of code like this: a \texttt{Planet} cannot exist without a \texttt{SolarSystem};
-  
+  This supports encapsulation by separating the interface from the implementation.  You'll often find declaration in a \texttt{.h} file and the definition in a \texttt{.cpp} file.
 
 \end{frame}
 
 \section{Inheritance}
 
+\subsection{Single inheritance}
+
 \begin{frame}
   \frametitle{Class inheritance}
-  \framesubtitle{Keeping the poor in their place}
+  \framesubtitle{Not compatible with egalitarianism}
 
 	Consider the following class:
   \lstinputlisting[language=C++,%
@@ -120,6 +108,10 @@
 				Grrr, mammal noise!\newline
 				\char`\\{}/\char`\\{}/\char`\\{}/ <- That's my tail wagging!\newline
 				Fetching frisbee...Here you go.}
+			  \begin{figure}
+			    \centering
+					\includegraphics[width=35mm]{figs/BostonTerrier.eps}
+				\end{figure}
   	\end{column}
   \end{columns}
 
@@ -165,7 +157,7 @@
 \begin{frame}[fragile]
   \frametitle{Overriding functions}
   
-  You may have noticed that when \texttt{fido} spoke he said ``\texttt{Grrr, mammal noise!}'', not really what a Dog says.  That's because I didn't provide a custom \texttt{speak} method.  Let's try again:\pause
+  When Fido spoke he said ``\texttt{Grrr, mammal noise!}'', not really what a Dog says.  That's because I didn't provide a custom \texttt{speak} method.  Let's try again:\pause
   \begin{columns}[t]
     \begin{column}[T]{0.55\linewidth}
   		\lstinputlisting[language=C++,%
@@ -196,8 +188,8 @@
 	    non members & yes & no &  no
 	  \end{tabularx}
   \end{table}
-  
-  \doblock{Use the most restrictive access possible.  Member variables should rarely be anything but \kw{private}, even derived classes should use getters/setters to access these.  It's find to make methods protected though.}
+  \pause
+  \doblock{Use the most restrictive access possible.  Member variables should rarely be anything but \kw{private}, even derived classes should use getters/setters to access these.  It's fine to make methods protected though.}
  
 \end{frame}
 
@@ -212,5 +204,323 @@
   \end{itemize}
 
 \end{frame}
+
+\subsection{Multiple inheritance}
+
+\begin{frame}[fragile]
+  \frametitle{Multiple inheritance}
+  
+  Let's say we have the following classes:
+  \begin{columns}[t]
+    \begin{column}[T]{0.45\linewidth}
+  		\begin{lstlisting}[aboveskip=0pt,belowskip=0pt]
+class Mammal {
+  double furLength;
+public:
+  void feedYoungWithMilk();
+};
+      \end{lstlisting}
+    \end{column}
+    \begin{column}[T]{0.45\linewidth}
+			\begin{lstlisting}[aboveskip=0pt]
+class Bird {
+  int beakType;
+public:
+  void fly();
+  void layEgg();
+};
+
+class Reptile {
+  bool webbedFeet;
+};
+			\end{lstlisting}
+    \end{column}
+  \end{columns}
+  \pause
+  Pretty awesome.\pause{}  But what do we do with a Platypus:
+  \begin{columns}[t]
+    \begin{column}[T]{0.35\linewidth}
+  		\includegraphics[width=45mm]{figs/Platypus.eps}
+  	\end{column}
+  	\begin{column}[T]{0.6\linewidth}
+  	  \begin{itemize}
+  	  	\item[\ding{51}]<3->{Has fur}
+  	  	\item[\ding{51}]<4->{Has beak}
+  	  	\item[\ding{51}]<5->{Lays eggs}
+  	    \item[\ding{51}]<6->{Webbed feet}
+  	    \item[\ding{51}]<7->{Feeds young with milk}
+  	  \end{itemize}
+  	\end{column}
+  \end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Multiple inheritance}
+  
+  \begin{columns}[t]
+    \begin{column}[T]{0.49\linewidth}
+  		Simple, just use multiple inheritance:
+  		\begin{lstlisting}
+class Platypus :
+  public Mammal, public Bird,
+  public Reptile
+{
+public:
+  void stingWithSpur();
+};
+  		\end{lstlisting}
+  		So \texttt{Platypus} gets everything from \texttt{Mammal}, \texttt{Bird} and \texttt{Reptile}.
+  	\end{column}
+  	\pause
+  	\begin{column}[T]{0.49\linewidth}
+	  	But wait.  A platypus can't fly! \pause{}  Okay, so let's override \texttt{fly} and make it private:
+		  \begin{lstlisting}
+class Platypus :
+  public Mammal, public Bird,
+  public Reptile
+{
+public:
+  void stingWithSpur();
+private:
+  void fly();
+};
+  		\end{lstlisting}  
+  	\end{column}
+  \end{columns}
+  \pause
+  		Now if you try to do this:
+  		\begin{lstlisting}[belowskip=0pt]
+int main()
+{
+  Platypus platypus;
+  platypus.fly(); // Compiler error: can't access private!
+  return 0;
+}
+  		\end{lstlisting}
+  
+
+\end{frame}
+
+\section{Polymorphism}
+
+\subsection{Huh.  What is it good for?}
+
+\begin{frame}[fragile]
+  \frametitle{Polymorphism}
+  \framesubtitle{The solution to all your animal taxonomy needs}
+
+	Let's bring Fido back out.  What happens when we try:
+  \begin{columns}[t]
+    \begin{column}[T]{0.48\linewidth}
+  		\begin{lstlisting}[aboveskip=0pt]
+int main()
+{
+  Dog fido(2, 10,
+    "Boston terrier");
+    
+  // Perfectly valid, after
+  // all a Dog is a mammal:  
+  Mammal * fidoPtr = &fido;
+  fidoPtr->speak();
+
+  return 0;
+}
+  		\end{lstlisting}
+  	\end{column}
+  	\pause
+  	\begin{column}[T]{0.48\linewidth}
+  		\cout{Grrrr, mammal noise!}
+  	\end{column}
+  \end{columns}
+  \pause
+  Huh?  Why is Fido speaking like a mammal again?
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Virtual functions}
+  
+  Virtual functions provide the solution:
+  \begin{columns}[t]
+    \begin{column}[T]{0.48\linewidth}
+			\lstinputlisting[language=C++,%
+    		title=\lstsrctitle,aboveskip=0pt,
+    		linerange={4-5,14-15,19-19,54-55,63-64,67-67,85-89}]%
+    		{../code/5_advanced_oop/lectures/virtual_functions.cpp}
+    \end{column}
+    \pause
+		\begin{column}[T]{0.48\linewidth}
+			\lstinputlisting[language=C++,%
+    		aboveskip=0pt,belowskip=0pt,
+    		linerange={91-99}]%
+    		{../code/5_advanced_oop/lectures/virtual_functions.cpp}
+    	\cout{Woof!}
+		\end{column}
+	\end{columns}
+	\pause
+	As if by magic, the correct method in \texttt{Dog} gets called.  This works for multiply derived types if they all use the \kw{virtual} keyword.
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Virtual functions}
+  \framesubtitle{Health warning}
+  
+  \warnblock{If you declare any of your methods to be \kw{virtual} make sure to have a \kw{virtual} destructor!\newline
+  Otherwise your object will not be destructed properly!}
+
+\end{frame}
+
+\subsection{Abstract base classes}
+
+\begin{frame}[fragile]
+  \frametitle{Abstract base classes}
+  \framesubtitle{I'll take one of  your finest mammals please}
+  
+  At the moment we can do this:
+  \begin{columns}[t]
+    \begin{column}[T]{0.48\linewidth}
+  		\begin{lstlisting}[aboveskip=0pt]
+int main()
+{
+  Mammal theFinest(27, 70);
+  
+  theFinest.speak();
+  
+  return 0;
+}
+			\end{lstlisting}
+		\end{column}
+		\begin{column}[T]{0.48\linewidth}
+		  \cout{Grrrr, mammal noise!}
+		\end{column}
+	\end{columns}
+	But this doesn't make a lot of sense.  A mammal is an abstraction, we shouldn't be able to instantiate a concrete mammal.  We just want all derived types to be able to speak.
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Abstract base classes}
+  
+  The solution: use a pure virtual function by adding \texttt{ = 0}.
+	\lstinputlisting[language=C++,%
+  	title=\lstsrctitle,
+  	linerange={4-5,14-15,19-19,90-96}]%
+  	{../code/5_advanced_oop/lectures/pure_virtual_functions.cpp}
+  	\pause
+  Now \texttt{Mammal} is deemed to be abstract and cannot be instantiated but any concrete derived type that we do want to instantiate needs to be able to speak or do whatever it is that mammals do. Perfect.
+
+\end{frame}
+
+\subsection{Real world example}
+
+\begin{frame}[fragile]
+  \frametitle{Abstract bases classes example}
+  \framesubtitle{Back to the real world}
+  We want to write a log of how our simulation is progressing, but it may be convenient to be able to log to the screen, to file or to a database.
+  \begin{lstlisting}[basicstyle=\ttfamily\fontsize{7}{8}\selectfont]
+class Logger {
+  virtual void logMessage(const std::string & message) = 0;
+  virtual ~Logger() {}
+};
+
+class ScreenLogger : public Logger {
+  virtual void logMessage(const std::string & message);
+};
+
+class FileLogger : public Logger {
+  virtual void logMessage(const std::string & message);
+};
+
+class DatabaseLogger : public Logger {
+  virtual void logMessage(const std::string & message);
+};
+
+int main()
+{
+  Logger * myLogger = new FileLogger("program.log");
+  myLogger->writeMessage("Hello universe!")
+  return 0;
+}
+  \end{lstlisting}
+
+\end{frame}
+
+
+\section{Friendship}
+
+\subsection{Friend functions}
+
+\begin{frame}[fragile]
+  \frametitle{Friend functions}
+  \framesubtitle{I only give friends access to my privates}
+  
+  We've seen that only a class can access its \kw{private} members.  Sometimes we may want to make an exception for a particular external function.  We do this with the \kw{friend} keyword followed by the function prototype e.g.:
+  \pause
+  \lstinputlisting[language=C++,%
+    basicstyle=\ttfamily\fontsize{8}{9}\selectfont,%
+    title=\lstsrctitle,belowskip=0pt,
+    linerange={3-12,25-28}]%
+    {../code/5_advanced_oop/lectures/friend_function.cpp}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Friend functions}
+  \framesubtitle{Not for every day}
+  
+  \warnblock{The use of \kw{friend}s undermines encapsulation, after all you're giving away access to parts of your class that were designed to be kept internal.  Often this is a sign of bad design.
+  \newline\pause
+  Sometimes friendship can be used effectively to keep dependent code separated if there is a good design reason.  For example the code to draw a rectangle may be very complicated and may fit more naturally in the graphics handling portion of the codebase.
+  }
+
+\end{frame}
+
+
+\subsection{Friend classes}
+
+\begin{frame}[fragile]
+  \frametitle{Friend classes}
+  \framesubtitle{Not a taxonomy of friends}
+  
+  We can grant \kw{friend} status to an entire class:
+  \begin{lstlisting}
+  class SolarSystem {
+  private:
+    Vector2 planetPositions[NUM_PLANETS];
+    Planet planets[NUM_PLANETS];
+    friend class Planet;
+  };
+  
+  class Planet {
+  public:
+    Vector2 getPosition()
+    { return mySystem.planetPositions[myIndex]; }
+  private:
+    unsigned int myIndex;
+    SolarSystem & mySystem;
+  };
+  \end{lstlisting}
+  \pause
+  Friend classes can be useful in highly coupled parts of code like this: a \texttt{Planet} cannot exist without a \texttt{SolarSystem}.
+  
+\end{frame}
+
+\subsection{Friendship non-transitivity}
+
+\begin{frame}
+  \frametitle{Friendship rules}
+  \framesubtitle{Let's define some ground rules}
+  
+  The following transitivity and reciprocity rules apply to the \kw{friend} property:
+  \begin{itemize}
+  	\item<2->{I can't access my friend's \kw{private}s their unless they mark me as a \kw{friend}.}
+    \item<3->{Friends of friends can't access my \kw{private}s.}
+    \item<4->{My children can't access my \kw{private}s.}
+    \item<5->{I can't access my children's \kw{private}s.}
+  \end{itemize}
+
+\end{frame}  
 
 \end{document}

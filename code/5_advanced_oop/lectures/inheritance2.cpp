@@ -87,7 +87,8 @@ void Dog::speak()
 { std::cout << "Woof!\n"; }
 
 int main() {
-  Dog fido(2, 10, "Labrador");
+  Dog fido(2, 10,
+    "Boston terrier");
   fido.speak();
 
   return 0;

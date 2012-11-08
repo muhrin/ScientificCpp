@@ -1,4 +1,5 @@
-\documentclass{beamer}
+%5\documentclass{beamer}
+\documentclass[handout]{beamer}
 
 % Input all common stuff
 \input{common_predoc}
@@ -25,7 +26,7 @@
   \lstinputlisting[language=C++,%
   	aboveskip=0pt,belowskip=0pt,
   	title=\lstsrctitle]%
-  	{../code/3_io/lectures/simple_output.cpp}
+  	{../code/4_io/lectures/simple_output.cpp}
 
   Doesn't look like much does it?  That's because I've had to use escape characters to print some of the symbols:
   	\texttt{\textbackslash} is \texttt{\textbackslash\textbackslash} and
@@ -109,7 +110,7 @@
     		basicstyle=\ttfamily\fontsize{7}{8}\selectfont{},%
     		title=\lstsrctitle,%
     		aboveskip=0pt,belowskip=0pt]%
-    		{../code/3_io/lectures/simple_input.cpp}
+    		{../code/4_io/lectures/simple_input.cpp}
 		\end{column}
 		\pause
 		\begin{column}[T]{0.5\textwidth}
@@ -139,7 +140,7 @@
 		To create one we give it a file name.  Second argument tells \texttt{ifstream} how to open the file.
   		\lstinputlisting[language=C++,%
     		belowskip=0pt, linerange={8-8}]%
-    		{../code/3_io/lectures/simple_input.cpp}
+    		{../code/4_io/lectures/simple_input.cpp}
   \end{block}
   \pause
   \begin{block}{Checking if the file is ready to be read from}
@@ -186,7 +187,7 @@ ifstream & getline(istream & is, string & str);
   		\lstinputlisting[language=C++,%
     		basicstyle=\ttfamily\fontsize{7}{8}\selectfont{},%
     		aboveskip=0pt,belowskip=0pt]%
-    		{../code/3_io/lectures/simple_input.cpp}
+    		{../code/4_io/lectures/simple_input.cpp}
 		\end{column}
 		\begin{column}[T]{0.5\textwidth}
 		  Output:
@@ -222,7 +223,7 @@ ifstream & getline(istream & is, string & str);
     \begin{lstlisting}[aboveskip=0pt]
   size_t find(const string & str, size_t pos = 0) const;
     \end{lstlisting}
-    Search for \texttt{str} within the current string, optionally starting after position \texttt{pos}, returning the position of the first occurence in the string.  If \texttt{str} is not found \texttt{string::npos} is returned.
+    Search for \texttt{str} within the current string, optionally starting after position \texttt{pos}, returning the position of the first occurrence in the string.  If \texttt{str} is not found \texttt{string::npos} is returned.
   \end{block}
 
 \end{frame}
@@ -234,7 +235,7 @@ ifstream & getline(istream & is, string & str);
   Say we have a string made up of a series of numbers:
 	\lstinputlisting[language=C++,%
   	linerange={7-7}]%
-  	{../code/3_io/lectures/parse_numbers.cpp}
+  	{../code/4_io/lectures/parse_numbers.cpp}
 
   How do we get the numbers out so we can deal with them as \kw{double}s and, say, calculate their sum?\newline\pause
   By using the ever handy \texttt{stringstream} class:
@@ -243,7 +244,7 @@ ifstream & getline(istream & is, string & str);
 		\lstinputlisting[language=C++,%
   		aboveskip=0pt,belowskip=0pt,
   		linerange={7-13}]%
-  		{../code/3_io/lectures/parse_numbers.cpp}
+  		{../code/4_io/lectures/parse_numbers.cpp}
 	\end{block}
 
 \end{frame}
@@ -256,9 +257,9 @@ ifstream & getline(istream & is, string & str);
 		\lstinputlisting[language=C++,%
   		aboveskip=0pt,belowskip=0pt,
   		linerange={13-19}]%
-  		{../code/3_io/lectures/parse_numbers.cpp}
-    Here we're using the extraction operator (\texttt{>>}) to extrat a \kw{double} type from the string.\pause{} \newline
-    We can check if it failed by using the not operator (\texttt{!}).  Rememeber because this is a class operator we could write:
+  		{../code/4_io/lectures/parse_numbers.cpp}
+    Here we're using the extraction operator (\texttt{>>}) to extract a \kw{double} type from the string.\pause{} \newline
+    We can check if it failed by using the not operator (\texttt{!}).  Remember because this is a class operator we could write:
     \begin{lstlisting}
   numStream.operator >>(num);
     \end{lstlisting}
@@ -276,7 +277,7 @@ ifstream & getline(istream & is, string & str);
 			  aboveskip=0pt,belowskip=0pt,%
 				basicstyle=\ttfamily\fontsize{8}{9}\selectfont{},%
   			title=\lstsrctitle]%
-  			{../code/3_io/lectures/parse_numbers.cpp}
+  			{../code/4_io/lectures/parse_numbers.cpp}
   	\end{column}
   	\begin{column}[T]{0.25\linewidth}
   	  \cout{Sum is: 18.5}

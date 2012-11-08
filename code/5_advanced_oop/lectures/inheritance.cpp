@@ -85,7 +85,8 @@ void Dog::goFetch(const std::string & fetchWhat)
 
 int main()
 {
-  Dog fido(2, 10, "Labrador");
+  Dog fido(2, 10,
+    "Boston terrier");
 
   std::cout << "Fido is : "
     << fido.getAge()

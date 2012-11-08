@@ -19,8 +19,8 @@ add_subdirectory(3_oop/exercises)
 add_subdirectory(3_oop/lectures)
 add_subdirectory(3_oop/solutions)
 
-add_subdirectory(3_io/lectures)
-add_subdirectory(3_io/solutions)
+add_subdirectory(4_io/lectures)
+add_subdirectory(4_io/solutions)
 
 add_subdirectory(5_advanced_oop/lectures)
 add_subdirectory(5_advanced_oop/solutions)

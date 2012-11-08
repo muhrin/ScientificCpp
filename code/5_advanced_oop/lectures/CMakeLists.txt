@@ -10,3 +10,12 @@ add_executable(inheritance
 add_executable(inheritance2
   inheritance2.cpp
 )
+
+add_executable(virtual_functions
+  virtual_functions.cpp
+)
+
+add_executable(pure_virtual_functions
+  pure_virtual_functions.cpp
+)
+  
