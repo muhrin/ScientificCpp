@@ -1,11 +1,12 @@
 \documentclass{beamer}
+%\documentclass[handout]{beamer}
 
 % Input all common stuff
 \input{common_predoc}
 
 \usepackage{textcomp}
 
-\subtitle{Session 4: Object oriented programming}
+\subtitle{Session 3: Object oriented programming}
 
 \begin{document}
 
@@ -111,7 +112,7 @@ int main()
         basicstyle=\ttfamily\fontsize{7}{8}\selectfont{},%
         linerange={4-23},%
         aboveskip=0pt,belowskip=0pt]%
-      {../code/4_oop/lectures/simple_vector2.cpp}
+      {../code/3_oop/lectures/simple_vector2.cpp}
     \end{column}
     \pause
     \begin{column}[T]{0.5\linewidth}
@@ -119,7 +120,7 @@ int main()
         basicstyle=\ttfamily\fontsize{7}{8}\selectfont{},%
         firstline=25,%
         aboveskip=0pt,belowskip=0pt]%
-      {../code/4_oop/lectures/simple_vector2.cpp}
+      {../code/3_oop/lectures/simple_vector2.cpp}
     \end{column}
   \end{columns}
   \cout{r1: 2 1\newline
@@ -192,14 +193,14 @@ private:
 \begin{frame}[fragile]
   \frametitle{Encapsulation}
   
-  Encapsulation separates implementation details from the way the class is used, this is sevral advantages:
+  Encapsulation separates implementation details from the way the class is used, this is several advantages:
   \pause
   \begin{itemize}
     \item{Gives you more flexibility for making improvements in the future as other parts of the code can remain unchanged.}
     \pause
     \item{Makes code more maintainable: a bug will likely be localised to one class.}
     \pause
-    \item{Developing complex code can be easier as a common set of iterfaces can be defined and then implemented separately in due time.  So long as each class fulfills its responsibilities the whole will work.}
+    \item{Developing complex code can be easier as a common set of interfaces can be defined and then implemented separately in due time.  So long as each class fulfills its responsibilities the whole will work.}
   \end{itemize}
   \pause
   \doblock{Make all member variables \kw{private}.  Provide a clear set of methods to interact with the class such that its responsibilities can be fulfilled.}
@@ -332,7 +333,7 @@ int main()
 \end{frame}
 
 
-\subsubsection{Descturctors}
+\subsubsection{Destructors}
 
 \begin{frame}[fragile]
   \frametitle{Destructors}
@@ -471,7 +472,7 @@ public:
   r2.operator -(r1);
     \end{lstlisting}}
     \pause
-    \item{Now it's more obvious: \texttt{r2}'s \texttt{operator -} method is invoked with \texttt{r1} as a paramter.}
+    \item{Now it's more obvious: \texttt{r2}'s \texttt{operator -} method is invoked with \texttt{r1} as a parameter.}
     \pause
     \item{Finally the returned \texttt{Vector2} is copied into our \texttt{r12}.}
   \end{enumerate}

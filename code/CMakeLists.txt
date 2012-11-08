@@ -15,6 +15,7 @@ add_subdirectory(2_more_data_types/exercises)
 add_subdirectory(2_more_data_types/lectures)
 add_subdirectory(2_more_data_types/solutions)
 
+add_subdirectory(3_oop/exercises)
 add_subdirectory(3_oop/lectures)
 add_subdirectory(3_oop/solutions)
 

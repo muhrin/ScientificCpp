@@ -90,7 +90,7 @@ unsigned int lotteryNumbers[] = {16, 3, 28, 9, 24, 10, 8}
 \begin{frame}[fragile]
   \frametitle{Multidimensional arrays}
   \framesubtitle{Because with only two friends 1D is sooo boring}
-  Think of multidimensional arrays as beging "arrays of arrays".  An example:
+  Think of multidimensional arrays as being "arrays of arrays".  An example:
   \lstinputlisting[language=C++,title=\lstsrctitle,linerange={10-14,21-32}]{../code/2_more_data_types/lectures/centre_of_mass.cpp}  
   
 
@@ -279,7 +279,7 @@ std::cin >> firstName;
 
 \begin{frame}[fragile]
   \frametitle{Dynamic memory}
-  So far our prgrams have used a fixed amount of memory equal to the total of all declared variables.  Sometimes we don't know how much memory we will need before the program starts.
+  So far our programs have used a fixed amount of memory equal to the total of all declared variables.  Sometimes we don't know how much memory we will need before the program starts.
   \pause
   Consider:
   \begin{lstlisting}
@@ -327,12 +327,6 @@ bool * spinChain = new bool[spinChainLength]; // Good
   spinChain = 0;
   \end{lstlisting}
   \end{doblocke}
-\end{frame}
-
-\begin{frame}[frame]
-  \frametitle{Why use pointers?}
-  \framesubtitle{\begin{quote}I do consider assignment statements and pointer variables to be among computer science's most valuable treasures.\end{quote} -Donald Knuth (``father'' of the analysis of algorithms).}
-  TODO: Decide whether to use this.
 \end{frame}
 
 \subsection{References}
@@ -478,7 +472,7 @@ int main()
 /*2.*/ void runningSum(int * sum, int value);// by pointer
 /*3.*/ void runningSum(int & sum, int value);// by reference
   \end{lstlisting}
-  Imagine you're the function and I'm passing you an Edward Hopper\footnote{Nighthawks to be exact (\href{http://en.wikipedia.org/wiki/Nighthawks}{\url{http://en.wikipedia.org/wiki/Nighthawks}})} painting I keep on my living room wall:
+  Imagine you're the function and I'm passing you an Edward Hopper\footnote{Nighthawks to be exact (\url{http://en.wikipedia.org/wiki/Nighthawks})} painting I keep on my living room wall:
   \begin{enumerate}
   	\pause
     \item{I make an exact duplicate and give it to you.  Any changes you make to yours don't affect mine.}
