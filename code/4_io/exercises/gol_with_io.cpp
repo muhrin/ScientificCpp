@@ -63,39 +63,28 @@ void drawWorld()
 
 void saveWorld(const std::string & filename)
 {
-  std::ofstream file(filename.c_str());
-  if(file.good())
-  {
-    for(unsigned int y = 0; y < WORLD_HEIGHT; ++y)
-    {
-      for(unsigned int x = 0; x < WORLD_WIDTH; ++x)
-      {  file << world[x][y]; }
-      file << "\n";
-    }
-  }
-  if(file.is_open())
-    file.close();
+// TODO: Open the file 'filename' for writing.  You may need to use the
+// string function c_str() to conver the string to a character array
+// which is what the input file stream class takes as an argument.
+// Check that the file is good to go.
+// Now write out the entire array to the file remembering to put new
+// lines after every row.  You can use the function above to see
+// roughly how to do it.
+// Finally when you're done, close the file but only if it was open.
 }
 
 void loadWorld(const std::string & filename)
 {
-  std::ifstream file(filename.c_str());
-  if(file.is_open())
-  {
-    std::string line;
-    int y = 0;
-    while(file.good() && y < WORLD_HEIGHT - 1)
-    {
-      getline(file, line);
-      for(unsigned int x = 0; x < WORLD_WIDTH - 1; ++x)
-      {
-        world[x][y] = line[x];
-        std::cout << world[x][y];
-      }
-      ++y;
-    }    
-    file.close();
-  }
+// TODO: Open the file 'filename' for reading.  You may need to use the
+// string function c_str() to conver the string to a character array
+// which is what the input file stream class takes as an argument.
+// Check that it is really open.
+// Then use the lecture handout to read the file one line at
+// at time.  For each line (i.e. row) keep track of which one
+// we're at and don't let it go past WORLD_HEIGHT
+// Copy the characters from the line one at a time into the world array
+// at this row.  Be careful to only copy up to WORLD_WIDTH
+// Once you're done, close the file.
 } 
 
 char getLeftState(
