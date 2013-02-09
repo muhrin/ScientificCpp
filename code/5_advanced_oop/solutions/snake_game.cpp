@@ -1,52 +1,86 @@
 
 #include "snake_game.h"
-#include "snake.h"
 
-void World::tick(World & world, const double timestep, const int keypress)
+#include <iostream>
+
+#include "Game.h"
+
+
+const Vector UP(0, -1);
+const Vector DOWN(0, 1);
+const Vector LEFT(-1, 0);
+const Vector RIGHT(1, 0);
+
+Vector::Vector()
 {
-  for(int i = 0; i < myObjects.size(); ++i)
-  {
-    myObject[i].tick(world, timestep, keypress);
-  }
+  myX = 0;
+  myY = 0;
 }
+
+Vector::Vector(const int x, const int y)
+{
+  myX = x;
+  myY = y;
+}
+
+Vector & Vector::operator +=(const Vector & toAdd)
+{
+  myX += toAdd.myX;
+  myY += toAdd.myY;
+  return *this;
+}
+
+Vector & Vector::operator -=(const Vector & toSub)
+{
+  myX -= toSub.myX;
+  myY -= toSub.myY;
+  return *this;
+}
+
+Vector & Vector::operator =(const Vector & rhs)
+{
+  myX = rhs.getX();
+  myY = rhs.getY();
+}
+
+// HELPER FUNCTIONS //////
+void init()
+{
+  // Start curses mode
+  initscr();
+
+  // Allow control-C
+  cbreak();
+
+  // Don't echo while we do getch 
+  noecho();
+
   
-void World::draw(const World & world)
-{
-  for(int i = 0; i < myObjects.size(); ++i)
-  {
-    myObject[i].draw(*this);
-  }
+  nodelay(stdscr, TRUE);
+  
+  keypad(stdscr, TRUE);
 }
 
-void World::insertObject(WorldObject * object)
+
+void cleanUp()
 {
-  myObjects.push_back(object);
+  // End curses mode
+  endwin();
+  std::cout << "Thanks for playing!\n";
 }
+
 
 int main()
 {
-  World myWorld;
 
   init();
 
-  bool quit = false;
-  double elapsedTime = 0.0;
-
-  int key;
-  while(!quit)
-  {
-    preFrame();
-    
-    key = getKey();
-
-    myWorld.tick(myWorld, elapsedTime, key);
-    myWorld.draw(myWorld);
-
-    postFrame();
-  }
+  Game game;
+  game.run();
 
   cleanUp();
 
   return 0;
 }
-}
+
+

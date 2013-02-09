@@ -3,31 +3,33 @@
 #define SNAKE_H
 
 #include "snake_game.h"
+#include "WorldObject.h"
 
-class Snake
+class Snake : public WorldObject
 {
 public:
 
-  virtual void tick(World & world, const double timestep, const int keypress);
+  Snake(const unsigned int startingSize = 3, const unsigned int maxSize = 20, const float startingSpeed = 5);
+  virtual ~Snake();
 
-  virtual void draw(const World & world);
+  virtual void tick(Game & game);
+
+  virtual void draw();
+
+  void resize(const int numSegments = 1);
 
 private:
-  const unsigned int maxSegments = 10;
-  const unsigned int startingSegments = 3;
-  const char segmentChar = '*';
-
-  const Vector UP;
-  const Vector DOWN;
-  const Vector LEFT;
-  const Vector RIGHT;
+  static const char SEGMENT_CHAR;
 
   void move();
 
   Vector myDirection;
+  float myDistTravelledSinceMoved;
   float mySpeed;
   unsigned int mySize;
-  Vector mySegments[MAX_SEGMENTS];
+  const unsigned int myMaxSize;
+  int myNumSegmentsResize;
+  Vector * mySegments;
 
 };
 
