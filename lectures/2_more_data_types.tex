@@ -85,13 +85,28 @@ unsigned int lotteryNumbers[] = {16, 3, 28, 9, 24, 10, 8}
   \end{lstlisting}
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{Accessing elements}
+  \framesubtitle{Array index out of bounds}
+    \begin{warnblocke}Be careful not to access elements past the end of an array.  Consider:
+    \begin{lstlisting}
+  const unsigned int numPlanets = 8;
+  double masses[numPlanets];
+  for(int i = 0; i <= numPlanets; ++i)
+    masses[i] = random();
+    \end{lstlisting}
+	Seems ok, but wait.  The last iteration will try to set \texttt{masses[8]} which is past the end of the array!
+    \end{warnblocke}
+
+\end{frame}
+
 \subsection{Multidimensional arrays}
 
 \begin{frame}[fragile]
   \frametitle{Multidimensional arrays}
   \framesubtitle{Because with only two friends 1D is sooo boring}
   Think of multidimensional arrays as being "arrays of arrays".  An example:
-  \lstinputlisting[language=C++,title=\lstsrctitle,linerange={10-14,21-32}]{../code/2_more_data_types/lectures/centre_of_mass.cpp}  
+  \lstinputlisting[language=C++,title=\lstsrctitle,linerange={11-16,23-33}]{../code/2_more_data_types/lectures/centre_of_mass.cpp}  
   
 
 \end{frame}
@@ -116,13 +131,14 @@ unsigned int lotteryNumbers[] = {16, 3, 28, 9, 24, 10, 8}
 
 \begin{frame}[fragile]
   \frametitle{Char sequences and string}
-  \framesubtitle{Pronounced "car", or as in "\textit{char}coal"}
+  \framesubtitle{Pronounced "car", or as in "\textit{char}coal", whichever you prefer}
   We can have arrays of characters like so:
   \begin{lstlisting}
 char message[] = { 'P', 'h', 'y', 's', 'i', 'c', 's', ' ',
     'r', 'o', 'c', 'k', 's', '!', '\0'}; // see footnote 1
   \end{lstlisting}
   \footnotetext[1]{The \texttt{\textbackslash{}0} character tells the compiler where the end of the character sequence is.}
+  \pause
   and while the statement is self evident, writing it like this is a pain, so C++ also allows us to initialise it like this:
   \begin{lstlisting}
 char message[] = "Physics rocks!"
@@ -133,7 +149,7 @@ char message[] = "Physics rocks!"
   \begin{lstlisting}
 std::string message = "Physics rocks!";
   \end{lstlisting}
-  strings used char arrays internally but are much more user friendly.
+  strings use char arrays internally but are much more user friendly.
   To use strings make sure to use the following include:
   \begin{lstlisting}
 #include <string>  // At the top of your file
@@ -180,7 +196,7 @@ std::cin >> firstName;
   type * name;
 	  \end{lstlisting}
 	  This tells the compiler that \texttt{name} is a pointer that points to the address of a variable of type \texttt{type}.  Got it?
-	  \newline
+	  \pause\newline
 	  Some examples:
 	  \begin{lstlisting}[belowskip=0pt]
   int * pointerToInt;
@@ -197,9 +213,9 @@ std::cin >> firstName;
 	\lstinputlisting[language=C++,linerange={5-5,7-7}]{../code/2_more_data_types/lectures/pointers_example.cpp}  line 2 tells the compiler to:
 	  \begin{enumerate}
 	    \pause
-	    \item{Create a pointer named \texttt{numParticlesPointer} that points to an \kw{int}.}
+	    \item{Create a pointer named \texttt{spinsPointer} that points to an \kw{int}.}
 	    \pause
-	    \item{Set it to address of numParticles.}
+	    \item{Set it to address of \texttt{upSpins}.}
 	  \end{enumerate}
   \end{block}
   \pause
@@ -341,10 +357,13 @@ bool * spinChain = new bool[spinChainLength]; // Good
 		  \begin{lstlisting}
   type & name = variable_name;
 		  \end{lstlisting}
-	  This tells the compiler that name is a reference to an existing variable called \texttt{variable\_name} which is of type \text{type}.  References \textit{cannot} be uninitialised!\newline
+	  This tells the compiler that name is a reference to an existing variable called \texttt{variable\_name} which is of type \texttt{type}.  References \textit{cannot} be uninitialised!\newline
 		Example:
     \lstinputlisting[language=C++,linerange={5-5,7-7},aboveskip=0pt,belowskip=0pt]%
       {../code/2_more_data_types/lectures/references_example.cpp}
+    \begin{lstlisting}[aboveskip=0pt,belowskip=0pt]
+  int & downSpins; // Error: cannot be uninitialised
+    \end{lstlisting}  
   \end{block}
   \pause
   \begin{block}{Using references}

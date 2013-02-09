@@ -99,8 +99,6 @@ public:
 
 private:
 
-  
-
   std::vector<WorldObject *> myObjects;
 };
 

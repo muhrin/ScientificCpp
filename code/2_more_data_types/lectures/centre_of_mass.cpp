@@ -13,6 +13,7 @@ int main()
   double masses[numParticles];
   double centreOfMass[3] = {0.0, 0.0, 0.0};
 
+  // Populate arrays with random masses and positions
   for(int dim = 0; dim < 3; ++dim)
   {
     masses[dim] = getRandom();

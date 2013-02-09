@@ -2,7 +2,7 @@
 
 double force(const double mass1, const double mass2, const double r)
 {
-  const double G = 0.001720298;
+  const double G = 3.96402e-14;
   return G * mass1 * mass2 / (r * r);
 }
 

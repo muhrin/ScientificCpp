@@ -141,7 +141,7 @@ do statement while(expression);
 \begin{frame}[fragile]
   \frametitle{Functions}
   \framesubtitle{How would we function without them?}
-  Functions provide a way of structuring a program in a mode modular way, by grouping sets of statement so they can be easily reused.\newline
+  Functions provide a way of structuring a program in a more modular way, by grouping sets of statement so they can be easily reused.\newline
   \pause
   Consider: what if we want to calculate gravitational force between multiple bodies?
   \begin{lstlisting}
@@ -173,9 +173,9 @@ type name(parameter1, parameter2, ...) { statements }
   where:
   \begin{itemize}
     \item<2->{\texttt{type} is the data type that is returned to you by the function.}
-    \item<3->{\texttt{name} is the unique name of the function.}
+    \item<3->{\texttt{name} is the unique identifier (name) of the function.}
     \item<4->{\texttt{parameter}, each of these is just like a variable definition (e.g. \texttt{\kw{double} mass}).}
-    \item<5->{\texttt{statements} is the function's \textit{body}.  These statements will execute when the function is called.}
+    \item<5->{\texttt{statements} are the function's \textit{body}.  These statements will execute when the function is called.}
   \end{itemize}
   \pause[6]
   Let's try:
@@ -208,7 +208,7 @@ double force(const double mass1, const double mass2,
   
   What if we want to have a function that doesn't return anything?\newline
   \pause
-  Use \textit{void}:
+  Use \kw{void}:
   \begin{lstlisting}
 void printForce(const std::string object1,
   const std::string object2,
@@ -226,23 +226,24 @@ void printForce(const std::string object1,
   \frametitle{Declaring functions}
   \framesubtitle{I do declare}
   
-  All identifier have to be need to be declared before they are used.  So how are we to code something like:
+  All identifiers have to be declared before they are used.  So how are we to code something like:
   \begin{lstlisting}
+const bool ON = true, OFF = false
+const bool OPEN = true, CLOSED = false;
+
 void setMicrowaveState(const bool newState) {
   if(newState == ON)
   {
-    setMicrowaveDoor(CLOSED); // ERROR: Don't know about 
-                              // setMicrowaveDoor
-    state = ON;
+    setMicrowaveDoor(CLOSED); // <- ERROR: Don't know about 
+    state = ON;               // setMicrowaveDoor 
   }
   else
   	state = OFF;
 }
 void setMicrowaveDoor(const bool newState) {
   if(newState == OPEN)
-  {
     setMicrowaveState(OFF);
-  }
+
   doorState = newState;
 }
   \end{lstlisting}
@@ -261,8 +262,7 @@ void setMicrowaveState(const bool newState) {
   if(newState == ON)
   {
     setMicrowaveDoor(CLOSED); // Happy: you've told me about
-                              // setMicrowaveDoor
-    state = ON;
+    state = ON;               // setMicrowaveDoor
   }
   ...
 }
@@ -274,7 +274,7 @@ void setMicrowaveDoor(const bool newState) { /*as before*/ }
 \begin{frame}[fragile]
   \frametitle{Declaring functions}
   \begin{defiblocke}{function prototype}%
-The header of a function without any of the body used in function declarations, e.g.:
+The header of a function without any of the body. Used in function declarations, e.g.:
     \begin{lstlisting}
 void setMicrowaveDoor(const bool newState);
     \end{lstlisting}
@@ -285,9 +285,17 @@ void setMicrowaveDoor(const bool newState);
 
 \begin{frame}[fragile]
   \frametitle{Default values}
-  \defiblock{default value}{A value that is used for a function parameter if the caller doesn't supply one.}
+  \defiblock{default value}{A value that is used as a function parameter if the caller doesn't supply one.}
 	An example:
-\lstinputlisting[language=C++,title=\lstsrctitle,linerange={3-5,11,12-22},basicstyle=\ttfamily\fontsize{7}{8}\selectfont]{../code/1_control_structure/lectures/dispense_drink.cpp}  
+	
+  \begin{columns}[t]
+    \begin{column}[T]{0.48\textwidth}
+    \lstinputlisting[language=C++,title=\lstsrctitle,linerange={3-13},basicstyle=\ttfamily\fontsize{8}{9}\selectfont]{../code/1_control_structure/lectures/dispense_drink.cpp}  
+    \end{column}
+    \begin{column}[T]{0.48\textwidth}
+\lstinputlisting[language=C++,firstline=15,basicstyle=\ttfamily\fontsize{8}{9}\selectfont]{../code/1_control_structure/lectures/dispense_drink.cpp}  
+	  \end{column}
+	\end{columns}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -359,6 +367,7 @@ dot(fromX, fromY, toX, toY); // Compiler will choose
   \frametitle{Overloading functions}
   
   \defiblock{overloaded functions}{two or more functions with the same name but different parameter types and/or numbers of parameters.}
+  \pause
   Examples:
   \begin{lstlisting}
 // Sum two or three integers

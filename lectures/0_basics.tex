@@ -70,6 +70,16 @@
   \end{semiverbatim}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Going from source code to an executable}
+  
+  \begin{figure}%
+    \includegraphics[width=0.6\columnwidth]{figs/compile.eps}%
+    \caption{Compilation and linking of a C++ program\footnote{Source \url{http://www.aboutdebian.com/compile.htm} \copyright{} Keith Parkansky}.}%
+  \end{figure}
+
+\end{frame}
+
 \begin{frame}[fragile]
   \frametitle{Whitespace}
   \defiblock{whitespace}{spaces, tabs, and (sometimes) new lines.}
@@ -140,7 +150,7 @@ double aDouble;
 unsigned short i;
 float x, y, z;
   \end{lstlisting}
-Format: \texttt{\textcolor{bluekeywords}{variable\_type} variable\_name;}
+Format: \texttt{\textcolor{bluekeywords}{variable\_type} variable\_name, variable\_name2;}
 
 \end{frame}
 
@@ -152,7 +162,7 @@ Format: \texttt{\textcolor{bluekeywords}{variable\_type} variable\_name;}
   A variable name is an example of an identifier.
   \defiblock{identifier}{an identifier is a sequence of characters used to denote the name of a variable, function\footnote{We'll see what these are shortly.}, class\footnotemark[\value{footnote}] or any entity you need to refer to in your code.}
   \pause
-  Identifiers can be any sequence of letters, digits, or underscore characters but they must \emph{not}:
+  Identifiers can be any sequence of letters, digits or underscore characters but they must \emph{not}:
 	\begin{itemize}
   	\item start with a digit,
 	  \item be one of the reserved keywords\footnote{See \url{http://en.cppreference.com/w/cpp/keyword} for full list.}.
@@ -190,6 +200,9 @@ Format: \texttt{\textcolor{bluekeywords}{variable\_type} variable\_name;}
   \frametitle{Variable types}
   Fundamental data types:
 
+% Make the table less cramped vertically. 
+% Make sure to reset to 1 after the table!
+\renewcommand{\arraystretch}{1.1}
 \begin{tabular}{lll}
 \hline
 Type & Size & Values \\
@@ -207,7 +220,7 @@ Type & Size & Values \\
 \kw{double} & 8 bytes & 2.2e-308 to 1.8e308
 \end{tabular}
 \end{frame}
-
+\renewcommand{\arraystretch}{1}
 
 \begin{frame}[fragile]
  \frametitle{Using variables}
@@ -300,16 +313,14 @@ Spot the difference:
   	\begin{enumerate}
   	  \item{
   	  	\begin{lstlisting}
-someDouble =
-  (double)dividend / (double)divisor; // = 2.85714
+someDouble = static_cast<double>(dividend) /
+  static_cast<double>(divisor); // = 2.85714
   	  	\end{lstlisting}}
   	  \pause
   	  \item{
 				\begin{lstlisting}
-#include <cmath>
-/*..some code..*/  
-someInteger = (int)std::floor(
-  (double)dividend / (double)divisor + 0.5); // = 3
+someInteger = (dividend + (dividend % divisor)) /
+  divisor; // = 3
 				\end{lstlisting}
   	  }
   	\end{enumerate}

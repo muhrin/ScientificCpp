@@ -75,7 +75,7 @@ int main()
   \pause
   For example:
   \begin{columns}[t]
-    \begin{column}[T]{0.5\textwidth}
+    \begin{column}[T]{0.7\textwidth}
   		\begin{lstlisting}[basicstyle=\ttfamily\fontsize{8}{9}\selectfont{},aboveskip=0pt,belowskip=0pt]
 class Vector2
 {
@@ -89,12 +89,11 @@ int main()
 {
   Vector2 r;
   r.x = 3;  r.y = 4;
-  std::cout << "|r| = "
-    << r.length() << "\n";
+  std::cout << "|r| = " << r.length() << "\n";
 }
 	  	\end{lstlisting}
 	  \end{column}
-	  \begin{column}[T]{0.5\textwidth}
+	  \begin{column}[T]{0.26\textwidth}
 	  	\cout{|r| = 5}
 	  \end{column}
   \end{columns}
@@ -153,7 +152,7 @@ int main()
 \begin{frame}[fragile]
   \frametitle{Encapsulation}
   
-  The aim of a good object oriented design is to break the problem up into chunks that have well defined responsibilities which can be implemented as classes.  This way details (like data members) can be hidden in each class and we interact with classes via their member functions.  This is called \textit{encapsulation}.
+  The aim of a good object oriented design is to break the problem up into chunks that have well defined responsibilities which can be implemented as independently.  This way details, like data members, can be hidden in each class and we interact with classes via their member functions.  This is called \textit{encapsulation}.
   \newline\pause
   An example:
   \begin{columns}[t]
@@ -193,7 +192,7 @@ private:
 \begin{frame}[fragile]
   \frametitle{Encapsulation}
   
-  Encapsulation separates implementation details from the way the class is used, this is several advantages:
+  Encapsulation separates implementation details from the way the class is used, this has several advantages:
   \pause
   \begin{itemize}
     \item{Gives you more flexibility for making improvements in the future as other parts of the code can remain unchanged.}
@@ -364,7 +363,7 @@ private:
 \begin{frame}[fragile]
   \frametitle{Destructors}
   \framesubtitle{We've constructed ourselves, why not destruct ourselves?}
-  When does a destructor get called?  As soon as the end of the the scope the object was declared in.
+  When does a destructor get called?  As soon as the scope that the object was defined in comes to an end.
   \newline\pause
   For example:
   \begin{lstlisting}

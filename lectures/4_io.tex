@@ -1,5 +1,5 @@
-%5\documentclass{beamer}
-\documentclass[handout]{beamer}
+\documentclass{beamer}
+%\documentclass[handout]{beamer}
 
 % Input all common stuff
 \input{common_predoc}
@@ -36,7 +36,7 @@
 
 \begin{frame}[fragile]
   \frametitle{Introduction to  \texttt{ofstream}}
-  
+  \framesubtitle{\textbf{O}utput \textbf{f}ile \textbf{stream}}
   All of the action happens with the \texttt{ofstream} object.  Let's have a closer look.
   \pause
   \begin{block}{Constructing \texttt{ofstream}}
@@ -207,7 +207,7 @@ ifstream & getline(istream & is, string & str);
 
 \begin{frame}[fragile]
   \frametitle{Strings revisited}
-  \framesubtitle{How long is a piece of string? myString.length()}
+  \framesubtitle{How long is a piece of string? myString.length() of course}
   
   \texttt{string}s that we saw earlier are actually classes.  There are many useful things we can do with strings.  Here are a couple:
   \pause  
@@ -258,7 +258,7 @@ ifstream & getline(istream & is, string & str);
   		aboveskip=0pt,belowskip=0pt,
   		linerange={13-19}]%
   		{../code/4_io/lectures/parse_numbers.cpp}
-    Here we're using the extraction operator (\texttt{>>}) to extract a \kw{double} type from the string.\pause{} \newline
+    Here we're using the extraction operator (\texttt{>>}) to extract a \kw{double} type from the \texttt{stringstream}.\pause{} \newline
     We can check if it failed by using the not operator (\texttt{!}).  Remember because this is a class operator we could write:
     \begin{lstlisting}
   numStream.operator >>(num);

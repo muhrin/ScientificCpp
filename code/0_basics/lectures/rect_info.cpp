@@ -7,7 +7,8 @@ int main()
   std::cin >> width >> height;
   std::cout << "Area is: " << width * height << "\n";
 
-  const double ratio = (double)height / (double)width;
+  const double ratio = static_cast<double>(height) /
+    static_cast<double>(width);
   std::cout << "Ratio is: 1:" << ratio
             << " (width:height)" << "\n";
 
