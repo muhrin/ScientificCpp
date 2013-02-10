@@ -1,16 +1,16 @@
 
 add_executable(snake
-  Game.h
-  Game.cpp
-  GameObjects.h
-  GameObjects.cpp
-  snake.h
-  snake.cpp
-  snake_game.h
-  snake_game.cpp
-  World.h
-  World.cpp
-  WorldObject.h
+  snake/Game.h
+  snake/Game.cpp
+  snake/GameObjects.h
+  snake/GameObjects.cpp
+  snake/snake.h
+  snake/snake.cpp
+  snake/snake_game.h
+  snake/snake_game.cpp
+  snake/World.h
+  snake/World.cpp
+  snake/WorldObject.h
 )
 
 if(UNIX)
