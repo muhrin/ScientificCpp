@@ -1,6 +1,8 @@
 
 cmake_minimum_required(VERSION 2.6)
 
+project("ScientificCpp")
+
 set_property(TARGET PROPERTY PROJECT_LABEL "Scientific Cpp")
 
 #add_subdirectory(0_basics/exercises)
@@ -23,6 +25,6 @@ add_subdirectory(4_io/exercises)
 add_subdirectory(4_io/lectures)
 add_subdirectory(4_io/solutions)
 
-#add_subdirectory(5_advanced_oop/exercises)
+add_subdirectory(5_advanced_oop/exercises)
 add_subdirectory(5_advanced_oop/lectures)
 add_subdirectory(5_advanced_oop/solutions)
