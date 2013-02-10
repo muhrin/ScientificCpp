@@ -4,6 +4,11 @@
 
 #include <iostream>
 
+extern "C"
+{
+#  include <ncurses.h>
+}
+
 #include "Game.h"
 
 const char Snake::SEGMENT_CHAR[] = "O";

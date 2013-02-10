@@ -7,11 +7,6 @@
 #include <string>
 #include <ctime>
 
-extern "C"
-{
-#  include <ncurses.h>
-}
-
 // CONSTANTS /////////////
 
 // FORWARD DECLARES //////

@@ -5,6 +5,11 @@
 #include <iostream>
 #include <sstream>
 
+extern "C"
+{
+#  include <ncurses.h>
+}
+
 #include "snake_game.h"
 
 

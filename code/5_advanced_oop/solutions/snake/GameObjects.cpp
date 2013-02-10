@@ -2,6 +2,10 @@
 
 #include "GameObjects.h"
 
+extern "C"
+{
+#  include <ncurses.h>
+}
 
 Apple::Apple(const Vector & initialPos):
 myPos(initialPos)

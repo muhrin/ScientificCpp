@@ -5,6 +5,11 @@
 #include <iostream>
 #include <time.h>
 
+extern "C"
+{
+#  include <ncurses.h>
+}
+
 #include "Game.h"
 #include "GameObjects.h"
 #include "World.h"
@@ -45,6 +50,7 @@ Vector & Vector::operator =(const Vector & rhs)
 {
   myX = rhs.getX();
   myY = rhs.getY();
+  return *this;
 }
 
 bool Vector::operator ==(const Vector & rhs) const
