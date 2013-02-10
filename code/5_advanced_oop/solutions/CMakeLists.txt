@@ -2,6 +2,8 @@
 add_executable(snake
   Game.h
   Game.cpp
+  GameObjects.h
+  GameObjects.cpp
   snake.h
   snake.cpp
   snake_game.h

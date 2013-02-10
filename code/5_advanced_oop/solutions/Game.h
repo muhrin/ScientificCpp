@@ -11,20 +11,31 @@ class Game
 {
 public:
 
-  Game(const unsigned int worldWidth = 80, const unsigned int worldHeight = 40);
+  Game(const Vector & dimensions = Vector(80,20));
 
-  void run();
+  bool run();
 
+  World & getWorld();
   int getLastKeypress();
   float getElapsedTime();
+  int getScore() const;
+  void changeScore(int changeBy);
+  void triggerGameOver();
 
 private:
 
-  void updateElapsedTime();
+  int myScore;
 
+  void updateElapsedTime();
+  void drawInfo();
+  void reset();
+  void doGameOver();
+
+  bool myGameOverTriggered;
+  const Vector myWorldDimensions;
   clock_t myLastTickTime;
   float myElapsedTime;
-  World myWorld;
+  World * myWorld;
   int myLastKeypress;
 };
 

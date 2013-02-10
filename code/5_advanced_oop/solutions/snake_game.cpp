@@ -1,9 +1,13 @@
 
 #include "snake_game.h"
 
+#include <cstdlib>
 #include <iostream>
+#include <time.h>
 
 #include "Game.h"
+#include "GameObjects.h"
+#include "World.h"
 
 
 const Vector UP(0, -1);
@@ -43,6 +47,16 @@ Vector & Vector::operator =(const Vector & rhs)
   myY = rhs.getY();
 }
 
+bool Vector::operator ==(const Vector & rhs) const
+{
+  return (myX == rhs.myX && myY == rhs.myY);
+}
+
+bool Vector::operator !=(const Vector & rhs) const
+{
+  return (myX != rhs.myX) || (myY != rhs.myY);
+}
+
 // HELPER FUNCTIONS //////
 void init()
 {
@@ -55,10 +69,13 @@ void init()
   // Don't echo while we do getch 
   noecho();
 
-  
+  // Don't block on input
   nodelay(stdscr, TRUE);
-  
   keypad(stdscr, TRUE);
+
+  // Seed the random number generator
+  srand(time(0));
+  rand();
 }
 
 
@@ -70,17 +87,31 @@ void cleanUp()
 }
 
 
+// FUNCTION PROTOTYPES ////////////
+void populateWorld(World & world);
+
 int main()
 {
 
   init();
 
-  Game game;
-  game.run();
+  bool quit = false;
+  while(!quit)
+  {
+    Game game;
+    populateWorld(game.getWorld());
+    quit = game.run();
+  }
 
   cleanUp();
 
   return 0;
+}
+
+void populateWorld(World & world)
+{
+  world.insertObject(new Apple(world.getRandomPoint()));
+  world.insertObject(new ObjectGenerator());
 }
 
 

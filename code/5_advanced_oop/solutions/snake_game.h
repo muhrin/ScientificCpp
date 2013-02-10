@@ -27,6 +27,8 @@ public:
   Vector & operator +=(const Vector & toAdd);
   Vector & operator -=(const Vector & toSub);
   Vector & operator =(const Vector & rhs);
+  bool operator ==(const Vector & rhs) const;
+  bool operator !=(const Vector & rhs) const;
 
   int getX() const { return myX; }
   int getY() const { return myY; }

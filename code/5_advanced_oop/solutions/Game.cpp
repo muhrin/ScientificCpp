@@ -3,6 +3,7 @@
 #include "Game.h"
 
 #include <iostream>
+#include <sstream>
 
 #include "snake_game.h"
 
@@ -28,14 +29,18 @@ int getKey()
 }
 
 // GAME CLASS IMPLEMENTATION ///
-Game::Game(const unsigned int width, const unsigned int height)
-{}
+Game::Game(const Vector & dimensions):
+myWorldDimensions(dimensions)
+{
+  reset();
+}
 
-void Game::run()
+bool Game::run()
 {
   bool quit = false;
   myLastTickTime = clock();
 
+  bool exitGame = false;
   while(!quit)
   {
     preFrame();
@@ -44,12 +49,25 @@ void Game::run()
 
     updateElapsedTime();
 
-    myWorld.tick(*this);
-    myWorld.draw();
+    getWorld().preTick();
+    getWorld().tick(*this);
+    getWorld().postTick();
+    getWorld().draw();
+    drawInfo();
 
     postFrame();
 
+    exitGame = (myLastKeypress == 'q');
+    quit = myGameOverTriggered || exitGame;
   }
+
+  doGameOver();
+  return exitGame;
+}
+
+World & Game::getWorld()
+{
+  return *myWorld;
 }
 
 int Game::getLastKeypress()
@@ -60,6 +78,28 @@ int Game::getLastKeypress()
 float Game::getElapsedTime()
 {
   return myElapsedTime;
+}
+
+void Game::drawInfo()
+{
+  std::stringstream ss;
+  ss << "Score: " << myScore << " Snake size: " << getWorld().getSnake().size();
+  mvprintw(getWorld().getDimensions().getY() + 1, 0, ss.str().c_str());
+}
+
+int Game::getScore() const
+{
+  return myScore;
+}
+
+void Game::changeScore(const int changeBy)
+{
+  myScore += changeBy;
+}
+
+void Game::triggerGameOver()
+{
+  myGameOverTriggered = true;
 }
 
 void Game::updateElapsedTime()
@@ -76,3 +116,24 @@ void Game::updateElapsedTime()
     myElapsedTime = 0.0;
   }
 }
+
+
+void Game::reset()
+{
+  myGameOverTriggered = false;
+  myWorld = new World(myWorldDimensions);
+  myScore = 0;
+}
+
+void Game::doGameOver()
+{
+  std::stringstream ss;
+  ss << "GAME OVER, Score: " << myScore;
+  mvprintw(getWorld().getDimensions().getY() - ss.str().size() / 2, getWorld().getDimensions().getX() / 2, ss.str().c_str());
+  refresh();
+  customSleep(5);
+}
+
+
+
+
