@@ -1,5 +1,5 @@
 
-
+#include "Draw.h"
 #include "GameObjects.h"
 
 
@@ -19,7 +19,7 @@ void Apple::tick(Game & game)
 
 void Apple::draw()
 {
-  mvprintw(myPos.getY(), myPos.getX(), "*");
+  drawChars(myPos, "*");
 }
 
 void Apple::eaten(Game & game)

@@ -1,5 +1,7 @@
 
 add_executable(ex_snake
+  snake/Draw.cpp
+  snake/Draw.h
   snake/Game.h
   snake/Game.cpp
   snake/GameObjects.h

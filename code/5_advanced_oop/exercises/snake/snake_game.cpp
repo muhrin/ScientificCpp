@@ -5,15 +5,16 @@
 #include <iostream>
 #include <time.h>
 
+#include "Draw.h"
 #include "Game.h"
 #include "GameObjects.h"
 #include "World.h"
 
 
-const Vector UP(0, -1);
-const Vector DOWN(0, 1);
-const Vector LEFT(-1, 0);
-const Vector RIGHT(1, 0);
+const Vector VEC_UP(0, -1);
+const Vector VEC_DOWN(0, 1);
+const Vector VEC_LEFT(-1, 0);
+const Vector VEC_RIGHT(1, 0);
 
 Vector::Vector()
 {
@@ -45,6 +46,7 @@ Vector & Vector::operator =(const Vector & rhs)
 {
   myX = rhs.getX();
   myY = rhs.getY();
+  return *this;
 }
 
 bool Vector::operator ==(const Vector & rhs) const
@@ -60,29 +62,18 @@ bool Vector::operator !=(const Vector & rhs) const
 // HELPER FUNCTIONS //////
 void init()
 {
-  // Start curses mode
-  initscr();
-
-  // Allow control-C
-  cbreak();
-
-  // Don't echo while we do getch 
-  noecho();
-
-  // Don't block on input
-  nodelay(stdscr, TRUE);
-  keypad(stdscr, TRUE);
+  initDraw();
 
   // Seed the random number generator
-  srand(time(0));
+  srand(static_cast<unsigned int>(time(0)));
   rand();
 }
 
 
 void cleanUp()
 {
-  // End curses mode
-  endwin();
+  cleanUpDraw();
+
   std::cout << "Thanks for playing!\n";
 }
 

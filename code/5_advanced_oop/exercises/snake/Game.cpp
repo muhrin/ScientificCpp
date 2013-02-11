@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 
+#include "Draw.h"
 #include "snake_game.h"
 
 
@@ -12,21 +13,15 @@
 void preFrame()
 {
   // Clear the screen
-  clear();
+  clearScreen();
 }
 
 void postFrame()
 {
-  refresh();
+  refreshScreen();
   customSleep(0.05);
 }
 
-
-int getKey()
-{
-  int ch = getch();
-  return ch;
-}
 
 // GAME CLASS IMPLEMENTATION ///
 Game::Game(const Vector & dimensions):
@@ -84,7 +79,7 @@ void Game::drawInfo()
 {
   std::stringstream ss;
   ss << "Score: " << myScore << " Snake size: " << getWorld().getSnake().size();
-  mvprintw(getWorld().getDimensions().getY() + 1, 0, ss.str().c_str());
+  drawChars(0, getWorld().getDimensions().getY() + 1, ss.str().c_str());
 }
 
 int Game::getScore() const
@@ -129,8 +124,12 @@ void Game::doGameOver()
 {
   std::stringstream ss;
   ss << "GAME OVER, Score: " << myScore;
-  mvprintw(getWorld().getDimensions().getY() - ss.str().size() / 2, getWorld().getDimensions().getX() / 2, ss.str().c_str());
-  refresh();
+  drawChars(
+    (getWorld().getDimensions().getX() - ss.str().size()) / 2,
+    getWorld().getDimensions().getY() / 2,
+    ss.str().c_str()
+  );
+  refreshScreen();
   customSleep(5);
 }
 

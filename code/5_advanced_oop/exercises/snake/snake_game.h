@@ -7,11 +7,6 @@
 #include <string>
 #include <ctime>
 
-extern "C"
-{
-#  include <ncurses.h>
-}
-
 // CONSTANTS /////////////
 
 // FORWARD DECLARES //////
@@ -37,7 +32,7 @@ private:
   int myX, myY;
 };
 
-extern const Vector UP, DOWN, LEFT, RIGHT;
+extern const Vector VEC_UP, VEC_DOWN, VEC_LEFT, VEC_RIGHT;
 
 inline std::ostream & operator <<(std::ostream & os, const Vector & vector)
 {
