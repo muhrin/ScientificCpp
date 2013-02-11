@@ -4,8 +4,8 @@
 
 extern "C"
 {
-#  include <ncurses.h>
-// #  include <curses.h> // If above doesn't work, comment out and try this line
+#  include <curses.h>
+//#  include <ncurses.h> // If above doesn't work, comment out line above and uncomment this one
 }
 
 
@@ -40,11 +40,6 @@ void cleanUpDraw()
 void drawChars(const unsigned int x, const unsigned int y, const char * const toDraw)
 {
   mvprintw(y, x, toDraw);
-}
-
-void drawChars(const Vector & pos, const char * const toDraw)
-{
-  mvprintw(pos.getY(), pos.getX(), toDraw);
 }
 
 void clearScreen()
