@@ -23,7 +23,7 @@ void Apple::tick(Game & game)
 
 void Apple::draw()
 {
-  mvprintw(myPos.getY(), myPos.getX(), "*");
+  draw(myPos, "*");
 }
 
 void Apple::eaten(Game & game)
@@ -43,7 +43,7 @@ myLifetime(lifetime)
 
 void BonusApple::draw()
 {
-  mvprintw(myPos.getY(), myPos.getX(), "B");
+  mvprintw(myPos, "B");
 }
  
 void BonusApple::eaten(Game & game)

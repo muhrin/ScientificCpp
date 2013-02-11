@@ -62,7 +62,7 @@ void Snake::draw()
   // Draw each segment
   for(int i = 0; i < size(); ++i)
   {
-    mvprintw(mySegments[i].getY(), mySegments[i].getX(), SEGMENT_CHAR);
+    draw(mySegments[i], SEGMENT_CHAR);
   }
 }
 

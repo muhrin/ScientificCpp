@@ -5,11 +5,7 @@
 #include <iostream>
 #include <sstream>
 
-extern "C"
-{
-#  include <ncurses.h>
-}
-
+#include "Draw.h"
 #include "snake_game.h"
 
 
@@ -89,7 +85,7 @@ void Game::drawInfo()
 {
   std::stringstream ss;
   ss << "Score: " << myScore << " Snake size: " << getWorld().getSnake().size();
-  mvprintw(getWorld().getDimensions().getY() + 1, 0, ss.str().c_str());
+  draw(getWorld().getDimensions().getY() + 1, 0, ss.str().c_str());
 }
 
 int Game::getScore() const
@@ -134,7 +130,11 @@ void Game::doGameOver()
 {
   std::stringstream ss;
   ss << "GAME OVER, Score: " << myScore;
-  mvprintw(getWorld().getDimensions().getY() - ss.str().size() / 2, getWorld().getDimensions().getX() / 2, ss.str().c_str());
+  draw(
+    getWorld().getDimensions().getY() + ss.str().size() / 2,
+    getWorld().getDimensions().getX() / 2,
+    ss.str().c_str()
+  );
   refresh();
   customSleep(5);
 }
