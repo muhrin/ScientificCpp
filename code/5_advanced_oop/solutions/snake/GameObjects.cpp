@@ -1,11 +1,6 @@
 
-
+#include "Draw.h"
 #include "GameObjects.h"
-
-extern "C"
-{
-#  include <ncurses.h>
-}
 
 Apple::Apple(const Vector & initialPos):
 myPos(initialPos)
@@ -23,7 +18,7 @@ void Apple::tick(Game & game)
 
 void Apple::draw()
 {
-  draw(myPos, "*");
+  drawChars(myPos, "*");
 }
 
 void Apple::eaten(Game & game)
@@ -43,7 +38,7 @@ myLifetime(lifetime)
 
 void BonusApple::draw()
 {
-  mvprintw(myPos, "B");
+  drawChars(myPos, "B");
 }
  
 void BonusApple::eaten(Game & game)

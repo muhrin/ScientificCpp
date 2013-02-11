@@ -4,11 +4,7 @@
 
 #include <iostream>
 
-extern "C"
-{
-#  include <ncurses.h>
-}
-
+#include "Draw.h"
 #include "Game.h"
 
 const char Snake::SEGMENT_CHAR[] = "O";
@@ -35,13 +31,13 @@ void Snake::tick(Game & game)
 {
   myDistTravelledSinceMoved += game.getElapsedTime() * mySpeed;
 
-  if(game.getLastKeypress() == KEY_UP && myDirection != DOWN)
+  if(game.getLastKeypress() == SKEY_UP && myDirection != DOWN)
     myDirection = UP;
-  else if(game.getLastKeypress() == KEY_DOWN && myDirection != UP)
+  else if(game.getLastKeypress() == SKEY_DOWN && myDirection != UP)
     myDirection = DOWN;
-  else if(game.getLastKeypress() == KEY_LEFT && myDirection != RIGHT)
+  else if(game.getLastKeypress() == SKEY_LEFT && myDirection != RIGHT)
     myDirection = LEFT;
-  else if(game.getLastKeypress() == KEY_RIGHT && myDirection != LEFT)
+  else if(game.getLastKeypress() == SKEY_RIGHT && myDirection != LEFT)
     myDirection = RIGHT;
 
   // Get the integer distance travelled, only move if it is more than 0
@@ -62,7 +58,7 @@ void Snake::draw()
   // Draw each segment
   for(int i = 0; i < size(); ++i)
   {
-    draw(mySegments[i], SEGMENT_CHAR);
+    drawChars(mySegments[i], SEGMENT_CHAR);
   }
 }
 

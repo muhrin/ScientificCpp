@@ -5,11 +5,7 @@
 #include <iostream>
 #include <time.h>
 
-extern "C"
-{
-#  include <ncurses.h>
-}
-
+#include "Draw.h"
 #include "Game.h"
 #include "GameObjects.h"
 #include "World.h"
@@ -66,18 +62,7 @@ bool Vector::operator !=(const Vector & rhs) const
 // HELPER FUNCTIONS //////
 void init()
 {
-  // Start curses mode
-  initscr();
-
-  // Allow control-C
-  cbreak();
-
-  // Don't echo while we do getch 
-  noecho();
-
-  // Don't block on input
-  nodelay(stdscr, TRUE);
-  keypad(stdscr, TRUE);
+  initDraw();
 
   // Seed the random number generator
   srand(time(0));
@@ -87,8 +72,8 @@ void init()
 
 void cleanUp()
 {
-  // End curses mode
-  endwin();
+  cleanUpDraw();
+
   std::cout << "Thanks for playing!\n";
 }
 
