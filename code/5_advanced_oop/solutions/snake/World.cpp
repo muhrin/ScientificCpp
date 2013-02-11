@@ -30,7 +30,7 @@ void World::tick(Game & game)
 {
   // Tick the snake
   mySnake.tick(game);
-  for(int i = 0; i < myObjects.size(); ++i)
+  for(unsigned int i = 0; i < myObjects.size(); ++i)
   // Tick all objects
     myObjects[i]->tick(game);
 }
@@ -57,7 +57,7 @@ void World::draw()
   // Draw the snake
   mySnake.draw();
   // Draw all objects
-  for(int i = 0; i < myObjects.size(); ++i)
+  for(unsigned int i = 0; i < myObjects.size(); ++i)
     myObjects[i]->draw();
 }
 

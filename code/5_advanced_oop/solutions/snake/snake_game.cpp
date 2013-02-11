@@ -11,10 +11,10 @@
 #include "World.h"
 
 
-const Vector UP(0, -1);
-const Vector DOWN(0, 1);
-const Vector LEFT(-1, 0);
-const Vector RIGHT(1, 0);
+const Vector VEC_UP(0, -1);
+const Vector VEC_DOWN(0, 1);
+const Vector VEC_LEFT(-1, 0);
+const Vector VEC_RIGHT(1, 0);
 
 Vector::Vector()
 {
@@ -65,7 +65,7 @@ void init()
   initDraw();
 
   // Seed the random number generator
-  srand(time(0));
+  srand(static_cast<unsigned int>(time(0)));
   rand();
 }
 

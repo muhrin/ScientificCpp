@@ -5,9 +5,9 @@
 extern "C"
 {
 #  include <ncurses.h>
+// #  include <curses.h> // If above doesn't work, comment out and try this line
 }
 
-#include "snake_game.h"
 
 const int SKEY_UP = KEY_UP;
 const int SKEY_DOWN = KEY_DOWN;

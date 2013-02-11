@@ -13,7 +13,7 @@ Snake::Snake(const unsigned int startingSize, const float minSpeed):
 myNumSegmentsResize(0),
 mySegments(startingSize),
 myDistTravelledSinceMoved(0.0),
-myDirection(RIGHT),
+myDirection(VEC_RIGHT),
 myMinSpeed(minSpeed),
 mySpeedStep(1.0)
 {
@@ -31,14 +31,14 @@ void Snake::tick(Game & game)
 {
   myDistTravelledSinceMoved += game.getElapsedTime() * mySpeed;
 
-  if(game.getLastKeypress() == SKEY_UP && myDirection != DOWN)
-    myDirection = UP;
-  else if(game.getLastKeypress() == SKEY_DOWN && myDirection != UP)
-    myDirection = DOWN;
-  else if(game.getLastKeypress() == SKEY_LEFT && myDirection != RIGHT)
-    myDirection = LEFT;
-  else if(game.getLastKeypress() == SKEY_RIGHT && myDirection != LEFT)
-    myDirection = RIGHT;
+  if(game.getLastKeypress() == SKEY_UP && myDirection != VEC_DOWN)
+    myDirection = VEC_UP;
+  else if(game.getLastKeypress() == SKEY_DOWN && myDirection != VEC_UP)
+    myDirection = VEC_DOWN;
+  else if(game.getLastKeypress() == SKEY_LEFT && myDirection != VEC_RIGHT)
+    myDirection = VEC_LEFT;
+  else if(game.getLastKeypress() == SKEY_RIGHT && myDirection != VEC_LEFT)
+    myDirection = VEC_RIGHT;
 
   // Get the integer distance travelled, only move if it is more than 0
   const int distTravelled = static_cast<int>(myDistTravelledSinceMoved);
@@ -56,7 +56,7 @@ void Snake::tick(Game & game)
 void Snake::draw()
 {
   // Draw each segment
-  for(int i = 0; i < size(); ++i)
+  for(unsigned int i = 0; i < size(); ++i)
   {
     drawChars(mySegments[i], SEGMENT_CHAR);
   }
@@ -96,7 +96,7 @@ float Snake::calcSpeed() const
 
 bool Snake::hasCollidedWithSelf() const
 {
-  for(int i = 1; i < size(); ++i)
+  for(unsigned int i = 1; i < size(); ++i)
   {
     if(mySegments[0] == mySegments[i])
       return true;
