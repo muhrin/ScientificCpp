@@ -9,6 +9,6 @@ if(UNIX)
   )
 endif(UNIX)
 
-add_executable(logger
-  logger.cpp
+add_executable(heathrow
+  heathrow.cpp
 )

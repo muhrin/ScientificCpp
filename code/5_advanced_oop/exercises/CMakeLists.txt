@@ -1,4 +1,8 @@
 
+add_executable(ex_logger
+  logger.cpp
+)
+
 add_executable(ex_snake
   snake/Draw.cpp
   snake/Draw.h
